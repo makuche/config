@@ -1,6 +1,8 @@
 # Config
-## New machine
 
+This repository contains the state of my `~/.config` directory. 
+
+## Setting up new Unix machine
 ### Software
 - Install Nix 
 - Install home-brew
@@ -19,9 +21,6 @@ export PATH=/opt/homebrew/bin:$PATH
 ### I/O
 - Point CAPS->ESC
 - Revert scrolling
-- TODO: 
-- 
-
 
 ### Installing Home Manager
 ```nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager

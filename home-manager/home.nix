@@ -25,7 +25,13 @@
     pkgs.bat
     pkgs.htop
     pkgs.wget
-    
+    pkgs.gh
+    pkgs.pv  # Required to run demo.sh in presentation-tools
+    #pkgs.k9s
+    #pkgs.jq
+    pkgs.starship
+    #pkgs.yt-dlp    
+
     pkgs.obsidian
     pkgs.vscode
     pkgs.spotify

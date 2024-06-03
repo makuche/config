@@ -2,6 +2,7 @@
 
 let
   username = builtins.getEnv "USER";    # Use same setup with different users
+  configDir = "/Users/${username}/.config/dotfiles";
 in
 {
   home.username = username;
@@ -26,8 +27,12 @@ in
   ];
 
   home.file = {
+    ".zshrc" = {
+      source = "${configDir}/zshrc";
+    };
   };
 
   programs.home-manager.enable = true;
+
   nixpkgs.config.allowUnfree = true;    # Allow unfree packages (obsidian)
 }

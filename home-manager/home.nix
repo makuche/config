@@ -1,8 +1,11 @@
 { config, pkgs, ... }:
 
+let
+  username = builtins.getEnv "USER";    # Use same setup with different users
+in
 {
-  home.username = "manuel";
-  home.homeDirectory = "/Users/manuel";
+  home.username = username;
+  home.homeDirectory = "/Users/${username}";
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
     bat
@@ -14,6 +17,9 @@
     #jq
     starship
     #yt-dlp    
+    virtualenv
+    python312Packages.pip
+    
     obsidian
     vscode
   ];
@@ -21,8 +27,6 @@
   home.file = {
   };
 
-  home.sessionVariables = {
-  };
-
   programs.home-manager.enable = true;
+  nixpkgs.config.allowUnfree = true;    # Allow unfree packages (obsidian)
 }

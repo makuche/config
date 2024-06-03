@@ -8,18 +8,19 @@ in
   home.homeDirectory = "/Users/${username}";
   home.stateVersion = "24.05";
   home.packages = with pkgs; [
+    # CLI
     bat
     htop
     wget
     gh
     pv  # Required to run demo.sh in presentation-tools
-    #k9s
-    #jq
     starship
-    #yt-dlp    
+    
+    # Python development
     virtualenv
     python312Packages.pip
     
+    # GUI
     obsidian
     vscode
   ];

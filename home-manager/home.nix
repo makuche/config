@@ -17,6 +17,9 @@ in
     pv  # Required to run demo.sh in presentation-tools
     starship
     
+    # Java development
+    jdk
+    
     # Python development
     virtualenv
     python312Packages.pip

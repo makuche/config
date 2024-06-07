@@ -15,15 +15,23 @@ in
     wget
     gh
     pv  # Required to run demo.sh in presentation-tools
+    fdupes # Remove duplicate files
+    hidden-bar
     starship
-    
+    lazygit 
     # Java development
     jdk
-    
+
     # Python development
     virtualenv
     python312Packages.pip
     
+    # Infrastructure
+    podman
+    kubectl
+    minikube
+    k9s 
+
     # GUI
     obsidian
     vscode

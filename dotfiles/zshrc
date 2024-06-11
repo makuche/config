@@ -11,3 +11,6 @@ fi
 
 export PATH=/opt/homebrew/bin:$PATH
 eval "$(starship init zsh)"
+
+# Activate zsh autosuggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -19,6 +19,8 @@ in
     hidden-bar
     starship
     lazygit 
+    tmux
+
     # Java development
     jdk
 
@@ -35,6 +37,7 @@ in
     # GUI
     obsidian
     vscode
+    maccy
   ];
 
   home.file = {

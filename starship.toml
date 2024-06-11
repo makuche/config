@@ -1,0 +1,25 @@
+# ~/.config/starship.toml
+
+[character]
+success_symbol = "[✔](bold green)"
+error_symbol = "[✖](bold red)"
+
+[line_break]
+disabled = true
+
+# Customize the branch symbol
+[git_branch]
+symbol = "🌿 "  # Change to your desired symbol
+
+# Customize the repository state symbols
+[git_status]
+conflicted = "🔴 "
+ahead = "🔺 "
+behind = "🔻 "
+diverged = "🔀 "
+untracked = "❓ "
+stashed = "📦 "
+modified = "✏️ "
+staged = "✔️ "
+renamed = "🔄 "
+deleted = "❌ "

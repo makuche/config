@@ -20,7 +20,8 @@ in
     starship
     lazygit 
     tmux
-
+    mcfly
+    
     # Java development
     jdk
 

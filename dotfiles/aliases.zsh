@@ -1,0 +1,7 @@
+alias nix="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
+alias ll="ls -la"
+alias c="cd /Users/manuel/code"
+alias config="code /Users/manuel/.config/"
+alias cat="bat"
+alias aliases="bat ~/.config/dotfiles/aliases.zsh"
+alias shortcuts="bat ~/.config/dotfiles/aliases.zsh"

@@ -1,7 +1,6 @@
-alias nix="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
-alias ll="ls -la"
-alias c="cd /Users/manuel/code"
-alias config="code /Users/manuel/.config/"
+if [ -f ~/.config/dotfiles/aliases.zsh ]; then
+  source ~/.config/dotfiles/aliases.zsh
+fi
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
@@ -14,3 +13,6 @@ eval "$(starship init zsh)"
 
 # Activate zsh autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Activate mcfly
+eval "$(mcfly init zsh)"

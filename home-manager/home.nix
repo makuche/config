@@ -11,6 +11,7 @@ in
   home.packages = with pkgs; [
     # CLI
     bat
+    diff-so-fancy
     htop
     wget
     gh
@@ -21,7 +22,7 @@ in
     lazygit 
     tmux
     mcfly
-    
+
     # Java development
     jdk
 

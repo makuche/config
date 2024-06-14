@@ -22,6 +22,8 @@ in
     lazygit 
     tmux
     mcfly
+    alacritty
+    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
 
     # Java development
     jdk

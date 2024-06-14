@@ -18,9 +18,11 @@ in
     pv  # Required to run demo.sh in presentation-tools
     fdupes # Remove duplicate files
     hidden-bar
+    jq
     starship
     lazygit 
     tmux
+    neovim
     mcfly
     alacritty
     zsh-syntax-highlighting   # FIXME: This had to be installed via brew

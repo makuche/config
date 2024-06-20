@@ -19,6 +19,9 @@ in
     fdupes # Remove duplicate files
     hidden-bar
     jq
+    tree
+    fzf
+    eza
     starship
     lazygit 
     tmux
@@ -35,13 +38,12 @@ in
     python312Packages.pip
     
     # Infrastructure
-    podman
-    kubectl
     minikube
     k9s 
 
     # GUI
     obsidian
+    spotify
     vscode
     maccy
   ];

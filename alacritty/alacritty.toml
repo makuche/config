@@ -8,7 +8,7 @@ blur = true
 option_as_alt = "Both"
 
 [shell]
-program = "/Users/manuel/.nix-profile/bin/tmux"
+program = "${HOME}/.nix-profile/bin/tmux"
 args = ["new-session", "-A", "-D", "-s", "main"]
 
 [font]

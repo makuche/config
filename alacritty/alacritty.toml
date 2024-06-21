@@ -1,16 +1,16 @@
 [env]
 TERM = "xterm-256color"
+
 [window]
-padding.x = 10
-padding.y = 10
-
-decorations = "Buttonless"
-
+padding = { x = 10, y = 10 }
 opacity = 0.9
 blur = true
-
 option_as_alt = "Both"
 
+[shell]
+program = "/Users/manuel/.nix-profile/bin/tmux"
+args = ["new-session", "-A", "-D", "-s", "main"]
+
 [font]
-normal.family = "Menlo"
-size = 19
+normal = { family = "Hack Nerd Font Mono" }
+size = 15

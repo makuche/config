@@ -30,17 +30,15 @@ in
     alacritty
     zsh-syntax-highlighting   # FIXME: This had to be installed via brew
 
-    # Java development
+    # general dev
     jdk
+    lua
 
     # Python development
     virtualenv
     python312Packages.pip
+    nodejs_22
     
-    # Infrastructure
-    minikube
-    k9s 
-
     # GUI
     obsidian
     spotify

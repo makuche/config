@@ -6,11 +6,12 @@ padding = { x = 10, y = 10 }
 opacity = 0.9
 blur = true
 option_as_alt = "Both"
+decorations = "Buttonless"
 
 [shell]
-program = "${HOME}/.nix-profile/bin/tmux"
+program = "/Users/manuel/.nix-profile/bin/tmux"
 args = ["new-session", "-A", "-D", "-s", "main"]
 
 [font]
 normal = { family = "Hack Nerd Font Mono" }
-size = 15
+size = 15size = 15

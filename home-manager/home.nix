@@ -2,7 +2,7 @@
 
 let
   username = builtins.getEnv "USER";    # Use same setup with different users
-  gonfigDir = "/Users/${username}/.config/dotfiles";
+  configDir = "/Users/${username}/.config/dotfiles";
 in
 {
   home.username = username;
@@ -30,6 +30,7 @@ in
     ripgrep
     alacritty
     tokei
+    tmux
     spotify-player
 #    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
 
@@ -57,6 +58,9 @@ in
   home.file = {
     ".zshrc" = {
       source = "${configDir}/zshrc";
+    };
+    ".tmux.conf" = {
+      source = "${configDir}/tmux.conf";
     };
   };
 

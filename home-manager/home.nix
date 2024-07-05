@@ -8,6 +8,11 @@ in
   home.username = username;
   home.homeDirectory = "/Users/${username}";
   home.stateVersion = "24.05";
+
+  imports = [
+    ./tmux.nix  # Import the tmux configuration from an external file
+  ];
+
   home.packages = with pkgs; [
     # CLI
     bat
@@ -27,8 +32,11 @@ in
     tmux
     neovim
     mcfly
+    ripgrep
     alacritty
-    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
+    tokei
+    spotify-player
+#    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
 
     # general dev
     jdk
@@ -40,10 +48,15 @@ in
     nodejs_22
     
     # GUI
+    grafana
     obsidian
-    spotify
     vscode
     maccy
+    anki-bin
+
+    # Misc
+    presenterm
+    gnupg
   ];
 
   home.file = {

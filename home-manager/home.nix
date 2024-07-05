@@ -2,16 +2,12 @@
 
 let
   username = builtins.getEnv "USER";    # Use same setup with different users
-  configDir = "/Users/${username}/.config/dotfiles";
+  gonfigDir = "/Users/${username}/.config/dotfiles";
 in
 {
   home.username = username;
   home.homeDirectory = "/Users/${username}";
   home.stateVersion = "24.05";
-
-  imports = [
-    ./tmux.nix  # Import the tmux configuration from an external file
-  ];
 
   home.packages = with pkgs; [
     # CLI
@@ -28,8 +24,7 @@ in
     fzf
     eza
     starship
-    lazygit 
-    tmux
+    lazygit
     neovim
     mcfly
     ripgrep
@@ -46,7 +41,7 @@ in
     virtualenv
     python312Packages.pip
     nodejs_22
-    
+
     # GUI
     grafana
     obsidian

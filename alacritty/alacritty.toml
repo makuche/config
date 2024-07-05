@@ -8,10 +8,6 @@ blur = true
 option_as_alt = "Both"
 decorations = "Buttonless"
 
-[shell]
-program = "/Users/manuel/.nix-profile/bin/tmux"
-args = ["new-session", "-A", "-D", "-s", "main"]
-
 [font]
 normal = { family = "Hack Nerd Font Mono" }
-size = 15size = 15
+size = 15

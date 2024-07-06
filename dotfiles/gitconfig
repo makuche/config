@@ -1,0 +1,9 @@
+[include]
+	path = ~/.git_signing_key
+
+[user]
+	email = manuel.kuchelmeister@web.de
+	name = Manuel Kuchelmeister
+	signingkey = 2DB24D2DD442DF55
+[commit]
+	gpgsign = true

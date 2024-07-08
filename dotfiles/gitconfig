@@ -10,6 +10,6 @@
 [diff]
 	algorithm = histogram
 [branch]
-	sort = commiterdate
+	sort = committerdate
 [merge]
 	conflictstyle = "zdiff3"

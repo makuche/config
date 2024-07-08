@@ -7,3 +7,9 @@
 	signingkey = 2DB24D2DD442DF55
 [commit]
 	gpgsign = true
+[diff]
+	algorithm = histogram
+[branch]
+	sort = commiterdate
+[merge]
+	conflictstyle = "zdiff3"

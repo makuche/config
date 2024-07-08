@@ -18,9 +18,6 @@ export PATH=/opt/homebrew/bin:$PATH
 - Nix compiles from source and this could take a long time and require a lot of dependencies. 
   Homebrew uses cached binaries, so much faster and convenient for GUI applications, so consider using it in parallel
 
-### I/O
-- Point CAPS->ESC
-- Revert scrolling
 
 ### Installing Home Manager
 ```
@@ -37,3 +34,17 @@ vim /Users/manuel/.config/home-manager/home.nix
 home-manager generations
 <GENERATION>/activate
 ```
+
+### Setting up git(config)
+The gitconfig currently contains a label for a GPG key, used for signing commits. At the moment, this is a randomly generated reference and hence has to be adapted when installing this config with another Github account or GPG key.
+
+
+### I/O
+This is macOS specific, for changing the key repetition rate (run in a shell):
+```
+defaults write -g KeyRepeat -int 1 
+defaults write -g InitialKeyRepeat -int 10
+```
+
+General settings:
+- CAPS->ESC

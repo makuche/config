@@ -18,6 +18,7 @@ in
     gh
     pv  # Required to run demo.sh in presentation-tools
     fdupes # Remove duplicate files
+    figlet
     hidden-bar
     jq
     tree
@@ -61,6 +62,10 @@ in
     };
     ".tmux.conf" = {
       source = "${configDir}/tmux.conf";
+    };
+
+    ".gitconfig" = {
+      source = "${configDir}/gitconfig";
     };
   };
 

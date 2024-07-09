@@ -6,3 +6,4 @@ alias aliases="bat ~/.config/dotfiles/aliases.zsh"
 alias lg="lazygit"
 alias k="kubectl"
 alias g="git"
+alias copy='xclip -sel clip'

@@ -13,3 +13,5 @@
 	sort = committerdate
 [merge]
 	conflictstyle = "zdiff3"
+[log]
+	date = "iso"

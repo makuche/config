@@ -33,7 +33,6 @@ in
     tokei
     tmux
     spotify-player
-    xclip
 #    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
 
     # general dev
@@ -46,7 +45,6 @@ in
     nodejs_22
 
     # GUI
-    grafana
     obsidian
     vscode
     maccy

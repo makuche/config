@@ -27,6 +27,7 @@ in
     starship
     lazygit
     neovim
+    nmap
     mcfly
     ripgrep
     alacritty
@@ -51,8 +52,8 @@ in
     anki-bin
 
     # Misc
-    presenterm
     gnupg
+    marp-cli
   ];
 
   home.file = {
@@ -65,7 +66,7 @@ in
 
     ".gitconfig" = {
       source = "${configDir}/gitconfig";
-    };
+    };  # TODO: Add alacritty config here as well
   };
 
   programs.home-manager.enable = true;

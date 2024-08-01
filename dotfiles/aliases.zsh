@@ -1,9 +1,23 @@
-alias vim="nvim"
-alias nix="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
-alias ll="ls -la"
+# File and Text Operations
 alias cat="bat"
-alias aliases="bat ~/.config/dotfiles/aliases.zsh"
-alias lg="lazygit"
-alias k="kubectl"
-alias g="git"
 alias copy='pbcopy'  # pbcopy: macOS equivalent to xclip
+alias ll="ls -la"
+alias vim="nvim"
+
+# Git and Version Control
+alias g="git"
+alias lg="lazygit"
+
+# Kubernetes
+alias k="kubectl"
+
+# Nix
+alias nix="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
+
+# Shell Configuration
+alias aliases="bat ~/.config/dotfiles/aliases.zsh"
+
+# Tmux
+alias tm='tmux'
+alias tma='tmux attach'
+alias tmd='tmux detach'

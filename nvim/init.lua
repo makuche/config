@@ -280,6 +280,27 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
+
+      function SearchCheatsheetFiles()
+        builtin.find_files {
+          prompt_title = 'Cheatsheet',
+          search = '',
+          path_display = { 'smart' },
+          search_dirs = { '~/.config/nvim/cheatsheets' },
+        }
+      end
+      vim.api.nvim_set_keymap('n', '<leader>ch', ':lua SearchCheatsheetFiles()<CR>', { noremap = true, silent = true })
+
+      function SearchCheatsheetFolder()
+        builtin.grep_string {
+          prompt_title = 'Cheatsheet',
+          search = '',
+          path_display = { 'smart' },
+          search_dirs = { '~/.config/nvim/cheatsheets' },
+        }
+      end
+      vim.api.nvim_set_keymap('n', '<leader>ch', ':lua SearchCheatsheetFolder()<CR>', { noremap = true, silent = true })
+
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })

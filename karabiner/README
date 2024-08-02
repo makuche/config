@@ -4,6 +4,9 @@ copy each json file as a 'new own rule' within
 Karabiner elements. This makes it possible to have a second keyboard layer.
 Examples:
 
-- Right+CMD is used as Leader key
+- Left+CMD is used as Leader key
 - Leader+hjkl for navigation
 - Leader+u/i/o/p/n/m for brackets [/]/{/}/(/)
+
+To modify the layout, change the carabiner.json file and open and
+close Karabiner-Elements.

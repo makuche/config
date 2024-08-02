@@ -8,7 +8,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 vim.opt.number = true
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -120,6 +120,9 @@ if not vim.loop.fs_stat(lazypath) then
   vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- With this, neovim treats .h files as C files, so LSP works within header files
+vim.g.c_syntax_for_h = true
 
 -- [[ Configure and install plugins ]]
 --
@@ -498,7 +501,7 @@ require('lazy').setup({
           filetypes = { 'sh', 'bash' },
         },
         clangd = {
-          filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'h', 'hpp' },
         },
         dockerls = {
           filetypes = { 'dockerfile' },

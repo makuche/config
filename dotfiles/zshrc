@@ -2,6 +2,10 @@ if [ -f ~/.config/dotfiles/aliases.zsh ]; then
   source ~/.config/dotfiles/aliases.zsh
 fi
 
+if [ -f ~/.env_vars.zsh ]; then
+  source ~/.env_vars.zsh
+fi
+
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'

@@ -137,8 +137,19 @@ vim.g.c_syntax_for_h = true
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  {
+    'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    config = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'c', 'cpp' },
+        callback = function()
+          vim.bo.tabstop = 4
+          vim.bo.shiftwidth = 2
+          vim.bo.expandtab = true
+        end,
+      })
+    end,
+  },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -284,19 +295,19 @@ require('lazy').setup({
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
 
-      function SearchCheatsheetFiles()
+      function SearchCheatsheets()
         builtin.find_files {
-          prompt_title = 'Cheatsheet',
+          prompt_title = 'Search Cheatsheets',
           search = '',
           path_display = { 'smart' },
           search_dirs = { '~/.config/nvim/cheatsheets' },
         }
       end
-      vim.api.nvim_set_keymap('n', '<leader>ch', ':lua SearchCheatsheetFiles()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>cf', ':lua SearchCheatsheets()<CR>', { noremap = true, silent = true })
 
       function SearchCheatsheetFolder()
         builtin.grep_string {
-          prompt_title = 'Cheatsheet',
+          prompt_title = 'Grep Cheatsheet Folder',
           search = '',
           path_display = { 'smart' },
           search_dirs = { '~/.config/nvim/cheatsheets' },
@@ -533,9 +544,9 @@ require('lazy').setup({
         yamlls = {
           filetypes = { 'yaml', 'yml' },
         },
-        -- rust_analyzer = {
-        --   filetypes = { "rust" }
-        -- },
+        rust_analyzer = {
+          filetypes = { 'rust' },
+        },
         -- tsserver = {
         --   filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
         -- },
@@ -626,7 +637,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
-        --
+        python = { 'ruff' }, --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
@@ -705,9 +716,9 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          -- ['<CR>'] = cmp.mapping.confirm { select = true },
+          -- ['<Tab>'] = cmp.mapping.select_next_item(),
+          -- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -737,7 +748,8 @@ require('lazy').setup({
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
-          { name = 'copilot' },
+          { name = 'nvim_lsp_signature_help' },
+          -- { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
@@ -859,75 +871,72 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
+  --
+  --
+  --
   {
-    'zbirenbaum/copilot.lua',
-    cmd = 'Copilot',
-    event = 'InsertEnter',
-    config = function()
-      require('copilot').setup {}
-    end,
-  },
-  {
-    'zbirenbaum/copilot-cmp',
-    event = 'InsertEnter',
-    config = function()
-      require('copilot_cmp').setup()
-    end,
-    dependencies = {
-      'zbirenbaum/copilot.lua',
-      cmd = 'Copilot',
-      config = function()
-        require('copilot').setup {
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-        }
-      end,
-    },
-  },
-  {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    opts = {
-      show_help = 'yes', -- Show help text for CopilotChatInPlace, default: yes
-      debug = false, -- Enable or disable debug mode, the log file will be in ~/.local/state/nvim/CopilotChat.nvim.log
-      disable_extra_info = 'no', -- Disable extra information (e.g: system prompt) in the response.
-      language = 'English', -- Copilot answer language settings when using default prompts. Default language is English.
-      -- proxy = "socks5://127.0.0.1:3000", -- Proxies requests via https or socks.
-      -- temperature = 0.1,
-    },
-    build = function()
-      vim.notify "Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim."
-    end,
+    'yetone/avante.nvim',
     event = 'VeryLazy',
+    lazy = false,
+    opts = {
+      -- add any opts here
+    },
     keys = {
-      { '<leader>ccb', ':CopilotChatBuffer ', desc = 'CopilotChat - Chat with current buffer' },
-      { '<leader>cce', '<cmd>CopilotChatExplain<cr>', desc = 'CopilotChat - Explain code' },
-      { '<leader>cct', '<cmd>CopilotChatTests<cr>', desc = 'CopilotChat - Generate tests' },
       {
-        '<leader>ccT',
-        '<cmd>CopilotChatVsplitToggle<cr>',
-        desc = 'CopilotChat - Toggle Vsplit', -- Toggle vertical split
+        '<leader>aa',
+        function()
+          require('avante.api').ask()
+        end,
+        desc = 'avante: ask',
+        mode = { 'n', 'v' },
       },
       {
-        '<leader>ccv',
-        ':CopilotChatVisual ',
-        mode = 'x',
-        desc = 'CopilotChat - Open in vertical split',
+        '<leader>ar',
+        function()
+          require('avante.api').refresh()
+        end,
+        desc = 'avante: refresh',
       },
       {
-        '<leader>ccx',
-        ':CopilotChatInPlace<cr>',
-        mode = 'x',
-        desc = 'CopilotChat - Run in-place code',
+        '<leader>ae',
+        function()
+          require('avante.api').edit()
+        end,
+        desc = 'avante: edit',
+        mode = 'v',
+      },
+    },
+    dependencies = {
+      'stevearc/dressing.nvim',
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      --- The below dependencies are optional,
+      'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
+      'zbirenbaum/copilot.lua', -- for providers='copilot'
+      {
+        -- support for image pasting
+        'HakonHarnes/img-clip.nvim',
+        event = 'VeryLazy',
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
       },
       {
-        '<leader>ccf',
-        '<cmd>CopilotChatFixDiagnostic<cr>', -- Get a fix for the diagnostic message under the cursor.
-        desc = 'CopilotChat - Fix diagnostic',
-      },
-      {
-        '<leader>ccr',
-        '<cmd>CopilotChatReset<cr>', -- Reset chat history and clear buffer.
-        desc = 'CopilotChat - Reset chat history and clear buffer',
+        -- Make sure to setup it properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { 'markdown', 'Avante' },
+        },
+        ft = { 'markdown', 'Avante' },
       },
     },
   },

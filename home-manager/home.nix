@@ -3,6 +3,12 @@
 let
   username = builtins.getEnv "USER";    # Use same setup with different users
   configDir = "/Users/${username}/.config/dotfiles";
+  unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz) {
+    config = config.nixpkgs.config;
+  };
+  python-packages = ps: with ps; [
+   numpy
+  ];
 in
 {
   home.username = username;
@@ -10,50 +16,73 @@ in
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
-    # CLI
+    # Core utilities
     bat
     diff-so-fancy
-    htop
-    wget
-    gh
-    pv  # Required to run demo.sh in presentation-tools
-    fdupes # Remove duplicate files
-    figlet
-    hidden-bar
-    jq
-    tree
-    fzf
     eza
-    starship
-    lazygit
-    neovim
-    nmap
+    fd
+    fzf
+    htop
+    jq
     mcfly
+    pv
     ripgrep
-    alacritty
-    tokei
-    tmux
-    spotify-player
-#    zsh-syntax-highlighting   # FIXME: This had to be installed via brew
+    tree
+    wget
 
-    # general dev
+    # Development tools
+    cargo
+    devbox
+    gh
     jdk
+    lazygit
     lua
+    luarocks
+    nmap
+    nodejs_22
+    rustc
+    tokei
+    unstable.neovim
+    vscode
 
     # Python development
     virtualenv
     python312Packages.pip
-    nodejs_22
+    (python312.withPackages python-packages)
 
-    # GUI
-    obsidian
-    vscode
-    maccy
-    anki-bin
+    # Terminal enhancements
+    alacritty
+    figlet
+    starship
+    tmux
 
-    # Misc
+    # File management
+    fdupes
+
+    # Version control
+    git
+
+    # Text processing
     gnupg
+
+    # Multimedia
+    spotify
+    spotify-player
+
+    # GUI applications
+    anki-bin
+    hidden-bar
+    maccy
+    obsidian
+
+    # Presentation and documentation
     marp-cli
+
+    # Network tools
+    mosquitto
+
+    # Commented out (to be addressed)
+    # zsh-syntax-highlighting   # FIXME: This had to be installed via brew
   ];
 
   home.file = {

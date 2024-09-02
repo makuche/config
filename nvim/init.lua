@@ -135,7 +135,27 @@ vim.g.c_syntax_for_h = true
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
+local SymbolKind = vim.lsp.protocol.SymbolKind
 require('lazy').setup({
+  {
+    'VidocqH/lsp-lens.nvim',
+    config = function()
+      require('lsp-lens').setup {
+        enable = true,
+        include_declaration = false,
+        sections = {
+          definition = true,
+          references = true,
+          implementation = true,
+          git_authors = false,
+        },
+        -- Target Symbol Kinds to show lens information
+        target_symbol_kinds = { SymbolKind.Function, SymbolKind.Method, SymbolKind.Interface, SymbolKind.Class, SymbolKind.Struct },
+        -- Symbol Kinds that may have target symbol kinds as children
+        wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct },
+      }
+    end,
+  }
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   {
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
@@ -194,7 +214,6 @@ require('lazy').setup({
   -- Then, because we use the `config` key, the configuration only runs
   -- after the plugin has been loaded:
   --  config = function() ... end
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -202,22 +221,17 @@ require('lazy').setup({
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      require('which-key').add {
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]ocument' },
+        { '<leader>r', group = '[R]ename' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>w', group = '[W]orkspace' },
+        { '<leader>t', group = '[T]oggle' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
     end,
   },
-
   -- NOTE: Plugins can specify dependencies.
   --
   -- The dependencies are proper plugin specifications as well - anything
@@ -533,6 +547,9 @@ require('lazy').setup({
           filetypes = { 'json', 'jsonc' },
         },
         pyright = {
+          filetypes = { 'python' },
+        },
+        ruff_lsp = {
           filetypes = { 'python' },
         },
         sqlls = {

@@ -155,7 +155,7 @@ require('lazy').setup({
         wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct },
       }
     end,
-  }
+  },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   {
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
@@ -622,6 +622,12 @@ require('lazy').setup({
           end,
         },
       }
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = '*.py',
+        callback = function()
+          vim.lsp.buf.format { async = false }
+        end,
+      })
     end,
   },
 

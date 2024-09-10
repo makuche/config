@@ -8,6 +8,7 @@ let
   };
   python-packages = ps: with ps; [
    numpy
+   debugpy
   ];
 in
 {

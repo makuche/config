@@ -796,6 +796,15 @@ require('lazy').setup({
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
+
+      -- Configure Telescope for colorscheme preview
+      require('telescope').setup {
+        pickers = {
+          colorscheme = {
+            enable_preview = true,
+          },
+        },
+      }
     end,
   },
 

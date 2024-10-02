@@ -1,7 +1,7 @@
 # File and Text Operations
 alias cat="bat"
 alias copy='pbcopy'  # pbcopy: macOS equivalent to xclip
-alias ll="ls -la"
+alias ll="ls -lah"
 alias vim="nvim"
 
 # Git and Version Control

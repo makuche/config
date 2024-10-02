@@ -25,11 +25,13 @@ in
     fzf
     htop
     jq
+    lima
     mcfly
     pv
     ripgrep
     tree
     wget
+    zathura
 
     # Development tools
     cargo
@@ -39,7 +41,6 @@ in
     lazygit
     lua
     luarocks
-    nmap
     nodejs_22
     rustc
     tokei
@@ -67,8 +68,10 @@ in
     gnupg
 
     # Multimedia
+    ffmpeg-full
     spotify
     spotify-player
+    yt-dlp
 
     # GUI applications
     anki-bin
@@ -80,6 +83,8 @@ in
     marp-cli
 
     # Network tools
+    arp-scan
+    nmap
     mosquitto
 
     # Commented out (to be addressed)

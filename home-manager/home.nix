@@ -81,12 +81,6 @@ in
     anki-bin
     obsidian
 
-    # macOS specific applications
-    ++ (if pkgs.stdenv.isDarwin then [
-      hidden-bar
-      maccy
-    ] else [])
-
     # Presentation and documentation
     marp-cli
 
@@ -97,7 +91,11 @@ in
 
     # Commented out (to be addressed)
     # zsh-syntax-highlighting   # FIXME: This had to be installed via brew
-  ];
+  ] # macOS specific applications
+    ++ (if pkgs.stdenv.isDarwin then [
+      hidden-bar
+      maccy
+    ] else []);
 
   home.file = {
     ".zshrc" = {

@@ -2,7 +2,9 @@
 
 let
   username = builtins.getEnv "USER";    # Use same setup with different users
-  configDir = "/Users/${username}/.config/dotfiles";
+  configDir = if pkgs.stdenv.isDarwin
+    then "/Users/${username}/.config/dotfiles"
+    else "/home/${username}/.config/dotfiles";
   unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz) {
     config = config.nixpkgs.config;
   };
@@ -13,7 +15,9 @@ let
 in
 {
   home.username = username;
-  home.homeDirectory = "/Users/${username}";
+  home.homeDirectory = if pkgs.stdenv.isDarwin
+    then "/Users/${username}"
+    else "/home/${username}";
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
@@ -75,9 +79,13 @@ in
 
     # GUI applications
     anki-bin
-    hidden-bar
-    maccy
     obsidian
+
+    # macOS specific applications
+    ++ (if pkgs.stdenv.isDarwin then [
+      hidden-bar
+      maccy
+    ] else [])
 
     # Presentation and documentation
     marp-cli

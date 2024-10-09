@@ -1,23 +1,24 @@
 { config, pkgs, ... }:
 
 let
-  username = builtins.getEnv "USER";    # Use same setup with different users
+  user = builtins.getEnv "USER";    # Use same setup with different users
   configDir = if pkgs.stdenv.isDarwin
-    then "/Users/${username}/.config/dotfiles"
-    else "/home/${username}/.config/dotfiles";
-  unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz) {
+    then "/Users/${user}/.config/dotfiles"
+    else "/home/${user}/.config/dotfiles";
+  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {
     config = config.nixpkgs.config;
   };
   python-packages = ps: with ps; [
    numpy
    debugpy
+   pip
   ];
 in
 {
-  home.username = username;
+  home.username = user;
   home.homeDirectory = if pkgs.stdenv.isDarwin
-    then "/Users/${username}"
-    else "/home/${username}";
+    then "/Users/${user}"
+    else "/home/${user}";
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
@@ -32,6 +33,7 @@ in
     lima
     mcfly
     pv
+    ranger
     ripgrep
     tree
     wget
@@ -45,15 +47,16 @@ in
     lazygit
     lua
     luarocks
+    nixfmt-rfc-style
     nodejs_22
     rustc
     tokei
-    unstable.neovim
+    unstable.neovim   # TODO: remove unstable, once neovim is >= 0.10.0 on nixpkgs
     vscode
 
     # Python development
     virtualenv
-    python312Packages.pip
+    # python312Packages.pip
     (python312.withPackages python-packages)
 
     # Terminal enhancements
@@ -95,7 +98,9 @@ in
     ++ (if pkgs.stdenv.isDarwin then [
       hidden-bar
       maccy
-    ] else []);
+    ] else [
+
+      ]);
 
   home.file = {
     ".zshrc" = {

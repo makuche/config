@@ -12,6 +12,19 @@ let
    numpy
    debugpy
   ];
+  nixgl = import (fetchTarball https://github.com/guibou/nixGL/archive/main.tar.gz) { inherit pkgs; };
+  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
+    mkdir $out
+    ln -s ${pkg}/* $out
+    rm $out/bin
+    mkdir $out/bin
+    for bin in ${pkg}/bin/*; do
+     wrapped_bin=$out/bin/$(basename $bin)
+     echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
+     echo "exec ${nixgl.auto.nixGLDefault}/bin/nixGL $bin \"\$@\"" >> $wrapped_bin
+     chmod +x $wrapped_bin
+    done
+  '';
 in
 {
   home.username = username;
@@ -36,6 +49,8 @@ in
     tree
     wget
     zathura
+    xclip
+    zsh
 
     # Development tools
     cargo
@@ -48,7 +63,6 @@ in
     nodejs_22
     rustc
     tokei
-    unstable.neovim
     vscode
 
     # Python development
@@ -57,7 +71,6 @@ in
     (python312.withPackages python-packages)
 
     # Terminal enhancements
-    alacritty
     figlet
     starship
     tmux
@@ -93,9 +106,14 @@ in
     # zsh-syntax-highlighting   # FIXME: This had to be installed via brew
   ] # macOS specific applications
     ++ (if pkgs.stdenv.isDarwin then [
+      alacritty
       hidden-bar
       maccy
-    ] else []);
+      unstable.neovim
+    ] else [
+        (nixGLWrap pkgs.alacritty)
+        neovim
+      ]);
 
   home.file = {
     ".zshrc" = {

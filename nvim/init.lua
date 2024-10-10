@@ -8,7 +8,6 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 vim.opt.number = true
--- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -16,9 +15,7 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Sync clipboard between OS and Neovim., see `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
 
 -- Enable break indent
@@ -161,7 +158,7 @@ require('lazy').setup({
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
     config = function()
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'c', 'cpp' },
+        pattern = { 'c', 'cpp', 'go', 'python' },
         callback = function()
           vim.bo.tabstop = 4
           vim.bo.shiftwidth = 2
@@ -546,9 +543,12 @@ require('lazy').setup({
         jsonls = {
           filetypes = { 'json', 'jsonc' },
         },
-        -- pyright = {
-        --   filetypes = { 'python' },
-        -- },
+        nil_ls = {
+          -- filetypes = { 'nix' },
+        },
+        pyright = {
+          filetypes = { 'python' },
+        },
         ruff_lsp = {
           filetypes = { 'python' },
         },
@@ -564,9 +564,9 @@ require('lazy').setup({
         rust_analyzer = {
           filetypes = { 'rust' },
         },
-        -- tsserver = {
-        --   filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
-        -- },
+        tsserver = {
+          filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+        },
         -- rust_analyzer = {
         -- },
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -789,6 +789,7 @@ require('lazy').setup({
     end,
   },
 
+  { 'norcalli/nvim-colorizer.lua' },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 

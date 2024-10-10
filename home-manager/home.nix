@@ -54,10 +54,11 @@ in
     xclip
     zsh
 
-    # Development tools
+    # Development
     cargo
     devbox
     gh
+    go
     jdk
     lazygit
     lua

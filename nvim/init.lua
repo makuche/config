@@ -564,7 +564,7 @@ require('lazy').setup({
         rust_analyzer = {
           filetypes = { 'rust' },
         },
-        tsserver = {
+        ts_ls = {
           filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
         },
         -- rust_analyzer = {

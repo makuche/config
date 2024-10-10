@@ -13,9 +13,13 @@ fi
 # End Nix
 
 export PATH=$JAVA_HOME/bin:$PATH
-
 export PATH=/opt/homebrew/bin:$PATH
 eval "$(starship init zsh)"
+
+function mcd() {
+  mkdir -vp "$1"
+  cd "$1"
+}
 
 # Activate zsh autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

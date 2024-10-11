@@ -9,11 +9,13 @@ let
     config = config.nixpkgs.config;
   };
   python-packages = ps: with ps; [
-   numpy
-   debugpy
-   pip
+    numpy
+    debugpy
+    pip
+    jupyter
+    notebook
   ];
-  nixgl = import (fetchTarball https://github.com/guibou/nixGL/archive/main.tar.gz) { inherit pkgs; };
+  nixgl = import (fetchTarball "https://github.com/guibou/nixGL/archive/main.tar.gz") { inherit pkgs; };
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir $out
     ln -s ${pkg}/* $out
@@ -71,8 +73,8 @@ in
 
     # Python development
     virtualenv
-    # python312Packages.pip
     (python312.withPackages python-packages)
+
 
     # Terminal enhancements
     figlet
@@ -131,7 +133,7 @@ in
       source = "${configDir}/gitconfig";
     };  # TODO: Add alacritty config here as well
   };
-
+  home.sessionPath = [ "$HOME/.local/bin" ];
   programs.home-manager.enable = true;
 
   nixpkgs.config.allowUnfree = true;    # Allow unfree packages (obsidian)

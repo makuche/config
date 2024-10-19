@@ -11,10 +11,12 @@ let
   python-packages = ps: with ps; [
     numpy
     debugpy
+    matplotlib
     pip
+  ] ++ (if !pkgs.stdenv.isDarwin then [
     jupyter
     notebook
-  ];
+  ] else []);
   nixgl = import (fetchTarball "https://github.com/guibou/nixGL/archive/main.tar.gz") { inherit pkgs; };
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir $out
@@ -59,17 +61,18 @@ in
     # Development
     cargo
     devbox
+    # docker-client
     gh
     go
     jdk
     lazygit
     lua
     luarocks
+    minikube
     nixfmt-rfc-style
     nodejs_22
     rustc
     tokei
-    vscode
 
     # Python development
     virtualenv
@@ -78,6 +81,7 @@ in
 
     # Terminal enhancements
     figlet
+    neofetch
     starship
     tmux
 
@@ -99,6 +103,7 @@ in
     # GUI applications
     anki-bin
     obsidian
+    sioyek
 
     # Presentation and documentation
     marp-cli

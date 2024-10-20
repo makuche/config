@@ -13,6 +13,7 @@ alias k="kubectl"
 
 # Nix
 alias nix="nix --extra-experimental-features nix-command --extra-experimental-features flakes"
+alias hnix='vim ~/.config/home-manager/home.nix'
 
 # Shell Configuration
 alias aliases="bat ~/.config/dotfiles/aliases.zsh"

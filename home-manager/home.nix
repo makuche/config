@@ -72,6 +72,7 @@ in
     nixfmt-rfc-style
     nodejs_22
     rustc
+    sqlite
     tokei
 
     # Python development
@@ -104,6 +105,7 @@ in
     anki-bin
     obsidian
     sioyek
+    sqlitebrowser
 
     # Presentation and documentation
     marp-cli

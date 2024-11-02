@@ -28,8 +28,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   command = [[%s/\s\+$//e]],
 })
 
---
-require('lazy').setup({
+local plugins = {
   require 'plugins.color-scheme',
   require 'plugins.lsp-lens',
   require 'plugins.vim-sleuth',
@@ -44,13 +43,14 @@ require('lazy').setup({
   require 'plugins.mini',
   require 'plugins.comment',
   require 'plugins.debug',
-  require 'plugins.indent_line',
+  -- require 'plugins.indent_line',
   require 'plugins.autopairs',
-  require 'plugins.neo-tree',
-  -- require 'plugins.gitsigns',
-  -- "gc" to comment visual regions/lines
+  -- require 'plugins.neo-tree',
+  require 'plugins.auto-indent',
+  require 'plugins.lsp-usage-lens',
+}
+local opts = {
 
-}, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
@@ -70,7 +70,8 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
-})
+}
+require('lazy').setup(plugins, opts)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

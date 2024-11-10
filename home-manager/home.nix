@@ -32,6 +32,9 @@ let
   '';
 in
 {
+    imports = [
+    ../modules/symlinks.nix
+  ];
   home.username = user;
   home.homeDirectory = if pkgs.stdenv.isDarwin
     then "/Users/${user}"

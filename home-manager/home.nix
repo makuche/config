@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 let
   user = builtins.getEnv "USER";    # Use same setup with different users
   configDir = if pkgs.stdenv.isDarwin
@@ -35,6 +34,9 @@ in
     imports = [
     ../modules/symlinks.nix
   ];
+  # This is needed as long as unstable.neovim is used
+  home.enableNixpkgsReleaseCheck = false;
+
   home.username = user;
   home.homeDirectory = if pkgs.stdenv.isDarwin
     then "/Users/${user}"
@@ -60,10 +62,13 @@ in
     zathura
     xclip
     zsh
+    zoxide
 
     # Development
     cargo
+    git
     devbox
+
     # docker-client
     gh
     go
@@ -82,7 +87,6 @@ in
     virtualenv
     (python312.withPackages python-packages)
 
-
     # Terminal enhancements
     figlet
     neofetch
@@ -91,9 +95,6 @@ in
 
     # File management
     fdupes
-
-    # Version control
-    git
 
     # Text processing
     gnupg
@@ -109,6 +110,7 @@ in
     obsidian
     sioyek
     sqlitebrowser
+    vscode  # needed for working on microcontroller
 
     # Presentation and documentation
     marp-cli
@@ -117,6 +119,7 @@ in
     arp-scan
     nmap
     mosquitto
+    openvpn
 
     # Commented out (to be addressed)
     # zsh-syntax-highlighting   # FIXME: This had to be installed via brew

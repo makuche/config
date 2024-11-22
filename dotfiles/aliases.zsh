@@ -22,3 +22,6 @@ alias aliases="bat ~/.config/dotfiles/aliases.zsh"
 alias tm='tmux'
 alias tma='tmux attach'
 alias tmd='tmux detach'
+
+# Notes
+alias note='vim /Users/manuel/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notes'

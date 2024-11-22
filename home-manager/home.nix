@@ -47,6 +47,7 @@ in
     # Core utilities
     bat
     diff-so-fancy
+    direnv
     eza
     fd
     fzf

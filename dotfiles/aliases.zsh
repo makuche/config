@@ -24,4 +24,5 @@ alias tma='tmux attach'
 alias tmd='tmux detach'
 
 # Notes
-alias note='vim /Users/manuel/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notes'
+OBSIDIAN_NOTES='/Users/manuel/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Notes'
+alias note="cd $OBSIDIAN_NOTES && vim $OBSIDIAN_NOTES"

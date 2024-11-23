@@ -14,6 +14,8 @@ export PATH=$JAVA_HOME/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 eval "$(starship init zsh)"
 
+export EDITOR="vim"
+
 function mcd() {
   mkdir -vp "$1"
   cd "$1"

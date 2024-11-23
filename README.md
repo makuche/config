@@ -48,3 +48,9 @@ defaults write -g InitialKeyRepeat -int 10
 
 General settings:
 - CAPS->ESC
+
+### Roadmap: Migration to working on a VM
+I want to shift all my development related work to a graphical virtual Unix machine that will run on a MacOS host. This will allow me to use the great peripherals and ecosystem of maCOS, while still developing on a Unix machine as I have already been doing for a while. Will this migration/configuration effort be worth it? I am not sure at, BUT it will be fun and also a fantastic learning experience!
+
+#### Future setup
+The Mac machine will be configured using nix-darwin, in combination with home-manager, while the virtual machines configuration might depend on the distribution that I am going to use.

@@ -258,6 +258,18 @@ return { -- LSP Configuration & Plugins
           end,
         },
       }
+    -- Setup nixd LSP separately, since its currently not availabnle through Mason
+    require('lspconfig').nixd.setup {
+      cmd = { "nixd"},
+      settings = {
+        nixd = {
+          expr = "import <nixpkgs> { }",
+        },
+        formatting = {
+          command = { "alejandra"},
+        },
+      }
+    }
       vim.api.nvim_create_autocmd('BufWritePre', {
         pattern = '*.py',
         callback = function()

@@ -1,7 +1,20 @@
+-- `:checkhealth`
+
+-- leader key
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
+
+-- With this, neovim treats .h files as C files, so LSP works within header files
+vim.g.c_syntax_for_h = true
+
 require 'options'
 require 'keymaps'
 require 'plugin-manager'
 
+-- :help lua-guide-autocommands
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -11,32 +24,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-  desc = 'Remove trailing whitespace before buffer is written to file',
   pattern = { '*' },
-  callback = function()
-    if vim.g.remove_trailing_whitespace then
-      vim.cmd [[%s/\s\+$//e]]
-    end
-  end,
+  command = [[%s/\s\+$//e]],
 })
-vim.remove_trailing_whitespace = true -- add variable to control this behavior
 
 local plugins = {
-  require 'plugins.telescope', -- fuzzy find everything
-  -- Colorize
   require 'plugins.color-scheme',
-  require 'plugins.colorizer',
-  require 'plugins.todo-highlight',
-
-  -- LSP and tree-sitter
+  require 'plugins.lsp-lens',
+  require 'plugins.vim-sleuth',
+  require 'plugins.gitsigns',
+  require 'plugins.avante',
+  require 'plugins.which-key',
+  require 'plugins.telescope',
   require 'plugins.nvim-lspconfig',
   require 'plugins.treesitter',
-  require 'plugins.lsp-lens', -- displays reference and definition info
-
-  -- require 'plugins.vim-sleuth',  -- automatic tabs TODO: Check if required, and if, adapt
-  require 'plugins.gitsigns',
-  require 'plugins.avante', -- Cursor (IDE) like functionalities
-  require 'plugins.which-key', -- previews key-bindings
   require 'plugins.autocompletion',
   require 'plugins.autoformat',
   require 'plugins.mini',
@@ -72,5 +73,5 @@ local opts = {
 }
 require('lazy').setup(plugins, opts)
 
--- see `:help modeline`
+-- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

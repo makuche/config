@@ -73,6 +73,7 @@ in
       ranger
       ripgrep
       tree
+      tree-sitter
       wget
       zathura
       xclip

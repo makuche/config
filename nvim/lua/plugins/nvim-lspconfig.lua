@@ -221,11 +221,12 @@ return { -- LSP Config & Plugins
         },
       },
     }
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      pattern = '*.py',
-      callback = function()
-        vim.lsp.buf.format { async = false }
-      end,
-    })
+    -- NOTE: use <leader>f to format buffer, maybe enable this later again
+    -- vim.api.nvim_create_autocmd('BufWritePre', {
+    --   pattern = '*.py',
+    --   callback = function()
+    --     vim.lsp.buf.format { async = false }
+    --   end,
+    -- })
   end,
 }

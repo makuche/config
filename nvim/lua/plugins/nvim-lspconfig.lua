@@ -135,9 +135,9 @@ return { -- LSP Config & Plugins
       pyright = {
         filetypes = { 'python' },
       },
-      ruff_lsp = {
-        filetypes = { 'python' },
-      },
+      -- ruff_lsp = {
+      --   filetypes = { 'python' },
+      -- },
       sqlls = {
         filetypes = { 'sql' },
       },
@@ -150,9 +150,9 @@ return { -- LSP Config & Plugins
       rust_analyzer = {
         filetypes = { 'rust' },
       },
-      tsserver = {
-        filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
-      },
+      -- tsserver = {
+      --   filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+      -- },
       -- rust_analyzer = {
       -- },
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

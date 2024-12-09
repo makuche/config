@@ -47,6 +47,7 @@
   system.defaults = { 
     NSGlobalDomain = {
       "com.apple.swipescrolldirection" = false;
+      "_HIHideMenuBar" = true;
     };
     dock = {
       "autohide" = true;

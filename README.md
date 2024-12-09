@@ -54,3 +54,14 @@ I want to shift all my development related work to a graphical virtual Unix mach
 
 #### Future setup
 The Mac machine will be configured using nix-darwin, in combination with home-manager, while the virtual machines configuration might depend on the distribution that I am going to use.
+
+#### Installation of nix-darwin
+1. Install nix via `sh <(curl -L https://nixos.org/nix/install)`
+2. Enable flakes via `echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf`
+3. Restart nix via `sudo launchctl kickstart -k system/org.nixos.nix-daemon`
+4. Create `~/.config/nix-darwin/` folder and add flake via `nix flake init -t nix-darwin`
+5. Substitute the computers network name via `sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix`
+6. Optional: if bashrc, zshrc and /etc/nix/nix.conf file exist, rename them 
+7. First build via `nix run nix-darwin --extra-experimental-features 'nix-command flakes'  -- switch --flake ~/.config/nix-darwin`
+8. Rebuild later with `darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure`
+

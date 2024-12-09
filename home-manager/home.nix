@@ -11,6 +11,17 @@ in
   };
   
   home.packages = with pkgs; [
+     bat
+     btop
+     dust
+     eza
+     jq
+     ripgrep
+     starship
+     ranger
+     tmux
+     figlet
+
      tree-sitter
      nixd
      unstable.neovim

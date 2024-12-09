@@ -13,9 +13,12 @@
     casks = [ 
         "alacritty"
         "firefox" 
-        "spotify"
-        "vmware-fusion"
+	"utm"
+        
+	"spotify"
 	"thunderbird"
+        # "vmware-fusion" #TODO: Maybe completely switch to utm
+	"zwift"
 
     ];
     masApps = {
@@ -61,4 +64,8 @@
       ];
     };
   };
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.mononoki
+  ];
 }

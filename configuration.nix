@@ -1,30 +1,36 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    vim
-    curl
+    git # for bootstrapping the system
   ];
 
   homebrew = {
     enable = true;
     global.autoUpdate = false;
+    global.brewfile = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "zap";
+      upgrade = true;
+    };
+    caskArgs = {
+      appdir = "/Applications/";
+      require_sha = true;
+    };
+    casks = [
+      "alacritty"
+      "firefox"
 
-    casks = [ 
-        "alacritty"
-        "firefox" 
-	"utm"
-        
-	"spotify"
-	"thunderbird"
-        # "vmware-fusion" #TODO: Maybe completely switch to utm
-	"zwift"
-
+      "anki"
+      "utm"
+      "keymapp"
+      "rectangle"
+      "thunderbird"
+      # "vmware-fusion" #TODO: Maybe completely switch to utm
+      "zwift"
     ];
     masApps = {
-      "Keymapp"  = 6472865291;
-      "Magnet" = 441258766;
       "Goodnotes 6" = 1444383602;
+      "Azure VPN Client" = 1553936137;
     };
   };
 
@@ -36,7 +42,6 @@
 
   nix.settings.experimental-features = "nix-command flakes";
 
-
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 5;
@@ -45,22 +50,23 @@
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
-  system.keyboard.enableKeyMapping  = true;
+  system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
-  system.defaults = { 
+  system.defaults = {
     NSGlobalDomain = {
       "com.apple.swipescrolldirection" = false;
       "_HIHideMenuBar" = true;
+      "InitialKeyRepeat" = 10;
+      "KeyRepeat" = 1;
     };
     dock = {
       "autohide" = true;
       "launchanim" = false;
-      "persistent-apps" = [
-        "/Applications/Firefox.app"
-	"/Applications/Alacritty.app"
-	"/Applications/VMware Fusion.app/"
-	"/Applications/keymapp.app/"
-	"/Applications/Goodnotes.app/"
+      "persistent-apps" = map (app: "/Applications/${app}.app") [
+        "Alacritty"
+        "Firefox"
+        "keymapp"
+        "Goodnotes"
       ];
     };
   };

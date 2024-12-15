@@ -41,9 +41,6 @@ in {
     extraConfig = {
       commit.gpgsign = true;
       tag.gpgsign = true;
-      gpg = {
-        program = "gpg";
-      };
       diff = {
         algorithm = "histogram";
       };

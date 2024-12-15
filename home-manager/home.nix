@@ -30,11 +30,33 @@ in {
     htop
     lazygit
   ];
-
   programs.git = {
     enable = true;
     userName = "Manuel Kuchelmeister";
     userEmail = "makuche-github@pm.me";
+    signing = {
+      key = "D5E39A037F4AAE1C";
+      signByDefault = true;
+    };
+    extraConfig = {
+      commit.gpgsign = true;
+      tag.gpgsign = true;
+      gpg = {
+        program = "gpg";
+      };
+      diff = {
+        algorithm = "histogram";
+      };
+      branch = {
+        sort = "committerdate";
+      };
+      merge = {
+        conflictstyle = "zdiff3";
+      };
+      log = {
+        date = "iso";
+      };
+    };
   };
   programs.lazygit = {
     enable = true;

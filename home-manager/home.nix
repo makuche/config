@@ -179,8 +179,33 @@ in {
       rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure";
       cd = "z";
     };
+    history = {
+      size = 50000;
+      save = 50000;
+      path = "$HOME/.zsh_history";
+      extended = true;
+      ignoreDups = true;
+      share = true;
+      expireDuplicatesFirst = true;
+      ignoreSpace = true;
+      ignorePatterns = ["rm *" "pkill *" "kill *" "history"];
+    };
     initExtra = ''
       eval "$(zoxide init zsh)"
+      eval "$(mcfly init zsh)"
+      export MCFLY_FUZZY=true
+      export MCFLY_RESULTS=50
+      export MCFLY_INTERFACE_VIEW=BOTTOM
+      export MCFLY_DISABLE_WELCOME=true
+      bindkey '^R' mcfly-history-widget
+      export MCFLY_KEY_SCHEME=vim
+      setopt EXTENDED_HISTORY
+      setopt HIST_EXPIRE_DUPS_FIRST
+      setopt HIST_FIND_NO_DUPS
+      setopt HIST_REDUCE_BLANKS
+      setopt HIST_VERIFY
+      setopt APPEND_HISTORY
+      setopt INC_APPEND_HISTORY
     '';
   };
   programs.tmux = {

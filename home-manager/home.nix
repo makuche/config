@@ -12,6 +12,7 @@ in {
     eza
     fzf
     jq
+    gnupg
     mcfly
     ranger
     ripgrep
@@ -33,7 +34,7 @@ in {
   programs.git = {
     enable = true;
     userName = "Manuel Kuchelmeister";
-    userEmail = "manuel.kuchelmeister@web.de";
+    userEmail = "makuche-github@pm.me";
   };
   programs.lazygit = {
     enable = true;

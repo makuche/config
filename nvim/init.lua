@@ -47,6 +47,7 @@ local plugins = {
   -- require 'plugins.neo-tree',
   require 'plugins.auto-indent',
   require 'plugins.lsp-usage-lens',
+  require 'plugins.oil',
 }
 local opts = {
 

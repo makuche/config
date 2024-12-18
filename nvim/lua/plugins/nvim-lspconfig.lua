@@ -1,6 +1,7 @@
 return { -- LSP Config & Plugins
   'neovim/nvim-lspconfig',
   dependencies = {
+    'saghen/blink.cmp',
     -- Automatically install LSPs and related tools to stdpath for Neovim
     { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
     'williamboman/mason-lspconfig.nvim',
@@ -94,8 +95,10 @@ return { -- LSP Config & Plugins
     --  By default, Neovim doesn't support everything that is in the LSP specification.
     --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
     --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    require('lspconfig').lua_ls.setup { capabilities = capabilities }
+    -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+    -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
     -- Enable the following language servers
     --  Add any additional override configuration in the following tables. Available keys are:

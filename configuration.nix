@@ -31,6 +31,7 @@
     masApps = {
       "Goodnotes 6" = 1444383602;
       "Azure VPN Client" = 1553936137;
+      "BrightIntosh" = 6452471855;
     };
   };
 

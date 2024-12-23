@@ -12,6 +12,7 @@ in {
     eza
     fzf
     jq
+    # kanata   # Actually, only Karabiner Elements works to only emulate the builtin keyboard
     gnupg
     mcfly
     ranger
@@ -19,6 +20,8 @@ in {
     tree
     starship
     tmux
+    tokei
+    virtualenv
     zoxide
 
     tree-sitter
@@ -29,6 +32,10 @@ in {
     unstable.neovim # unstable due to plugin usage
     htop
     lazygit
+
+    # Java development
+    jdk17
+    maven
   ];
   programs.git = {
     enable = true;

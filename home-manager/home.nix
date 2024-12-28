@@ -220,6 +220,7 @@ in {
     initExtra = ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
+      export PATH="/Applications/Ghostty.app/Contents/MacOS:$PATH"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM

@@ -149,6 +149,23 @@ return { -- LSP Config & Plugins
       },
       yamlls = {
         filetypes = { 'yaml', 'yml' },
+        root_pattern = function(fname)
+          local is_ansible = string.match(fname, 'roles/.*/*.yml$') or string.match(fname, 'playbooks/.*%.yml$') or string.match(fname, 'inventory/.*%.yml$')
+          return not is_ansible
+        end,
+      },
+      ansiblels = {
+        -- Configure ansible-language-server
+        filetypes = { 'yaml.ansible' },
+        settings = {
+          ansible = {
+            validation = {
+              lint = {
+                enabled = true,
+              },
+            },
+          },
+        },
       },
       rust_analyzer = {
         filetypes = { 'rust' },

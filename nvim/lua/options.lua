@@ -2,6 +2,8 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
+vim.opt.shiftwidth = 4
+
 vim.opt.number = true
 
 vim.opt.mouse = 'a'
@@ -55,3 +57,19 @@ vim.opt.scrolloff = 10
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
+
+-- Detect Ansible files (for LSP)
+vim.filetype.add {
+  pattern = {
+    -- Detect ansible files based on common patterns
+    ['playbooks/.*.yml'] = 'yaml.ansible',
+    ['roles/.*/tasks/.*.yml'] = 'yaml.ansible',
+    ['roles/.*/handlers/.*.yml'] = 'yaml.ansible',
+    ['roles/.*/defaults/.*.yml'] = 'yaml.ansible',
+    ['roles/.*/vars/.*.yml'] = 'yaml.ansible',
+    ['group_vars/.*.yml'] = 'yaml.ansible',
+    ['host_vars/.*.yml'] = 'yaml.ansible',
+    -- Match files that contain ansible common patterns
+    ['.*ansible.*/*.yml'] = 'yaml.ansible',
+  },
+}

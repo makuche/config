@@ -6,6 +6,7 @@ in {
 
   home.packages = with pkgs; [
     alejandra
+    ansible
     bat
     btop
     dust
@@ -15,6 +16,8 @@ in {
     # kanata   # Actually, only Karabiner Elements works to only emulate the builtin keyboard
     gnupg
     mcfly
+    python312
+    python312Packages.pip
     ranger
     ripgrep
     tree
@@ -32,7 +35,11 @@ in {
     unstable.neovim # unstable due to plugin usage
     htop
     lazygit
+    xz
 
+    # Networking
+    nmap
+    arp-scan
     # Java development
     jdk17
     maven

@@ -24,6 +24,8 @@ return {
       lua = { 'stylua' },
       python = { 'ruff' },
       nix = { 'alejandra' },
+      java = { 'google-java-format' },
+      c = { 'clang-format' },
     },
   },
 }

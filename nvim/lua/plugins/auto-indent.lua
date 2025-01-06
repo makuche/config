@@ -1,4 +1,4 @@
 return {
-  'vidocqh/auto-indent.nvim',
-  opts = {},
+  -- 'vidocqh/auto-indent.nvim',
+  -- opts = {},
 }

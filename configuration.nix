@@ -21,13 +21,20 @@
       "firefox"
 
       "anki"
+      "alfred"
       "utm"
       "keymapp"
       "rectangle"
       "thunderbird"
+      "protonmail-bridge"
+      "protonvpn"
+      "google-chrome"
       # "vmware-fusion" #TODO: Maybe completely switch to utm
       "zwift"
     ];
+    extraConfig = ''
+      cask "spotify", args: { require_sha: false }
+    '';
     masApps = {
       "Goodnotes 6" = 1444383602;
       "Azure VPN Client" = 1553936137;
@@ -64,9 +71,8 @@
       "autohide" = true;
       "launchanim" = false;
       "persistent-apps" = map (app: "/Applications/${app}.app") [
-        "Alacritty"
+        "Ghostty"
         "Firefox"
-        "keymapp"
         "Goodnotes"
       ];
     };

@@ -42,6 +42,10 @@ vim.opt.splitbelow = true
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.tabstop = 4 -- How many columns a tab counts for
+vim.opt.shiftwidth = 4 -- Size of an indent
+vim.opt.expandtab = false -- Use spaces instead of tabs
+vim.opt.softtabstop = 4 -- How many columns when you press Tab
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'

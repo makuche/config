@@ -201,7 +201,7 @@ in {
     syntaxHighlighting.enable = true;
     shellAliases = {
       ls = "eza";
-      ll = "ls -lahF";
+      ll = "eza -lahF";
       vim = "nvim";
       note = "cd ${obsidianPath} && nvim /${obsidianPath}";
       todo = "nvim /${obsidianPath}/todo.md";

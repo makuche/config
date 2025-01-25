@@ -16,6 +16,9 @@
       appdir = "/Applications/";
       require_sha = true;
     };
+    brews = [
+      "llama.cpp"
+    ];
     casks = [
       "alacritty"
       "firefox"

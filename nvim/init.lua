@@ -48,6 +48,8 @@ local plugins = {
   require 'plugins.auto-indent',
   require 'plugins.lsp-usage-lens',
   require 'plugins.oil',
+
+  require 'plugins.llama',
 }
 local opts = {
 

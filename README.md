@@ -1,3 +1,7 @@
+# TODO
+- create symlinks to ~/.config (better practice in general)
+- add build command `darwin-rebuild switch --flake ~/.config/nix-darwin#Manuels-MacBook-Pro --impure` and describe it. if possible, get rid of --impure
+
 # Config
 
 This repository contains the state of my `~/.config` directory. 

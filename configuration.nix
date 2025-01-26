@@ -5,7 +5,7 @@
 
   homebrew = {
     enable = true;
-    global.autoUpdate = false;
+    global.autoUpdate = true;
     global.brewfile = true;
     onActivation = {
       autoUpdate = true;
@@ -18,14 +18,18 @@
     };
     brews = [
       "llama.cpp"
+      "kubectl"
+      "k9s"
     ];
     casks = [
       "alacritty"
       "firefox"
 
+      "arduino-ide"
       "anki"
       "alfred"
       "utm"
+      "karabiner-elements"
       "keymapp"
       "rectangle"
       "thunderbird"

@@ -35,7 +35,7 @@ local plugins = {
 
   -- require 'plugins.vim-sleuth',  -- automatic tabs TODO: Check if required, and if, adapt
   require 'plugins.gitsigns',
-  require 'plugins.avante', -- Cursor (IDE) like functionalities
+  -- require 'plugins.avante', -- Cursor (IDE) like functionalities
   require 'plugins.which-key', -- previews key-bindings
   require 'plugins.autocompletion',
   require 'plugins.autoformat',

@@ -1,48 +1,80 @@
-{pkgs, ...}: let
-  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz") {};
+{
+  config,
+  pkgs,
+  ...
+}: let
   obsidianPath = "/Users/manuel/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes";
 in {
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
-    alejandra
-    ansible
-    bat
-    btop
-    dust
-    eza
-    fzf
-    jq
-    # kanata   # Actually, only Karabiner Elements works to only emulate the builtin keyboard
-    gnupg
-    mcfly
-    python312
-    python312Packages.pip
-    ranger
-    ripgrep
-    tree
-    starship
-    tmux
-    tokei
-    virtualenv
-    zoxide
+    # ===== Development & Programming =====
+    cargo # Rust package manager
+    go # Go programming language
+    jdk17 # Java Development Kit
+    maven # Java project management
+    nodejs_23 # JavaScript runtime (required for some LSPs)
+    nixd # Nix Language Server
+    python312 # Python interpreter
+    python312Packages.pip # Python package manager
+    sqlite # Embedded database
+    tree-sitter # Parser generator toolkit
+    virtualenv # Python environment isolation
 
-    tree-sitter
-    nixd
-    nodejs_23 # required to install LSPs
-    cargo
-    go
-    unstable.neovim # unstable due to plugin usage
-    htop
-    lazygit
-    xz
+    # ===== DevOps & Automation =====
+    ansible # Configuration management
+    docker # Containerization platform
 
-    # Networking
-    nmap
-    arp-scan
-    # Java development
-    jdk17
-    maven
+    # ===== CLI Productivity & Tools =====
+    bat # Modern cat with syntax highlighting
+    eza # Modern ls replacement
+    fzf # Fuzzy finder
+    lazygit # Terminal UI for git
+    mcfly # Intelligent command history
+    ripgrep # Ultra-fast grep
+    starship # Customizable shell prompt
+    tmux # Terminal multiplexer
+    tokei # Code statistics
+    tree # Directory structure viewer
+    zoxide # Smart directory navigation
+
+    # ===== System Monitoring =====
+    btop # Resource monitor
+    dust # Disk usage analyzer
+    htop # Process viewer
+
+    # ===== File Management =====
+    ranger # Terminal file manager
+    xz # Compression utilities
+
+    # ===== Text/Data Processing =====
+    jq # JSON processor
+    neovim # Modern Vim fork (with plugins)
+
+    # ===== Security =====
+    gnupg # Encryption toolkit
+
+    # ===== Networking =====
+    arp-scan # ARP packet scanner
+    nmap # Network exploration
+    wget # File downloader
+
+    # ===== Documentation & Publishing =====
+    (texlive.combine {
+      # LaTeX typesetting
+      inherit
+        (texlive)
+        scheme-basic
+        latexmk
+        collection-latex
+        titlesec
+        ;
+    })
+
+    # ===== Nix Ecosystem =====
+    alejandra # Nix formatter
+
+    # ===== Commented/Notes =====
   ];
   programs.git = {
     enable = true;
@@ -245,85 +277,6 @@ in {
   };
   programs.tmux = {
     enable = true;
-    extraConfig = builtins.readFile ~/.config/dotfiles/tmux.conf;
-  };
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      env = {
-        TERM = "xterm-256color";
-      };
-      window = {
-        padding = {
-          x = 10;
-          y = 10;
-        };
-        opacity = 0.9;
-        blur = true;
-        option_as_alt = "Both";
-        decorations = "Buttonless";
-      };
-      font = {
-        normal = {
-          family = "Mononoki Nerd Font";
-        };
-        size = 15;
-      };
-      colors = {
-        primary = {
-          background = "#2e3440";
-          foreground = "#d8dee9";
-          dim_foreground = "#a5abb6";
-        };
-        cursor = {
-          text = "#2e3440";
-          cursor = "#d8dee9";
-        };
-        vi_mode_cursor = {
-          text = "#2e3440";
-          cursor = "#d8dee9";
-        };
-        selection = {
-          text = "CellForeground";
-          background = "#4c566a";
-        };
-        search = {
-          matches = {
-            foreground = "CellBackground";
-            background = "#88c0d0";
-          };
-        };
-        normal = {
-          black = "#3b4252";
-          red = "#bf616a";
-          green = "#a3be8c";
-          yellow = "#ebcb8b";
-          blue = "#81a1c1";
-          magenta = "#b48ead";
-          cyan = "#88c0d0";
-          white = "#e5e9f0";
-        };
-        bright = {
-          black = "#4c566a";
-          red = "#bf616a";
-          green = "#a3be8c";
-          yellow = "#ebcb8b";
-          blue = "#81a1c1";
-          magenta = "#b48ead";
-          cyan = "#8fbcbb";
-          white = "#eceff4";
-        };
-        dim = {
-          black = "#373e4d";
-          red = "#94545d";
-          green = "#809575";
-          yellow = "#b29e75";
-          blue = "#68809a";
-          magenta = "#8c738c";
-          cyan = "#6d96a5";
-          white = "#aeb3bb";
-        };
-      };
-    };
+    extraConfig = builtins.readFile "${config.home.homeDirectory}/.config/dotfiles/tmux.conf";
   };
 }

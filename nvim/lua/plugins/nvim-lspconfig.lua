@@ -133,8 +133,40 @@ return { -- LSP Config & Plugins
         filetypes = { 'json', 'jsonc' },
       },
       texlab = {
-        filetypes = { 'tex' },
+        filetypes = { 'tex', 'latex' },
+        settings = {
+          texlab = {
+            auxDirectory = '.',
+            bibtexFormatter = 'texlab',
+            build = {
+              args = { '-pdf', '-interaction=nonstopmode', '-synctex=1', '%f' },
+              executable = 'latexmk',
+              onSave = true,
+            },
+            chktex = {
+              onEdit = false,
+              onOpenAndSave = false,
+            },
+            diagnosticsDelay = 300,
+            formatterLineLength = 80,
+            forwardSearch = {
+              args = {},
+            },
+            latexFormatter = 'latexindent',
+            latexindent = {
+              ['local'] = nil, -- local is a reserved keyword in Lua
+              modifyLineBreaks = false,
+            },
+          },
+        },
+        env = {
+          PATH = vim.env.PATH,
+          TEXMFHOME = vim.env.TEXMFHOME,
+        },
       },
+      -- texlab = {
+      --   filetypes = { 'tex', 'latex' },
+      -- },
       pyright = {
         filetypes = { 'python' },
       },
@@ -213,6 +245,7 @@ return { -- LSP Config & Plugins
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'latexindent',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -241,12 +274,15 @@ return { -- LSP Config & Plugins
         },
       },
     }
-    -- NOTE: use <leader>f to format buffer, maybe enable this later again
-    -- vim.api.nvim_create_autocmd('BufWritePre', {
-    --   pattern = '*.py',
-    --   callback = function()
-    --     vim.lsp.buf.format { async = false }
-    --   end,
-    -- })
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { '*.py', 'tex', 'latex' },
+      callback = function()
+        vim.api.nvim_create_autocmd('BufWritePre', {
+          callback = function()
+            vim.lsp.buf.format { async = false }
+          end,
+        })
+      end,
+    })
   end,
 }

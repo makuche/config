@@ -77,3 +77,5 @@ vim.filetype.add {
     ['.*ansible.*/*.yml'] = 'yaml.ansible',
   },
 }
+
+vim.opt.termguicolors = true

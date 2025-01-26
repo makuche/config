@@ -22,8 +22,8 @@
       "k9s"
     ];
     casks = [
-      "alacritty"
       "firefox"
+      "ghostty"
 
       "arduino-ide"
       "anki"
@@ -33,7 +33,6 @@
       "keymapp"
       "rectangle"
       "thunderbird"
-      "protonmail-bridge"
       "protonvpn"
       "google-chrome"
       # "vmware-fusion" #TODO: Maybe completely switch to utm

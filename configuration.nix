@@ -24,7 +24,6 @@
     casks = [
       "firefox"
       "ghostty"
-
       "arduino-ide"
       "anki"
       "alfred"
@@ -35,7 +34,6 @@
       "thunderbird"
       "protonvpn"
       "google-chrome"
-      # "vmware-fusion" #TODO: Maybe completely switch to utm
       "zwift"
     ];
     extraConfig = ''
@@ -78,8 +76,6 @@
       "launchanim" = false;
       "persistent-apps" = map (app: "/Applications/${app}.app") [
         "Ghostty"
-        "Firefox"
-        "Goodnotes"
       ];
     };
   };

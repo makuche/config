@@ -39,11 +39,13 @@ in {
     zoxide # Smart directory navigation
 
     # ===== System Monitoring =====
+    asitop # Apple Silicon resource monitor
     btop # Resource monitor
     dust # Disk usage analyzer
     htop # Process viewer
 
     # ===== File Management =====
+    pdftk # Process PDFs
     ranger # Terminal file manager
     xz # Compression utilities
 

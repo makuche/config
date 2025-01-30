@@ -275,7 +275,7 @@ return { -- LSP Config & Plugins
       },
     }
     vim.api.nvim_create_autocmd('FileType', {
-      pattern = { '*.py', 'tex', 'latex' },
+      pattern = { '*.py', 'tex', 'latex', '*.nix' },
       callback = function()
         vim.api.nvim_create_autocmd('BufWritePre', {
           callback = function()

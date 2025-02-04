@@ -49,7 +49,8 @@ local plugins = {
   require 'plugins.lsp-usage-lens',
   require 'plugins.oil',
 
-  require 'plugins.llama',
+  -- require 'plugins.llama', #NOTE: Use this when self-hosting
+  require 'plugins.avante',
 }
 local opts = {
 

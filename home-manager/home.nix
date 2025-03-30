@@ -299,22 +299,24 @@
       ignorePatterns = ["rm *" "pkill *" "kill *" "history"];
     };
     initExtra = ''
-         eval "$(zoxide init zsh)"
-         eval "$(mcfly init zsh)"
-         export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
-         export MCFLY_FUZZY=true
-         export MCFLY_RESULTS=50
-         export MCFLY_INTERFACE_VIEW=BOTTOM
-         export MCFLY_DISABLE_WELCOME=true
-         bindkey '^R' mcfly-history-widget
-         export MCFLY_KEY_SCHEME=vim
-         setopt EXTENDED_HISTORY
-         setopt HIST_EXPIRE_DUPS_FIRST
-         setopt HIST_FIND_NO_DUPS
-         setopt HIST_REDUCE_BLANKS
-         setopt HIST_VERIFY
-         setopt APPEND_HISTORY
-         setopt INC_APPEND_HISTORY
+      eval "$(zoxide init zsh)"
+      eval "$(mcfly init zsh)"
+      export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
+      export MCFLY_FUZZY=true
+      export MCFLY_RESULTS=50
+      export MCFLY_INTERFACE_VIEW=BOTTOM
+      export MCFLY_DISABLE_WELCOME=true
+      bindkey '^R' mcfly-history-widget
+      export MCFLY_KEY_SCHEME=vim
+      setopt EXTENDED_HISTORY
+      setopt HIST_EXPIRE_DUPS_FIRST
+      setopt HIST_FIND_NO_DUPS
+      setopt HIST_REDUCE_BLANKS
+      setopt HIST_VERIFY
+      setopt APPEND_HISTORY
+      setopt complete_aliases # enable completion for aliases
+      ll() { eza -lahF "$@" }
+      setopt INC_APPEND_HISTORY
       export EDITOR=neovim
     '';
   };

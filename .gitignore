@@ -1,4 +1,5 @@
 github-copilot/
+.DS_Store
 spotify-player/
 nvim/cheatsheets/
 karabiner/automatic_backups

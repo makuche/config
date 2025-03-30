@@ -2,13 +2,12 @@
   config,
   pkgs,
   ...
-}: let
-  obsidianPath = "/Users/manuel/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes";
-in {
+}: {
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
     # ===== Development & Programming =====
+    alejandra # Nix formatter
     cargo # Rust package manager
     go # Go programming language
     jdk17 # Java Development Kit
@@ -19,6 +18,7 @@ in {
     python312Packages.pip # Python package manager
     sqlite # Embedded database
     tree-sitter # Parser generator toolkit
+    uv # Python package manager
     virtualenv # Python environment isolation
 
     # ===== DevOps & Automation =====
@@ -55,6 +55,7 @@ in {
 
     # ===== Security =====
     gnupg # Encryption toolkit
+    git-crypt # Encrypt files in git repo
 
     # ===== Networking =====
     arp-scan # ARP packet scanner
@@ -73,9 +74,6 @@ in {
         ;
     })
 
-    # ===== Nix Ecosystem =====
-    alejandra # Nix formatter
-
     # ===== Commented/Notes =====
   ];
   programs.git = {
@@ -87,19 +85,61 @@ in {
       signByDefault = true;
     };
     extraConfig = {
-      commit.gpgsign = true;
-      tag.gpgsign = true;
-      diff = {
-        algorithm = "histogram";
+      column = {
+        ui = "auto";
       };
       branch = {
-        sort = "committerdate";
+        sort = "-committerdate";
+      };
+      tag = {
+        gpgsign = true;
+        sort = "version:refname";
+      };
+      init = {
+        defaultBranch = "main";
+      };
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = true;
+        renames = true;
+      };
+      push = {
+        default = "simple";
+        autoSetupRemote = true;
+        followTags = true;
+      };
+      fetch = {
+        prune = true;
+        pruneTags = true;
+        all = true;
+      };
+      help = {
+        autocorrect = "prompt";
+      };
+      commit = {
+        gpgsign = true;
+        verbose = true;
+      };
+      rerere = {
+        enabled = true;
+        autoupdate = true;
+      };
+      core = {
+        excludesfile = "~/.gitignore";
+      };
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+        updateRefs = true;
       };
       merge = {
         conflictstyle = "zdiff3";
       };
       log = {
         date = "iso";
+      };
+      pull = {
       };
     };
   };
@@ -237,8 +277,8 @@ in {
       ls = "eza";
       ll = "eza -lahF";
       vim = "nvim";
-      note = "cd ${obsidianPath} && nvim /${obsidianPath}";
-      todo = "nvim /${obsidianPath}/todo.md";
+      note = "cd ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes && nvim .";
+      todo = "nvim ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes/todo.md";
       tm = "tmux";
       tma = "tmux attach";
       tmd = "tmux detach";
@@ -259,26 +299,27 @@ in {
       ignorePatterns = ["rm *" "pkill *" "kill *" "history"];
     };
     initExtra = ''
-      eval "$(zoxide init zsh)"
-      eval "$(mcfly init zsh)"
-      export PATH="/Applications/Ghostty.app/Contents/MacOS:$PATH"
-      export MCFLY_FUZZY=true
-      export MCFLY_RESULTS=50
-      export MCFLY_INTERFACE_VIEW=BOTTOM
-      export MCFLY_DISABLE_WELCOME=true
-      bindkey '^R' mcfly-history-widget
-      export MCFLY_KEY_SCHEME=vim
-      setopt EXTENDED_HISTORY
-      setopt HIST_EXPIRE_DUPS_FIRST
-      setopt HIST_FIND_NO_DUPS
-      setopt HIST_REDUCE_BLANKS
-      setopt HIST_VERIFY
-      setopt APPEND_HISTORY
-      setopt INC_APPEND_HISTORY
+         eval "$(zoxide init zsh)"
+         eval "$(mcfly init zsh)"
+         export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
+         export MCFLY_FUZZY=true
+         export MCFLY_RESULTS=50
+         export MCFLY_INTERFACE_VIEW=BOTTOM
+         export MCFLY_DISABLE_WELCOME=true
+         bindkey '^R' mcfly-history-widget
+         export MCFLY_KEY_SCHEME=vim
+         setopt EXTENDED_HISTORY
+         setopt HIST_EXPIRE_DUPS_FIRST
+         setopt HIST_FIND_NO_DUPS
+         setopt HIST_REDUCE_BLANKS
+         setopt HIST_VERIFY
+         setopt APPEND_HISTORY
+         setopt INC_APPEND_HISTORY
+      export EDITOR=neovim
     '';
   };
   programs.tmux = {
     enable = true;
-    extraConfig = builtins.readFile "${config.home.homeDirectory}/.config/dotfiles/tmux.conf";
+    extraConfig = builtins.readFile ./tmux.conf;
   };
 }

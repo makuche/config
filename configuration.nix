@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  home,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     git # for bootstrapping the system
   ];
@@ -13,49 +17,45 @@
       upgrade = true;
     };
     caskArgs = {
-      appdir = "/Applications/";
       require_sha = true;
     };
     brews = [
-      "llama.cpp"
-      "kubectl"
-      "k9s"
+      "argocd"
+      "podman"
     ];
+
     casks = [
-      "firefox"
-      "ghostty"
-      "arduino-ide"
-      "anki"
       "alfred"
-      "utm"
-      "karabiner-elements"
+      "brave-browser"
+      "dropbox"
+      "firefox" #TODO: Remove, once full migrated to brave
+      "ghostty"
       "keymapp"
-      "rectangle"
-      "thunderbird"
+      "mochi"
+      "obsidian"
+      "parallels"
       "protonvpn"
-      "google-chrome"
+      "rectangle"
+      "spotify"
+      "stats"
+      "tailscale"
+      "thunderbird"
+      "utm" #TODO: Remove, once migrated to parallels
       "zwift"
     ];
-    extraConfig = ''
-      cask "spotify", args: { require_sha: false }
-    '';
     masApps = {
       "Goodnotes 6" = 1444383602;
       "Azure VPN Client" = 1553936137;
       "BrightIntosh" = 6452471855;
     };
   };
-
   users.users.manuel.home = "/Users/manuel";
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # nix.package = pkgs.nix;
 
   nix.settings.experimental-features = "nix-command flakes";
 
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
   system.stateVersion = 5;
 
   nix.configureBuildUsers = true;

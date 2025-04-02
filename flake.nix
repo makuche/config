@@ -34,10 +34,6 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
-    home = {
-      url = "path:/users/manuel";
-      flake = false;
-    };
   };
   # Output/State that will be created
   outputs = inputs @ {

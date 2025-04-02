@@ -6,10 +6,11 @@
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
-    # ===== Development & Programming =====
+    # ===== Development =====
     alejandra # Nix formatter
     cargo # Rust package manager
     go # Go programming language
+    httpie # CLI http client
     jdk17 # Java Development Kit
     maven # Java project management
     nodejs_23 # JavaScript runtime (required for some LSPs)
@@ -21,24 +22,26 @@
     uv # Python package manager
     virtualenv # Python environment isolation
 
-    # ===== DevOps & Automation =====
+    # ===== DevOps =====
     ansible # Configuration management
     docker # Containerization platform
 
-    # ===== CLI Productivity & Tools =====
+    # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
+    direnv # Manage envs automatically
     eza # Modern ls replacement
     fzf # Fuzzy finder
     lazygit # Terminal UI for git
     mcfly # Intelligent command history
     ripgrep # Ultra-fast grep
+    ripgrep-all # ripgrep for pdfs etc.
     starship # Customizable shell prompt
     tmux # Terminal multiplexer
     tokei # Code statistics
     tree # Directory structure viewer
     zoxide # Smart directory navigation
 
-    # ===== System Monitoring =====
+    # ===== Monitoring =====
     asitop # Apple Silicon resource monitor
     btop # Resource monitor
     dust # Disk usage analyzer
@@ -49,11 +52,13 @@
     ranger # Terminal file manager
     xz # Compression utilities
 
-    # ===== Text/Data Processing =====
+    # ===== Text Processing =====
     jq # JSON processor
+    yq # yaml processor
     neovim # Modern Vim fork (with plugins)
 
     # ===== Security =====
+    keychain # Enables long-running ssh-agent
     gnupg # Encryption toolkit
     git-crypt # Encrypt files in git repo
 
@@ -70,12 +75,25 @@
         scheme-basic
         latexmk
         collection-latex
+        collection-latexextra
+        collection-fontsrecommended
         titlesec
+        fontawesome5
         ;
     })
-
-    # ===== Commented/Notes =====
   ];
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
+  # NOTE: to avoid manually approving via `direnv allow`, whitelist the directories here
+  # xdg.configFile."direnv/direnv.toml".text = ''
+  #   [whitelist]
+  #   prefix = [ "/Users/manuel/git/example" ]  # dummy example
+  # '';
+
   programs.git = {
     enable = true;
     userName = "Manuel Kuchelmeister";

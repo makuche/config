@@ -46,6 +46,7 @@
     btop # Resource monitor
     dust # Disk usage analyzer
     htop # Process viewer
+    trufflehog # Monitor for credential leakage
 
     # ===== File Management =====
     pdftk # Process PDFs

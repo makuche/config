@@ -12,45 +12,42 @@ I've moved most GUI apps to Homebrew instead of home-manager so the home-manager
 
 ## Initial Setup
 
+The following describes how to set up nix-darwin and home-manager for the cases 1) when using the configuration files and 2) when starting from scratch (i.e. with empty home.nix files etc.). The steps for starting from scratch are marked via "Optional".
+
 ### 1. Install Nix
 ```bash
 sh <(curl -L https://nixos.org/nix/install)
 ```
 
-### 2. Install Homebrew
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-### 3. Configure Shell
+### 2. Configure Shell
 Append to `.zshrc`:
 ```bash
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
-export PATH=/opt/homebrew/bin:$PATH
 ```
 
-### 4. Install Home Manager
+### 3. Install Home Manager
 ```bash
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
 
-# Add packages and other settings to this file
+# Optional: Add packages and other settings to this file
 vim /Users/manuel/.config/home-manager/home.nix
 ```
 
-### 5. Install nix-darwin
+### 4. Install nix-darwin
 ```bash
 # Enable flakes
 echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
 sudo launchctl kickstart -k system/org.nixos.nix-daemon
 
-# Create darwin config directory
+# Optional: Create nix darwin flake config
 mkdir -p ~/.config/nix-darwin
 nix flake init -t nix-darwin
 sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix
+
 
 # Optional: backup existing configs if present
 # mv ~/.bashrc ~/.bashrc.backup
@@ -58,7 +55,8 @@ sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix
 # mv /etc/nix/nix.conf /etc/nix/nix.conf.backup
 
 # First build
-nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/.config/nix-darwin
+# NOTE: When re-using the config folder, make sure to substitute darwinConfigurations."HOST" with the correct host name (run scutil --get LocalHostName on MacOS)
+nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/.config
 ```
 
 ## Daily Usage

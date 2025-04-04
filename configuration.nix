@@ -35,6 +35,7 @@
       "obsidian"
       "parallels"
       "protonvpn"
+      "proton-pass"
       "rectangle"
       "spotify"
       "stats"

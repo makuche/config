@@ -44,11 +44,13 @@
     # ===== Monitoring =====
     asitop # Apple Silicon resource monitor
     btop # Resource monitor
+    clamav # Antivirus tool
     dust # Disk usage analyzer
     htop # Process viewer
     trufflehog # Monitor for credential leakage
 
     # ===== File Management =====
+    p7zip # unzip z7 files
     pdftk # Process PDFs
     ranger # Terminal file manager
     xz # Compression utilities

@@ -202,9 +202,9 @@ return { -- LSP Config & Plugins
       rust_analyzer = {
         filetypes = { 'rust' },
       },
-      -- tsserver = {
-      --   filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
-      -- },
+      ts_ls = {
+        filetypes = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+      },
       -- rust_analyzer = {
       -- },
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs

@@ -86,6 +86,68 @@
     })
   ];
 
+  home.file = {
+    # freshclam.conf
+    ".config/clamav/freshclam.conf".text = ''
+      # Freshclam configuration file
+      DatabaseDirectory ${config.home.homeDirectory}/.config/clamav/db
+      UpdateLogFile ${config.home.homeDirectory}/.config/clamav/freshclam.log
+      LogVerbose false
+      LogSyslog false
+      LogFacility LOG_LOCAL6
+      LogFileMaxSize 2M
+      LogRotate true
+      LogTime true
+      Foreground false
+      Debug false
+      MaxAttempts 5
+      DatabaseMirror database.clamav.net
+      DatabaseMirror db.local.clamav.net
+      DatabaseDirectory ~/.config/clamav/db
+      DNSDatabaseInfo current.cvd.clamav.net
+      ConnectTimeout 30
+      ReceiveTimeout 30
+      TestDatabases yes
+      ScriptedUpdates yes
+      CompressLocalDatabase no
+      SafeBrowsing false
+      Bytecode true
+    '';
+
+    # clamd.conf
+    ".config/clamav/clamd.conf".text = ''
+      # clamd configuration file
+      LogFile ~/.config/clamav/clamd.log
+      LogTime yes
+      LogVerbose no
+      LogRotate yes
+      LocalSocket ~/.config/clamav/clamd.sock
+      FixStaleSocket yes
+      User ${config.home.username}
+      TCPSocket 3310
+      MaxConnectionQueueLength 30
+      MaxThreads 50
+      ReadTimeout 300
+      MaxDirectoryRecursion 20
+      FollowDirectorySymlinks yes
+      FollowFileSymlinks yes
+      SelfCheck 600
+      DetectPUA yes
+      ScanPE yes
+      ScanELF yes
+      ScanOLE2 yes
+      ScanPDF yes
+      ScanHTML yes
+      ScanMail yes
+      ScanArchive yes
+      DatabaseDirectory ~/.config/clamav/db
+    '';
+
+    # Create necessary directories
+    ".config/clamav/db/.keep".text = "";
+    ".config/clamav/log/.keep".text = "";
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -323,6 +385,7 @@
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
       export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
+      export PATH=/usr/local/clamav/bin:/usr/local/clamav/sbin:$PATH
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM

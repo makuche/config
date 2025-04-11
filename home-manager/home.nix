@@ -29,6 +29,7 @@
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
     direnv # Manage envs automatically
+    diff-so-fancy # Use via diff -u file1 fil2 | diff-so-fancy
     eza # Modern ls replacement
     fzf # Fuzzy finder
     lazygit # Terminal UI for git
@@ -367,7 +368,7 @@
       tmd = "tmux detach";
       lg = "lazygit";
       htop = "btop";
-      rebuild = "darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure";
+      rebuild = "darwin-rebuild switch --flake ~/git/config --show-trace --impure";
       cd = "z";
     };
     history = {

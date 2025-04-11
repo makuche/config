@@ -77,6 +77,7 @@
       "launchanim" = false;
       "persistent-apps" = map (app: "/Applications/${app}.app") [
         "Ghostty"
+        "Brave Browser"
       ];
     };
   };

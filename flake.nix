@@ -5,23 +5,19 @@
 {
   description = "System flake configuration file";
 
-  # Dependencies to build the system
   inputs = {
-    # Nix package repo
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Configure user-specific settings and tools
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # macOS specific things
-    nix-homebrew = {url = "github:zhaofengli-wip/nix-homebrew";};
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-homebrew = {url = "github:zhaofengli-wip/nix-homebrew";};
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;

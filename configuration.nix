@@ -52,14 +52,9 @@
   };
   users.users.manuel.home = "/Users/manuel";
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
-
-  nix.configureBuildUsers = true;
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";

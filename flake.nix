@@ -46,7 +46,6 @@
     darwinConfigurations."Manuels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        import
         ./configuration.nix
 
         home-manager.darwinModules.home-manager

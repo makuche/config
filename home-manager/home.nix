@@ -404,7 +404,7 @@
       setopt complete_aliases # enable completion for aliases
       ll() { eza -lahF "$@" }
       setopt INC_APPEND_HISTORY
-      export EDITOR=neovim
+      export EDITOR=nvim
     '';
   };
   programs.tmux = {

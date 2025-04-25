@@ -31,7 +31,9 @@
     direnv # Manage envs automatically
     diff-so-fancy # Use via diff -u file1 fil2 | diff-so-fancy
     eza # Modern ls replacement
+    fd # better find
     fzf # Fuzzy finder
+    gh # GitHub
     lazygit # Terminal UI for git
     mcfly # Intelligent command history
     ripgrep # Ultra-fast grep

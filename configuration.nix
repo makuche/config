@@ -21,6 +21,7 @@
     };
     brews = [
       "argocd"
+      "duckdb"
       "podman"
     ];
 
@@ -28,7 +29,7 @@
       "alfred"
       "brave-browser"
       "dropbox"
-      "firefox" #TODO: Remove, once full migrated to brave
+      # "firefox" #TODO: Remove, once full migrated to brave
       "ghostty"
       "keymapp"
       "mochi"
@@ -37,13 +38,15 @@
       "protonvpn"
       "proton-pass"
       "rectangle"
-      "spotify"
+      # "spotify"
       "stats"
       "tailscale"
       "thunderbird"
-      "utm" #TODO: Remove, once migrated to parallels
       "zwift"
     ];
+    extraConfig = ''
+      cask "spotify", args: { require_sha: false }
+    '';
     masApps = {
       "Goodnotes 6" = 1444383602;
       "Azure VPN Client" = 1553936137;

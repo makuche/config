@@ -23,7 +23,7 @@
     virtualenv # Python environment isolation
 
     # ===== DevOps =====
-    ansible # Configuration management
+    # ansible # Configuration management
     docker # Containerization platform
 
     # ===== CLI Tools =====
@@ -50,6 +50,7 @@
     clamav # Antivirus tool
     dust # Disk usage analyzer
     htop # Process viewer
+    k9s # lazyvim vibes for interacting with cluster
     trufflehog # Monitor for credential leakage
 
     # ===== File Management =====

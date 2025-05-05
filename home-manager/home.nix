@@ -75,6 +75,7 @@
     wget # File downloader
 
     # ===== Documentation & Publishing =====
+    zathura # pdv viewer
     (texlive.combine {
       # LaTeX typesetting
       inherit
@@ -385,27 +386,33 @@
       ignoreSpace = true;
       ignorePatterns = ["rm *" "pkill *" "kill *" "history"];
     };
-    initExtra = ''
+    initContent = ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
+
       export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
       export PATH=/usr/local/clamav/bin:/usr/local/clamav/sbin:$PATH
+
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM
       export MCFLY_DISABLE_WELCOME=true
-      bindkey '^R' mcfly-history-widget
       export MCFLY_KEY_SCHEME=vim
-      setopt EXTENDED_HISTORY
+      bindkey '^R' mcfly-history-widget
+
       setopt HIST_EXPIRE_DUPS_FIRST
       setopt HIST_FIND_NO_DUPS
-      setopt HIST_REDUCE_BLANKS
-      setopt HIST_VERIFY
-      setopt APPEND_HISTORY
-      setopt complete_aliases # enable completion for aliases
-      ll() { eza -lahF "$@" }
       setopt INC_APPEND_HISTORY
+
+      setopt complete_aliases
+
+      function ll() { eza -lahF "$@" }
+
       export EDITOR=nvim
+
+      if ! [ "$TERM_PROGRAM" = tmux ]; then
+       echo 'INFO: tmux not active, consider starting...'
+      fi
     '';
   };
   programs.tmux = {

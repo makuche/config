@@ -26,8 +26,11 @@
     ];
 
     casks = [
+      "anylist"
       "alfred"
       "brave-browser"
+      "calibre"
+      "dbeaver-community"
       "dropbox"
       # "firefox" #TODO: Remove, once full migrated to brave
       "ghostty"
@@ -42,6 +45,7 @@
       "stats"
       "tailscale"
       "thunderbird"
+      "visual-studio-code"
       "zwift"
     ];
     extraConfig = ''

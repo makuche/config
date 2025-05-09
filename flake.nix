@@ -59,7 +59,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.manuel = import ./hosts/vm/home.nix;
+          home-manager.users.smc = import ./hosts/vm/home.nix;
         }
 
         # Homebrew integration

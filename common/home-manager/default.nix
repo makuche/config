@@ -320,7 +320,7 @@ in {
 
   programs.tmux = {
     enable = true;
-    extraConfig = builtins.readFile ../../home-manager/tmux.conf;
+    extraConfig = builtins.readFile ./tmux.conf;
   };
 
   programs.keychain = {

@@ -17,13 +17,15 @@ in {
     go # Go programming language
     hexyl # Hex viewer
     httpie # CLI http client
+    imhex # hex viewer
     jdk17 # Java Development Kit
     maven # Java project management
-    nodejs_23 # JavaScript runtime (required for some LSPs)
+    nodejs_24 # JavaScript runtime (required for some LSPs)
     nixd # Nix Language Server
     python312 # Python interpreter
     python312Packages.pip # Python package manager
     sqlite # Embedded database
+    tracy # profiler
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation

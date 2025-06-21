@@ -63,14 +63,14 @@ nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch 
 
 ### System Management
 Rebuild your system after configuration changes:
+
 ```bash
-darwin-rebuild switch --flake ~/.config/nix-darwin --show-trace --impure
-# Or use the alias
-rebuild
+sudo bash scripts/rebuild.sh
 ```
 
 ### Home Manager (on non-darwin systems)
 In this setup, using home-manager directly is not required. However, on other host systems:
+
 ```bash
 home-manager switch
 home-manager generations
@@ -82,6 +82,7 @@ The gitconfig contains a label for a GPG key used for signing commits. This will
 
 ### Package Management
 Package versions (including Homebrew packages) are frozen by the flake.lock file for reproducibility. To update:
+
 ```bash
 # Update all flake inputs
 nix flake update
@@ -94,9 +95,23 @@ nix flake lock --update-input home-manager
 darwin-rebuild switch --flake ~/.config/nix-darwin --impure
 ```
 
+### Security
+
+Update the virus database via
+
+```bash
+freshclam --config-file=$HOME/.config/clamav/freshclam.conf
+```
+
+Scan folder or directory recursively via
+
+```bash
+clamscan --recursive --infected --database=$HOME/.config/clamav/db PATH-TO-SCAN
+```
 ## Tasks
 
 ### High Priority
+- [ ] install slidev (npm package) declaratively, maybe via bun
 - [ ] fix `--impure` flag requirement in darwin-rebuild
 - [ ] proper symlinks to `~/.config` for better file management
 - [ ] better documentation for the rebuild command

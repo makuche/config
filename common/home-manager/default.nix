@@ -13,25 +13,34 @@ in {
   home.packages = with pkgs; [
     # ===== Development =====
     alejandra # Nix formatter
+    bun # For JavaScript projects
     cargo # Rust package manager
+    docker # Add MacBook-specific packages
     go # Go programming language
     hexyl # Hex viewer
     httpie # CLI http client
+    hyperfine # benchmarking tool, use via hyperfine "COMMAND"
     imhex # hex viewer
     jdk17 # Java Development Kit
+    gh # GitHub CLI
+    k9s # Cluster dashboard
+    kompose # translate docker-compose to manifests
     maven # Java project management
-    nodejs_24 # JavaScript runtime (required for some LSPs)
+    nodejs_24 # JavaScript runtime (for LSPs)
     nixd # Nix Language Server
     python312 # Python interpreter
     python312Packages.pip # Python package manager
     sqlite # Embedded database
     tracy # profiler
+    terraform # infrastructure
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
 
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
+    delta # nicer diff tool
+    dua # Interactive disk usage analyzer, use via `dua i` for interactive use
     direnv # Manage envs automatically
     diff-so-fancy
     eza # Modern ls replacement
@@ -39,19 +48,25 @@ in {
     fzf # Fuzzy finder
     lazygit # Terminal UI for git
     mcfly # Intelligent command history
+    ncspot # spotify cli
     ripgrep # Ultra-fast grep
     ripgrep-all # ripgrep for pdfs etc.
     starship # Customizable shell prompt
     tmux # Terminal multiplexer
     tokei # Code statistics
     tree # Directory structure viewer
+    xh # http tool
+    wiki-tui # wikipedia in text interface
+    yazi # like ranger but with image rendering
     zoxide # Smart directory navigation
 
     # ===== File Management =====
+    ffmpeg # stream audio and video
     p7zip # unzip z7 files
     pdftk # Process PDFs
     ranger # Terminal file manager
     xz # Compression utilities
+    zathura # Document viewers
 
     # ===== Text Processing =====
     jq # JSON processor
@@ -59,6 +74,7 @@ in {
     neovim # Modern Vim fork (with plugins)
 
     # ===== Security =====
+    # clamav # Additional utilities
     keychain # Enables long-running ssh-agent
     gnupg # Encryption toolkit
     git-crypt # Encrypt files in git repo
@@ -145,15 +161,14 @@ in {
       };
     };
   };
-
   programs.lazygit = {
     enable = true;
     settings = {
       customCommands = [
         {
           key = "<c-v>";
-          context = "global";
-          description = "Create new conventional commit";
+          context = "files";
+          description = "Commit using convention";
           prompts = [
             {
               type = "menu";
@@ -161,59 +176,140 @@ in {
               title = "Type of change";
               options = [
                 {
-                  name = "build";
-                  description = "Changes that affect the build system or external dependencies";
-                  value = "build";
-                }
-                {
-                  name = "feat";
-                  description = "A new feature";
+                  name = "[Core] feat";
+                  description = "A new feature for the user";
                   value = "feat";
                 }
                 {
-                  name = "fix";
+                  name = "[Core] fix";
                   description = "A bug fix";
                   value = "fix";
                 }
                 {
-                  name = "chore";
-                  description = "Other changes that don't modify src or test files";
-                  value = "chore";
-                }
-                {
-                  name = "ci";
-                  description = "Changes to CI configuration files and scripts";
-                  value = "ci";
-                }
-                {
-                  name = "docs";
-                  description = "Documentation only changes";
+                  name = "[Core] docs";
+                  description = "Documentation changes";
                   value = "docs";
                 }
                 {
-                  name = "perf";
-                  description = "A code change that improves performance";
-                  value = "perf";
-                }
-                {
-                  name = "refactor";
-                  description = "A code change that neither fixes a bug nor adds a feature";
-                  value = "refactor";
-                }
-                {
-                  name = "revert";
-                  description = "Reverts a previous commit";
-                  value = "revert";
-                }
-                {
-                  name = "style";
-                  description = "Changes that do not affect the meaning of the code";
+                  name = "[Core] style";
+                  description = "Changes that don't affect code meaning (formatting, whitespace)";
                   value = "style";
                 }
                 {
-                  name = "test";
-                  description = "Adding missing tests or correcting existing tests";
+                  name = "[Core] refactor";
+                  description = "Code changes that neither fix a bug nor add a feature";
+                  value = "refactor";
+                }
+                {
+                  name = "[Core] perf";
+                  description = "Performance improvements";
+                  value = "perf";
+                }
+                {
+                  name = "[Core] test";
+                  description = "Adding or correcting tests";
                   value = "test";
+                }
+                {
+                  name = "[Core] build";
+                  description = "Changes affecting build system or dependencies";
+                  value = "build";
+                }
+                {
+                  name = "[Core] chore";
+                  description = "Routine maintenance tasks, dependency updates, configs";
+                  value = "chore";
+                }
+                # Content
+                {
+                  name = "[Content] content";
+                  description = "Changes to website or app content, copy, or text";
+                  value = "content";
+                }
+                # Knowledge Management
+                {
+                  name = "[Doc] note";
+                  description = "Personal notes or documentation";
+                  value = "note";
+                }
+                {
+                  name = "[Doc] wiki";
+                  description = "Wiki page or knowledge base changes";
+                  value = "wiki";
+                }
+                # Data & Schema
+                {
+                  name = "[Data] data";
+                  description = "Dataset or data asset updates";
+                  value = "data";
+                }
+                {
+                  name = "[Data] schema";
+                  description = "Data structure or schema changes";
+                  value = "schema";
+                }
+                # Design & UI
+                {
+                  name = "[UI] design";
+                  description = "Design or UX changes";
+                  value = "design";
+                }
+                {
+                  name = "[UI] ui";
+                  description = "User interface component changes";
+                  value = "ui";
+                }
+                # Infrastructure & Configuration
+                {
+                  name = "[Infra] config";
+                  description = "Configuration file changes";
+                  value = "config";
+                }
+                {
+                  name = "[Infra] env";
+                  description = "Environment settings and variables";
+                  value = "env";
+                }
+                {
+                  name = "[Infra] deploy";
+                  description = "Deployment scripts or configurations";
+                  value = "deploy";
+                }
+                {
+                  name = "[Infra] infra";
+                  description = "Infrastructure changes";
+                  value = "infra";
+                }
+                {
+                  name = "[Infra] script";
+                  description = "Utility or automation scripts";
+                  value = "script";
+                }
+                {
+                  name = "[Infra] ci";
+                  description = "Changes to CI configuration files and scripts";
+                  value = "ci";
+                }
+                # Version Control & Releases
+                {
+                  name = "[Version Control] sync";
+                  description = "Synchronization with upstream or branches";
+                  value = "sync";
+                }
+                {
+                  name = "[Version Control] patch";
+                  description = "Small updates to existing features";
+                  value = "patch";
+                }
+                {
+                  name = "[Version Control] release";
+                  description = "Release preparation";
+                  value = "release";
+                }
+                {
+                  name = "[Version Control] revert";
+                  description = "Reverts a previous commit";
+                  value = "revert";
                 }
               ];
             }
@@ -312,7 +408,7 @@ in {
       setopt complete_aliases # enable completion for aliases
       ll() { eza -lahF "$@" }
       setopt INC_APPEND_HISTORY
-      export EDITOR=neovim
+      export EDITOR=nvim
 
       # Source zsh plugins installed through Homebrew
       source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

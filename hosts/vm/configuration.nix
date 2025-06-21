@@ -6,6 +6,8 @@
   # common config
   imports = [../../common/darwin];
 
+  system.primaryUser = "smc";
+
   # VM-specific config
   users.users.smc.home = "/Users/smc";
 

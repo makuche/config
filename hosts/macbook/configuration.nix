@@ -6,13 +6,14 @@
   # common config
   imports = [../../common/darwin];
 
+  system.primaryUser = "manuel";
+
   # MacBook-specific configuration
   users.users.manuel.home = "/Users/manuel";
 
   # MacBook-specific Homebrew packages
   homebrew = {
     brews = [
-      "argocd"
       "duckdb"
       "podman"
     ];
@@ -22,10 +23,14 @@
       "alfred"
       "brave-browser"
       "calibre"
+      "claude"
       "dbeaver-community"
+      "drawio"
       "dropbox"
       "ghostty"
+      "karabiner-elements"
       "keymapp"
+      "macdown"
       "mochi"
       "obsidian"
       "parallels"
@@ -36,6 +41,7 @@
       "tailscale"
       "thunderbird"
       "visual-studio-code"
+      "vlc"
       "zwift"
     ];
 
@@ -44,7 +50,6 @@
     '';
 
     masApps = {
-      "Goodnotes 6" = 1444383602;
       "Azure VPN Client" = 1553936137;
       "BrightIntosh" = 6452471855;
     };

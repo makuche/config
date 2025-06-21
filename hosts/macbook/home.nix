@@ -115,6 +115,7 @@
     htop = "btop";
     rebuild = "darwin-rebuild switch --flake ~/.config#Manuels-MacBook-Pro --show-trace --impure";
     cd = "z";
+    claude = "/Users/manuel/.claude/local/claude";
   };
 
   # MacBook-specific initialization
@@ -124,5 +125,8 @@
     if ! [ "$TERM_PROGRAM" = tmux ]; then
       echo 'INFO: tmux not active, consider starting...'
     fi
+
+    source ~/.api
+
   '';
 }

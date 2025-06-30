@@ -78,4 +78,6 @@ vim.filetype.add {
   },
 }
 
+vim.opt.relativenumber = true
+
 vim.opt.termguicolors = true

@@ -15,7 +15,9 @@ in {
     alejandra # Nix formatter
     bun # For JavaScript projects
     cargo # Rust package manager
+    colima
     docker # Add MacBook-specific packages
+    docker-compose
     go # Go programming language
     hexyl # Hex viewer
     httpie # CLI http client
@@ -47,6 +49,7 @@ in {
     fd # find alternative
     fzf # Fuzzy finder
     lazygit # Terminal UI for git
+    lazydocker
     mcfly # Intelligent command history
     ncspot # spotify cli
     ripgrep # Ultra-fast grep

@@ -52,6 +52,7 @@
     masApps = {
       "Azure VPN Client" = 1553936137;
       "BrightIntosh" = 6452471855;
+      "Hidden Bar" = 1452453066;
     };
   };
 

@@ -6,6 +6,19 @@
 }: let
   homeDirectory = config.home.homeDirectory;
   secretsDir = "${homeDirectory}/.config/git-secrets";
+  gh-dash = pkgs.buildGoModule rec {
+    pname = "gh-dash";
+    version = "4.7.3";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "dlvhdr";
+      repo = "gh-dash";
+      rev = "v${version}";
+      hash = "sha256-QDqGsVgY3Je1VgQVobDhNkVjrCyvMNEdghXc0ny+yyo=";
+    };
+
+    vendorHash = "sha256-lqmz+6Cr9U5IBoJ5OeSN6HKY/nKSAmszfvifzbxG7NE=";
+  };
 in {
   home.stateVersion = "24.05";
 
@@ -89,6 +102,11 @@ in {
     nmap # Network exploration
     wget # File downloader
   ];
+
+  home.file.".local/share/gh/extensions/gh-dash/gh-dash" = {
+    source = "${gh-dash}/bin/gh-dash";
+    executable = true;
+  };
 
   # common program configurations
   programs.direnv = {

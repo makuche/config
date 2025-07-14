@@ -1,0 +1,6 @@
+[user]
+  name = Manuel Kuchelmeister
+  email = makuche-github@pm.me
+[signing]
+  key = D5E39A037F4AAE1C
+  signByDefault = true

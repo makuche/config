@@ -177,7 +177,7 @@ in {
       include = {
         path = "${secretsDir}/gitconfig.default";
       };
-      # Every subfolder under dap/ will get overwritten git config params
+      # If the folder git/dap exists, git config in every subfolder under dap/ will get overwritten with gitconfig.dap
       "includeIf \"gitdir:~/git/dap/\"" = {
         path = "${secretsDir}/gitconfig.dap";
       };

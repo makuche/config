@@ -37,8 +37,11 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
+    nikitabobko-tap = {
+      url = "github:nikitabobko/homebrew-tap";
+      flake = false;
+    };
   };
-  # Output/State that will be created
   outputs = inputs @ {
     self,
     nix-darwin,
@@ -46,9 +49,10 @@
     nix-homebrew,
     homebrew-core,
     homebrew-cask,
+    nikitabobko-tap,
     ...
   }: {
-    # VM configuration
+    # macOS VM
     darwinConfigurations."MKs-Virtual-Machine" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
@@ -79,7 +83,7 @@
       ];
     };
 
-    # MacBook configuration
+    # macOS host machine
     darwinConfigurations."Manuels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
@@ -103,6 +107,7 @@
             taps = {
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
+              "nikitabobko/homebrew-tap" = nikitabobko-tap;
             };
             mutableTaps = false;
           };

@@ -13,24 +13,29 @@
 
   # MacBook-specific Homebrew packages
   homebrew = {
+    taps = ["nikitabobko/tap"];
     brews = [
       "duckdb"
-      "podman"
+      "helm"
+      "git-crypt"
+      "trivy"
     ];
 
     casks = [
       "anylist"
-      "alfred"
+      "raycast"
       "brave-browser"
       "calibre"
       "claude"
       "dbeaver-community"
+      "docker-desktop"
       "drawio"
       "dropbox"
       "ghostty"
       "karabiner-elements"
       "keymapp"
       "macdown"
+      "nikitabobko/tap/aerospace"
       "mochi"
       "obsidian"
       "parallels"
@@ -52,14 +57,14 @@
     masApps = {
       "Azure VPN Client" = 1553936137;
       "BrightIntosh" = 6452471855;
-      "Hidden Bar" = 1452453066;
+      "Desk Remote Control" = 1509037746;
     };
   };
 
   # MacBook-specific system defaults
   system.defaults = {
     NSGlobalDomain = {
-      "_HIHideMenuBar" = true;
+      "_HIHideMenuBar" = false;
     };
     dock = {
       "autohide" = true;

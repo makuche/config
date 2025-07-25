@@ -35,6 +35,7 @@
       "com.apple.swipescrolldirection" = false;
       "InitialKeyRepeat" = 10;
       "KeyRepeat" = 1;
+      "NSAutomaticWindowAnimationsEnabled" = false; # disable animations
     };
     dock = {
       "launchanim" = false;

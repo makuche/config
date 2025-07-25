@@ -396,6 +396,10 @@ in {
     autocd = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    initExtraBeforeCompInit = ''
+      # Skip the security check for compinit
+      ZSH_DISABLE_COMPFIX=true
+    '';
 
     # Common shell history settings
     history = {

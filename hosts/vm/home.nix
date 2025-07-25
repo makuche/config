@@ -10,11 +10,9 @@
   home.packages = with pkgs; [
     # DevOps tools
     ansible # Configuration management
-    docker # Containerization platform
 
     # Monitoring tools
     asitop # Apple Silicon resource monitor
-    btop # Resource monitor
     dust # Disk usage analyzer
     htop # Process viewer
 
@@ -34,21 +32,6 @@
         ;
     })
   ];
-
-  # VM-specific shell aliases
-  programs.zsh.shellAliases = {
-    ls = "eza";
-    ll = "eza -lahF";
-    vim = "nvim";
-    note = "cd ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes && nvim .";
-    tm = "tmux";
-    tma = "tmux attach";
-    tmd = "tmux detach";
-    lg = "lazygit";
-    htop = "btop";
-    rebuild = "darwin-rebuild switch --flake ~/.config#MKs-Virtual-Machine --show-trace --impure";
-    cd = "z";
-  };
 
   # VM-specific environment variables
   programs.zsh.initContent = ''

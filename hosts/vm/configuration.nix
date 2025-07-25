@@ -21,7 +21,6 @@
     ];
 
     casks = [
-      "alfred"
       "brave-browser"
       "dbeaver-community"
       "ghostty"

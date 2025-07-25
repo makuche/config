@@ -21,7 +21,6 @@
     zathura
 
     # Add MacBook-specific packages
-    docker # Containerization platform
 
     # Documentation & Publishing
     (texlive.combine {
@@ -99,23 +98,6 @@
     # Create necessary directories
     ".config/clamav/db/.keep".text = "";
     ".config/clamav/log/.keep".text = "";
-  };
-
-  # MacBook-specific shell aliases
-  programs.zsh.shellAliases = {
-    ls = "eza";
-    ll = "eza -lahF";
-    vim = "nvim";
-    note = "cd ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes && nvim .";
-    todo = "nvim ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes/todo.md";
-    tm = "tmux";
-    tma = "tmux attach";
-    tmd = "tmux detach";
-    lg = "lazygit";
-    htop = "btop";
-    rebuild = "darwin-rebuild switch --flake ~/.config#Manuels-MacBook-Pro --show-trace --impure";
-    cd = "z";
-    claude = "/Users/manuel/.claude/local/claude";
   };
 
   # MacBook-specific initialization

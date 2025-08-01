@@ -17,6 +17,7 @@
     brews = [
       "duckdb"
       "helm"
+      "geeqie"
       "git-crypt"
       "trivy"
     ];
@@ -28,10 +29,12 @@
       "calibre"
       "claude"
       "dbeaver-community"
+      "digikam"
       "docker-desktop"
       "drawio"
       "dropbox"
       "ghostty"
+      "lunar"
       "karabiner-elements"
       "keymapp"
       "macdown"

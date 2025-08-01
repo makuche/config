@@ -28,9 +28,6 @@ in {
     alejandra # Nix formatter
     bun # For JavaScript projects
     cargo # Rust package manager
-    colima
-    docker # Add MacBook-specific packages
-    docker-compose
     go # Go programming language
     hexyl # Hex viewer
     httpie # CLI http client
@@ -106,6 +103,14 @@ in {
   home.file.".local/share/gh/extensions/gh-dash/gh-dash" = {
     source = "${gh-dash}/bin/gh-dash";
     executable = true;
+  };
+
+  home.file."${homeDirectory}/.config/aerospace.toml" = {
+    source = "${homeDirectory}/git/config/assets/aerospace.toml";
+  };
+
+  home.file."${homeDirectory}/.config/tmux/tmux.conf" = {
+    source = "${homeDirectory}/git/config/assets/tmux.conf";
   };
 
   # common program configurations
@@ -443,11 +448,23 @@ in {
       setopt INC_APPEND_HISTORY
       export EDITOR=nvim
     '';
-  };
 
-  programs.tmux = {
-    enable = true;
-    extraConfig = builtins.readFile ./tmux.conf;
+    shellAliases = {
+      ls = "eza";
+      l = "eza -lahF";
+      vim = "nvim";
+      nvim-dev = "'NVIM_APPNAME=nvim-dev nvim'";
+      note = "cd ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes && nvim . && cd -";
+      todo = "nvim ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes/todo.md";
+      lg = "lazygit";
+      htop = "btop";
+      ports = "lsof -iTCP -sTCP:LISTEN -n -P";
+      rebuild = "darwin-rebuild switch --flake ~/.config#MKs-Virtual-Machine --show-trace --impure";
+      cd = "z";
+      claude = "/Users/manuel/.claude/local/claude";
+      y = "yazi";
+      g = "lazygit";
+    };
   };
 
   programs.keychain = {

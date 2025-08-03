@@ -26,6 +26,7 @@ in {
   home.packages = with pkgs; [
     # ===== Development =====
     alejandra # Nix formatter
+    btop # Resource manager
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
@@ -107,6 +108,10 @@ in {
 
   home.file."${homeDirectory}/.config/aerospace.toml" = {
     source = "${homeDirectory}/git/config/assets/aerospace.toml";
+  };
+
+  home.file."${homeDirectory}/.config/btop/btop.conf" = {
+    source = "${homeDirectory}/git/config/assets/btop.conf";
   };
 
   home.file."${homeDirectory}/.config/tmux/tmux.conf" = {

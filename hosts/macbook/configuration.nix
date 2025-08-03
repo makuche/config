@@ -46,7 +46,6 @@
       "proton-pass"
       "rectangle"
       "stats"
-      "tailscale"
       "thunderbird"
       "visual-studio-code"
       "vlc"

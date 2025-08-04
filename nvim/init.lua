@@ -1,6 +1,6 @@
 require 'options'
 require 'keymaps'
-require 'plugin-manager'
+require 'plugin-manager' -- bootstraps lazy.nvim, the package manager
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -22,35 +22,46 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
 vim.remove_trailing_whitespace = true -- add variable to control this behavior
 
 local plugins = {
+  -- Fuzzy finding
   require 'plugins.telescope', -- fuzzy find everything
-  -- Colorize
+
+  -- Colorization and theming
   require 'plugins.color-scheme',
   require 'plugins.colorizer',
   require 'plugins.todo-highlight',
 
-  -- LSP and tree-sitter
+  -- LSP, tree-sitter, autocompletion
   require 'plugins.nvim-lspconfig',
   require 'plugins.treesitter',
   require 'plugins.lsp-lens', -- displays reference and definition info
-
-  -- require 'plugins.vim-sleuth',  -- automatic tabs TODO: Check if required, and if, adapt
-  require 'plugins.gitsigns',
-  -- require 'plugins.avante', -- Cursor (IDE) like functionalities
-  require 'plugins.which-key', -- previews key-bindings
+  require 'plugins.lsp-usage-lens',
   require 'plugins.autocompletion',
   require 'plugins.autoformat',
+
+  -- AI assistance
+  require 'plugins.copilot',
+  require 'plugins.avante',
+  require 'plugins.claudecode',
+  -- require 'plugins.llama', #NOTE: Use this when self-hosting
+
+  -- Version control
+  require 'plugins.gitsigns',
+
+  -- UI and navigation
+  require 'plugins.which-key', -- previews key-bindings
+  require 'plugins.oil',
+  -- require 'plugins.neo-tree',
+
+  -- Code editing enhancements
   require 'plugins.mini',
   require 'plugins.comment',
-  require 'plugins.debug',
-  -- require 'plugins.indent_line',
   require 'plugins.autopairs',
-  -- require 'plugins.neo-tree',
   require 'plugins.auto-indent',
-  require 'plugins.lsp-usage-lens',
-  require 'plugins.oil',
+  -- require 'plugins.indent_line',
+  -- require 'plugins.vim-sleuth',  -- automatic tabs TODO: Check if required, and if, adapt
 
-  -- require 'plugins.llama', #NOTE: Use this when self-hosting
-  require 'plugins.avante',
+  -- Debugging
+  require 'plugins.debug',
 }
 local opts = {
 

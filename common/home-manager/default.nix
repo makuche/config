@@ -429,6 +429,7 @@ in {
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
       export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
+      export PATH="${config.home.homeDirectory}/.claude/local:$PATH"  # Add this line
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM

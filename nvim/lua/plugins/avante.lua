@@ -1,10 +1,15 @@
 return {
   'yetone/avante.nvim',
+  -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  -- ⚠️ must add this setting! ! !
+  build = vim.fn.has 'win32' ~= 0 and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false' or 'make',
   event = 'VeryLazy',
   version = false, -- Never set this value to "*"! Never!
   ---@module 'avante'
   ---@type avante.Config
   opts = {
+    -- add any opts here
+    -- for example
     provider = 'claude',
     providers = {
       claude = {
@@ -16,6 +21,15 @@ return {
           max_tokens = 20480,
         },
       },
+      -- moonshot = {
+      --   endpoint = 'https://api.moonshot.ai/v1',
+      --   model = 'kimi-k2-0711-preview',
+      --   timeout = 30000, -- Timeout in milliseconds
+      --   extra_request_body = {
+      --     temperature = 0.75,
+      --     max_tokens = 32768,
+      --   },
+      -- },
     },
   },
   dependencies = {

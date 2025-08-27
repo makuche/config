@@ -19,6 +19,7 @@
       "helm"
       "geeqie"
       "git-crypt"
+      "tailscale"
       "trivy"
     ];
 
@@ -45,11 +46,11 @@
       "protonvpn"
       "proton-pass"
       "rectangle"
+      "snagit"
       "stats"
       "thunderbird"
       "visual-studio-code"
       "vlc"
-      "zwift"
     ];
 
     extraConfig = ''

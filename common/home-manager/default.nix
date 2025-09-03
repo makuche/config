@@ -425,11 +425,12 @@ in {
     };
 
     # Common initialization
+    #TODO: merge the initContent and shellAliases
     initContent = ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
       export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
-      export PATH="${config.home.homeDirectory}/.claude/local:$PATH"  # Add this line
+      export PATH="${config.home.homeDirectory}/.claude/local:$PATH"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM
@@ -470,6 +471,43 @@ in {
       claude = "/Users/manuel/.claude/local/claude";
       y = "yazi";
       g = "lazygit";
+    };
+  };
+
+  programs.k9s = {
+    settings = {
+      k9s = {
+        ui = {
+          crumbsless = true;
+          enableMouse = false;
+          headless = true;
+          logoless = true;
+          noIcons = false;
+        };
+        maxConnRetry = 5;
+        noExitOnCtrlC = true;
+        readOnly = false;
+        refreshRate = 2; # default 2sec
+        skipLatestRevCheck = false;
+        logger = {
+          buffer = 5000;
+          fullScreenLogs = false;
+          showTime = false;
+          sinceSeconds = 60;
+          tail = 100;
+          textWrap = false;
+        };
+        thresholds = {
+          cpu = {
+            critical = 90;
+            warn = 75;
+          };
+          memory = {
+            critical = 90;
+            warn = 75;
+          };
+        };
+      };
     };
   };
 

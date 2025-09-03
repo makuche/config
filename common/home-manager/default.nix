@@ -30,6 +30,8 @@ in {
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
+    lua
+    luarocks
     hexyl # Hex viewer
     httpie # CLI http client
     hyperfine # benchmarking tool, use via hyperfine "COMMAND"

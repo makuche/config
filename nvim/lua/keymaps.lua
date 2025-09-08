@@ -1,3 +1,5 @@
+-- NOTE: CTRL [h|l|j|k] is managed via tmux
+
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Linter, Formatter, Diagnostic
@@ -12,18 +14,12 @@ vim.keymap.set('n', '<leader>zig', '<cmd>LspRestart<cr>')
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
---  See `:help wincmd` for a list of all window commands
--- TODO: for now that should be managed via tmux
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- Open filetree
 vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 
 -- this requires tmux-sessionizer located under /usr/local/bin/tmux-sessionizer
-vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
+-- TODO: Same is used within tmux, check whether to use it only within tmux
+vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww $HOME/.local/bin/tmux-sessionizer<CR>')
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")

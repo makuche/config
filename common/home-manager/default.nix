@@ -82,6 +82,7 @@ in {
     p7zip # unzip z7 files
     pdftk # Process PDFs
     ranger # Terminal file manager
+    rclone # cloud file sync
     xz # Compression utilities
     zathura # Document viewers
 

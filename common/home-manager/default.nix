@@ -45,6 +45,7 @@ in {
     nixd # Nix Language Server
     python312 # Python interpreter
     python312Packages.pip # Python package manager
+    python312Packages.ipython # Better interpreter
     sqlite # Embedded database
     tracy # profiler
     terraform # infrastructure
@@ -84,7 +85,6 @@ in {
     ranger # Terminal file manager
     rclone # cloud file sync
     xz # Compression utilities
-    zathura # Document viewers
 
     # ===== Text Processing =====
     jq # JSON processor
@@ -109,17 +109,9 @@ in {
     executable = true;
   };
 
-  home.file."${homeDirectory}/.config/aerospace.toml" = {
-    source = "${homeDirectory}/git/config/assets/aerospace.toml";
-  };
-
-  home.file."${homeDirectory}/.config/btop/btop.conf" = {
-    source = "${homeDirectory}/git/config/assets/btop.conf";
-  };
-
-  home.file."${homeDirectory}/.config/tmux/tmux.conf" = {
-    source = "${homeDirectory}/git/config/assets/tmux.conf";
-  };
+  home.file.".config/aerospace.toml".source = ../../assets/aerospace.toml;
+  home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
+  home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
 
   # common program configurations
   programs.direnv = {

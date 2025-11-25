@@ -34,6 +34,7 @@
       "docker-desktop"
       "drawio"
       "dropbox"
+      "gimp"
       "ghostty"
       "lunar"
       "karabiner-elements"
@@ -51,14 +52,15 @@
       "thunderbird"
       "visual-studio-code"
       "vlc"
+      "zwift"
     ];
 
     extraConfig = ''
       cask "spotify", args: { require_sha: false }
+      cask "zwift", args: { require_sha: false }
     '';
 
     masApps = {
-      "Azure VPN Client" = 1553936137;
       "BrightIntosh" = 6452471855;
       "Desk Remote Control" = 1509037746;
     };

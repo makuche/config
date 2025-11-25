@@ -43,7 +43,6 @@
         "Ghostty"
         "Google Chrome"
         "Brave Browser"
-        "Azure VPN Client"
       ];
     };
   };

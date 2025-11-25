@@ -11,16 +11,8 @@
     # GitHub CLI
     gh
 
-    # DevOps/Kubernetes tools
-    k9s
-
     # Additional utilities
     clamav
-
-    # Document viewers
-    zathura
-
-    # Add MacBook-specific packages
 
     # Documentation & Publishing
     (texlive.combine {

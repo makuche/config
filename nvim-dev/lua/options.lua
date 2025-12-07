@@ -13,3 +13,14 @@ vim.opt.inccommand = "split" -- shows all changes of substitute command
 vim.opt.ignorecase = true -- autocomplete of builtin commands
 vim.opt.termguicolors = true
 
+-- diagnostics
+vim.diagnostic.config(
+    {
+        virtual_lines=true
+    })
+vim.keymap.set('n', '<leader>td', function()
+    local enabled = vim.diagnostic.is_enabled()
+    print("toggling diagnostics")
+    vim.diagnostic.enable(not enabled)
+end, { desc = '[T]oggle [D]iagnostics' })
+local test = 1

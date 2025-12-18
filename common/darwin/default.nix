@@ -20,6 +20,12 @@
 
   nix.settings.experimental-features = "nix-command flakes";
   nix.enable = true;
+  nix.gc = {
+    automatic = true;
+    interval = { Weekday = 0; Hour = 0; Minute = 0; };
+    options = "--delete-older-than 7d";
+  };
+
 
   system.stateVersion = 5;
 

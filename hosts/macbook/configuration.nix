@@ -16,10 +16,10 @@
     taps = ["nikitabobko/tap"];
     brews = [
       "duckdb"
+      "dotnet"
       "helm"
       "geeqie"
       "git-crypt"
-      "tailscale"
       "trivy"
     ];
 
@@ -49,6 +49,8 @@
       "rectangle"
       "snagit"
       "stats"
+      "signal"
+      "tailscale-app"
       "thunderbird"
       "visual-studio-code"
       "vlc"
@@ -63,6 +65,7 @@
     masApps = {
       "BrightIntosh" = 6452471855;
       "Desk Remote Control" = 1509037746;
+      "Amphetamine" = 937984704;
     };
   };
 

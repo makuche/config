@@ -4,8 +4,6 @@
   lib,
   ...
 }: let
-  homeDirectory = config.home.homeDirectory;
-  secretsDir = "${homeDirectory}/.config/git-secrets";
   gh-dash = pkgs.buildGoModule rec {
     pname = "gh-dash";
     version = "4.7.3";
@@ -39,6 +37,7 @@ in {
     jdk17 # Java Development Kit
     gh # GitHub CLI
     k9s # Cluster dashboard
+    lua-language-server
     kompose # translate docker-compose to manifests
     maven # Java project management
     nodejs_24 # JavaScript runtime (for LSPs)
@@ -52,6 +51,7 @@ in {
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
+    vimPlugins.nvim-treesitter-parsers.llvm
 
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
@@ -122,7 +122,7 @@ in {
 
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       column = {
         ui = "auto";
       };
@@ -179,12 +179,45 @@ in {
       };
       pull = {
       };
+      pager = {
+        diff = "delta";
+        log = "delta";
+        reflog = "delta";
+        show = "delta";
+      };
+      interactive = {
+        diffFilter = "delta --color-only --features=interactive";
+      };
+      delta = {
+        line-numbers = true;
+        side-by-side = true;
+        navigate = true;
+        light = false;
+      };
+      alias = {
+        # Delta diffs
+        d = "diff";
+        ds = "diff --staged";
+        dc = "diff --cached";
+        dh = "diff HEAD";
+
+        # Branch/commit comparisons
+        compare = "diff";
+
+        # File history with diffs
+        file-history = "log --follow -p --";
+
+        # Useful shortcuts
+        tree = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        files = "diff --name-only";
+        stat = "diff --stat";
+      };
       include = {
-        path = "${secretsDir}/gitconfig.default";
+        path = "~/.config/git-secrets/gitconfig.default";
       };
       # If the folder git/dap exists, git config in every subfolder under dap/ will get overwritten with gitconfig.dap
       "includeIf \"gitdir:~/git/dap/\"" = {
-        path = "${secretsDir}/gitconfig.dap";
+        path = "~/.config/git-secrets/gitconfig.dap";
       };
     };
   };
@@ -461,7 +494,7 @@ in {
       lg = "lazygit";
       htop = "btop";
       ports = "lsof -iTCP -sTCP:LISTEN -n -P";
-      rebuild = "darwin-rebuild switch --flake ~/.config#MKs-Virtual-Machine --show-trace --impure";
+      rebuild = "sudo darwin-rebuild switch --flake .";
       cd = "z";
       claude = "/Users/manuel/.claude/local/claude";
       y = "yazi";

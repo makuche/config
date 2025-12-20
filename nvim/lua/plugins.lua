@@ -176,6 +176,13 @@ require("lazy").setup({
         opts = {},
         dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     },
+    {
+        "windwp/nvim-autopairs",
+        opts = {
+            disable_filetype = { "TelescopePrompt" , "vim" },
+        }
+    },
+
 
 })
 local colors = vim.fn.getcompletion('', 'color')

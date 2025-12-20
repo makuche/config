@@ -35,12 +35,12 @@ automatically-unhide-macos-hidden-apps = true
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 #TODO: Set this in dependence of 1) main external monitor, 2) macbook screen, or 3) glasses
 [gaps]
-    inner.horizontal = [{ monitor.main = 6 }, 6]
-    inner.vertical =   [{ monitor.main = 6 }, 6]
-    outer.left =       [{ monitor.main = 256 }, 256] # 24 without AR, 256 with AR
-    outer.bottom =     [{ monitor.main = 96 }, 96]  # 24 without AR, 256 with AR
-    outer.top =        [{ monitor.main = 96 }, 96] # 24 without AR, 96
-    outer.right =      [{ monitor.main = 256 }, 256]
+    inner.horizontal = 6
+    inner.vertical =   6
+    outer.left =       [{ monitor.'built-in' = 24 }, 256]
+    outer.bottom =     [{ monitor.'built-in' = 24 }, 96]
+    outer.top =        [{ monitor.'built-in' = 24 }, 96]
+    outer.right =      [{ monitor.'built-in' = 24 }, 256]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -189,3 +189,16 @@ automatically-unhide-macos-hidden-apps = true
     down = 'volume down'
     up = 'volume up'
     shift-down = ['volume set 0', 'mode main']
+
+[[on-window-detected]]
+    if.app-id = 'com.brave.Browser'
+    run = 'move-node-to-workspace 1'
+[[on-window-detected]]
+    if.app-id = 'md.obsidian'
+    run = 'move-node-to-workspace 2'
+[[on-window-detected]]
+    if.app-id = 'com.mitchellh.ghostty'
+    run = 'move-node-to-workspace 3'
+[[on-window-detected]]
+    if.app-id = 'com.spotify.client'
+    run = 'move-node-to-workspace 5'

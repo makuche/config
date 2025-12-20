@@ -109,7 +109,7 @@ in {
     executable = true;
   };
 
-  home.file.".config/aerospace.toml".source = ../../assets/aerospace.toml;
+  home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
 

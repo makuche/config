@@ -4,6 +4,7 @@
   lib,
   ...
 }: let
+  tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   gh-dash = pkgs.buildGoModule rec {
     pname = "gh-dash";
     version = "4.7.3";
@@ -102,6 +103,10 @@ in {
     arp-scan # ARP packet scanner
     nmap # Network exploration
     wget # File downloader
+
+    # Custom Scripts
+    tmux-sessionizer
+
   ];
 
   home.file.".local/share/gh/extensions/gh-dash/gh-dash" = {

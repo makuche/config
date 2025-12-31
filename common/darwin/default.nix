@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   # common system config
   environment.systemPackages = with pkgs; [
+    # TODO: install via xcode-select
+    # check:
+    # https://github.com/dustinlyons/nixos-config?tab=readme-ov-file#for-macos-november-2025
     git # for bootstrapping the system
   ];
 
@@ -46,9 +49,13 @@
     dock = {
       "launchanim" = false;
     };
+    # disable animation system-wide
+    universalaccess.reduceMotion = true;
   };
 
   fonts.packages = with pkgs; [
     nerd-fonts.mononoki
   ];
+  # Enable Touch ID for sudo
+  security.pam.services.sudo_local.touchIdAuth = true;
 }

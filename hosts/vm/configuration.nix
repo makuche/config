@@ -28,7 +28,6 @@
       "libreoffice"
       "microsoft-excel"
       "proton-pass"
-      "rectangle"
     ];
   };
 

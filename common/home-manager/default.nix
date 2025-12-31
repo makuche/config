@@ -31,7 +31,6 @@ in {
     go # Go programming language
     lua
     luarocks
-    hexyl # Hex viewer
     httpie # CLI http client
     hyperfine # benchmarking tool, use via hyperfine "COMMAND"
     imhex # hex viewer
@@ -43,6 +42,7 @@ in {
     maven # Java project management
     nodejs_24 # JavaScript runtime (for LSPs)
     nixd # Nix Language Server
+    nushell # nice for formatted outputs
     python312 # Python interpreter
     python312Packages.pip # Python package manager
     python312Packages.ipython # Better interpreter
@@ -53,7 +53,7 @@ in {
     uv # Python package manager
     virtualenv # Python environment isolation
     vimPlugins.nvim-treesitter-parsers.llvm
-
+    
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
     delta # nicer diff tool
@@ -65,9 +65,9 @@ in {
     fd # find alternative
     fzf # Fuzzy finder
     lazygit # Terminal UI for git
-    lazydocker
+    # lazydocker
     mcfly # Intelligent command history
-    ncspot # spotify cli
+    mpv
     ripgrep # Ultra-fast grep
     ripgrep-all # ripgrep for pdfs etc.
     starship # Customizable shell prompt
@@ -80,12 +80,12 @@ in {
     zoxide # Smart directory navigation
 
     # ===== File Management =====
-    ffmpeg # stream audio and video
-    p7zip # unzip z7 files
-    pdftk # Process PDFs
-    ranger # Terminal file manager
-    rclone # cloud file sync
-    xz # Compression utilities
+    # ffmpeg # stream audio and video
+    # p7zip # unzip z7 files
+    # pdftk # Process PDFs
+    # ranger # Terminal file manager
+    # rclone # cloud file sync
+    # xz # Compression utilities
 
     # ===== Text Processing =====
     jq # JSON processor
@@ -494,20 +494,21 @@ in {
       l = "eza -lahF";
       vim = "nvim";
       nvim-dev = "'NVIM_APPNAME=nvim-dev nvim'";
-      note = "cd ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes && nvim . && cd -";
-      todo = "nvim ${config.home.homeDirectory}/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents/Notes/todo.md";
       lg = "lazygit";
       htop = "btop";
       ports = "lsof -iTCP -sTCP:LISTEN -n -P";
-      rebuild = "sudo darwin-rebuild switch --flake .";
       cd = "z";
-      claude = "/Users/manuel/.claude/local/claude";
       y = "yazi";
-      g = "lazygit";
+      claude = "/Users/manuel/.claude/local/claude";
+      chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
+      music = "open -na 'Brave Browser' --args --app='https://open.spotify.com'";
+      mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
+      draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
     };
   };
 
   programs.k9s = {
+  enable = true;
     settings = {
       k9s = {
         ui = {

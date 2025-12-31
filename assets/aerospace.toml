@@ -37,7 +37,7 @@ automatically-unhide-macos-hidden-apps = true
 [gaps]
     inner.horizontal = 6
     inner.vertical =   6
-    outer.left =       [{ monitor.'built-in' = 24 }, 256]
+    outer.left =       [{ monitor.'built-in' = 24 }, 256] #TODO: check this with the AR glasses
     outer.bottom =     [{ monitor.'built-in' = 24 }, 96]
     outer.top =        [{ monitor.'built-in' = 24 }, 96]
     outer.right =      [{ monitor.'built-in' = 24 }, 256]
@@ -202,3 +202,6 @@ automatically-unhide-macos-hidden-apps = true
 [[on-window-detected]]
     if.app-id = 'com.spotify.client'
     run = 'move-node-to-workspace 5'
+[[on-window-detected]]
+    if.app-id = 'com.apple.iCal' # calendar
+    run = 'move-node-to-workspace 2'

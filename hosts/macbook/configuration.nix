@@ -15,7 +15,7 @@
   homebrew = {
     taps = ["nikitabobko/tap"];
     brews = [
-      "duckdb"
+      # "duckdb"
       "dotnet"
       "helm"
       "geeqie"
@@ -24,48 +24,33 @@
     ];
 
     casks = [
-      "anylist"
       "raycast"
+      "rawtherapee"
       "brave-browser"
       "calibre"
       "claude"
       "dbeaver-community"
-      "digikam"
       "docker-desktop"
-      "drawio"
-      "dropbox"
-      "gimp"
+      "flameshot"
+      # "gimp"
       "ghostty"
-      "lunar"
-      "karabiner-elements"
-      "keymapp"
-      "macdown"
+      # TODO: use the nix-darwin settings: 
+      # https://nix-darwin.github.io/nix-darwin/manual/#opt-services.aerospace.enable
       "nikitabobko/tap/aerospace"
-      "mochi"
       "obsidian"
       "parallels"
       "protonvpn"
       "proton-pass"
-      "rectangle"
-      "snagit"
       "stats"
-      "signal"
       "tailscale-app"
-      "thunderbird"
       "visual-studio-code"
       "vlc"
-      "zwift"
     ];
 
-    extraConfig = ''
-      cask "spotify", args: { require_sha: false }
-      cask "zwift", args: { require_sha: false }
-    '';
-
     masApps = {
+      "Amphetamine" = 937984704;
       "BrightIntosh" = 6452471855;
       "Desk Remote Control" = 1509037746;
-      "Amphetamine" = 937984704;
     };
   };
 

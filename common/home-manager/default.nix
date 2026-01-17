@@ -487,6 +487,11 @@ in {
       }
       setopt INC_APPEND_HISTORY
       export EDITOR=nvim
+
+      # re-attach or start tmux session on new shell
+      if [[ -z "$TMUX" ]]; then
+        tmux attach -t main 2>/dev/null || tmux new -s main
+      fi
     '';
 
     shellAliases = {
@@ -504,6 +509,8 @@ in {
       music = "open -na 'Brave Browser' --args --app='https://open.spotify.com'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
+      stand="nix run ~/git/ikea-desk#stand";
+      sit="nix run ~/git/ikea-desk#sit";
     };
   };
 

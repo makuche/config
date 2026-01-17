@@ -506,7 +506,6 @@ in {
       y = "yazi";
       claude = "/Users/manuel/.claude/local/claude";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
-      music = "open -na 'Brave Browser' --args --app='https://open.spotify.com'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
       stand="nix run ~/git/ikea-desk#stand";

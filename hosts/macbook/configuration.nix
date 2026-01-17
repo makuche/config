@@ -17,6 +17,7 @@
     brews = [
       # "duckdb"
       "dotnet"
+      "exiftool"
       "helm"
       "geeqie"
       "git-crypt"

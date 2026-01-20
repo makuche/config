@@ -52,18 +52,18 @@
     nikitabobko-tap,
     ...
   }: {
-    # macOS VM
-    darwinConfigurations."MKs-Virtual-Machine" = nix-darwin.lib.darwinSystem {
+    # atlas - primary macOS machine
+    darwinConfigurations."atlas" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./common/darwin/default.nix
-        ./hosts/vm/configuration.nix
+        ./hosts/atlas/configuration.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.smc = import ./hosts/vm/home.nix;
+          home-manager.users.manuel = import ./hosts/atlas/home.nix;
         }
 
         # Homebrew integration
@@ -72,10 +72,11 @@
           nix-homebrew = {
             enable = true;
             enableRosetta = true;
-            user = "smc";
+            user = "manuel";
             taps = {
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
+              "nikitabobko/homebrew-tap" = nikitabobko-tap;
             };
             mutableTaps = false;
           };
@@ -83,18 +84,18 @@
       ];
     };
 
-    # macOS host machine
-    darwinConfigurations."Manuels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+    # cosmos - secondary macOS machine
+    darwinConfigurations."cosmos" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./common/darwin/default.nix
-        ./hosts/macbook/configuration.nix
+        ./hosts/cosmos/configuration.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.manuel = import ./hosts/macbook/home.nix;
+          home-manager.users.manuel = import ./hosts/cosmos/home.nix;
         }
 
         # Homebrew integration
@@ -117,8 +118,8 @@
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = {
-      "MKs-Virtual-Machine" = self.darwinConfigurations."MKs-Virtual-Machine".pkgs;
-      "Manuels-MacBook-Pro" = self.darwinConfigurations."Manuels-MacBook-Pro".pkgs;
+      "atlas" = self.darwinConfigurations."atlas".pkgs;
+      "cosmos" = self.darwinConfigurations."cosmos".pkgs;
     };
   };
 }

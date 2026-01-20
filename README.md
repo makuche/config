@@ -1,128 +1,144 @@
 # Config
 
-This repo contains my `~/.config` directory with declarative system configurations using a combination of Nix, home-manager, and nix-darwin. It enables reproducible environment setup across macOS machines with minimal manual intervention.
+Declarative macOS system configuration using Nix flakes, nix-darwin, and home-manager.
 
-## System Overview
+## Overview
+
 - **Nix**: Package management and system configuration
 - **nix-darwin**: macOS-specific system configuration
 - **home-manager**: User environment management
-- **Homebrew**: Additional macOS (and GUI) applications via nix-homebrew integration
+- **Homebrew**: GUI applications via nix-homebrew integration
 
-I've moved most GUI apps to Homebrew instead of home-manager so the home-manager setup can also be used on resource-restricted Linux systems (e.g., Raspberry Pis). Additionally, Homebrew uses cached binaries while Nix compiles from source, making it faster and more convenient for certain applications.
+GUI apps use Homebrew casks while CLI tools use Nix packages.
+
+## Project Structure
+
+```
+config/
+├── flake.nix              # Main entry point - defines all machine configurations
+├── flake.lock             # Locked dependency versions
+├── common/                # Shared configurations (applied to ALL machines)
+│   ├── darwin/            # macOS system settings (keyboard, fonts, Homebrew base)
+│   └── home-manager/      # User environment (packages, dotfiles, shell config)
+├── hosts/                 # Machine-specific configurations
+│   ├── atlas/             # Primary machine (user: manuel)
+│   │   ├── configuration.nix  # System-level packages, Homebrew casks
+│   │   └── home.nix           # User-level packages
+│   └── cosmos/            # Secondary machine (user: manuel)
+│       ├── configuration.nix
+│       └── home.nix
+├── assets/                # Standalone config files (tmux.conf, aerospace.toml, etc.)
+├── nvim/                  # Neovim configuration (Lua)
+├── ghostty/               # Terminal emulator config
+├── lazygit/               # Git UI config
+└── gh/                    # GitHub CLI config
+```
+
+## Multi-Machine Management
+
+The `flake.nix` defines multiple `darwinConfigurations`, each representing a machine:
+
+```nix
+darwinConfigurations."atlas" = nix-darwin.lib.darwinSystem {
+  modules = [
+    ./common/darwin/default.nix      # Shared macOS settings
+    ./hosts/atlas/configuration.nix  # Machine-specific system config
+    home-manager.darwinModules.home-manager
+    {
+      home-manager.users.manuel = import ./hosts/atlas/home.nix;
+    }
+  ];
+};
+```
+
+### Configuration Layering
+
+1. **common/darwin/** - Applied first, sets base macOS defaults
+2. **common/home-manager/** - Imported by each host's `home.nix`, provides shared packages/dotfiles
+3. **hosts/{machine}/** - Machine-specific overrides and additional packages
+
+### Adding a New Machine
+
+1. Create `hosts/{new-machine}/configuration.nix` and `home.nix`
+2. Import `../../common/home-manager` in the new `home.nix`
+3. Add a new `darwinConfigurations."{hostname}"` block in `flake.nix`
+4. Rebuild: `darwin-rebuild switch --flake . --impure`
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `common/home-manager/default.nix` | Main shared config: packages, git, zsh, tmux |
+| `common/darwin/default.nix` | macOS system defaults and Homebrew base config |
+| `hosts/*/configuration.nix` | Machine-specific Homebrew casks and system settings |
+| `assets/tmux.conf` | Tmux keybindings and settings |
+| `assets/aerospace.toml` | Tiling window manager config |
+| `nvim/init.lua` | Neovim entry (uses Lazy plugin manager) |
+
+## Conventions
+
+- **Shared packages** go in `common/home-manager/default.nix`
+- **Machine-specific packages** go in `hosts/{machine}/home.nix` or `configuration.nix`
+- **Homebrew casks** (GUI apps) defined in host's `configuration.nix`
 
 ## Initial Setup
 
-The following describes how to set up nix-darwin and home-manager for the cases 1) when using the configuration files and 2) when starting from scratch (i.e. with empty home.nix files etc.). The steps for starting from scratch are marked via "Optional".
-
-### 1. Install Nix
+### 1. Install Xcode Command Line Tools
 ```bash
-sh <(curl -L https://nixos.org/nix/install)
+xcode-select --install
 ```
 
-### 2. Configure Shell
-Append to `.zshrc`:
+### 2. Install Nix (using Determinate Systems installer)
+```bash
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+```
+
+### 3. Configure Shell (optional)
+The Determinate installer handles this automatically. If using the official installer, append to `.zshrc`:
 ```bash
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 ```
 
-### 3. Install Home Manager
+### 4. Set Hostname (optional)
+If you want `darwin-rebuild` to auto-detect your configuration:
 ```bash
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
-nix-shell '<home-manager>' -A install
+sudo scutil --set LocalHostName atlas  # or cosmos
+sudo scutil --set ComputerName atlas
+```
+Otherwise, specify explicitly with `--flake .#atlas`.
 
-# Optional: Add packages and other settings to this file
-vim /Users/manuel/.config/home-manager/home.nix
+### 5. Clone and Build
+```bash
+git clone <repo-url> ~/git/config
+cd ~/git/config
+
+# First build (uses hostname for auto-detection, or specify .#<machine>)
+nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake .
 ```
 
-### 4. Install nix-darwin
+## Usage
+
+### Rebuild System
 ```bash
-# Enable flakes
-echo "experimental-features = nix-command flakes" | sudo tee -a /etc/nix/nix.conf
-sudo launchctl kickstart -k system/org.nixos.nix-daemon
-
-# Optional: Create nix darwin flake config
-mkdir -p ~/.config/nix-darwin
-nix flake init -t nix-darwin
-sed -i '' "s/simple/$(scutil --get LocalHostName)/" flake.nix
-
-
-# Optional: backup existing configs if present
-# mv ~/.bashrc ~/.bashrc.backup
-# mv ~/.zshrc ~/.zshrc.backup
-# mv /etc/nix/nix.conf /etc/nix/nix.conf.backup
-
-# First build
-# NOTE: When re-using the config folder, make sure to substitute darwinConfigurations."HOST" with the correct host name (run scutil --get LocalHostName on MacOS)
-nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/.config
+darwin-rebuild switch --flake . --impure
 ```
 
-## Daily Usage
-
-### System Management
-Rebuild your system after configuration changes:
-
+### Update Packages
 ```bash
-sudo bash scripts/rebuild.sh
-```
-
-### Home Manager (on non-darwin systems)
-In this setup, using home-manager directly is not required. However, on other host systems:
-
-```bash
-home-manager switch
-home-manager generations
-<GENERATION>/activate
-```
-
-### Git Configuration
-The gitconfig contains a label for a GPG key used for signing commits. This will need to be adapted when installing with another GitHub account or GPG key.
-
-### Package Management
-Package versions (including Homebrew packages) are frozen by the flake.lock file for reproducibility. To update:
-
-```bash
-# Update all flake inputs
 nix flake update
-
-# Or update specific inputs
-nix flake lock --update-input nixpkgs
-nix flake lock --update-input home-manager
-
-# After updating the lock file, rebuild the system
-darwin-rebuild switch --flake ~/.config/nix-darwin --impure
+darwin-rebuild switch --flake . --impure
 ```
 
-### Security
-
-Update the virus database via
-
+### Development Shell
 ```bash
-freshclam --config-file=$HOME/.config/clamav/freshclam.conf
+nix-shell --command zsh
 ```
 
-Scan folder or directory recursively via
+## Machines
 
-```bash
-clamscan --recursive --infected --database=$HOME/.config/clamav/db PATH-TO-SCAN
-```
-## Tasks
-
-### High Priority
-- [ ] install slidev (npm package) declaratively, maybe via bun
-- [ ] fix `--impure` flag requirement in darwin-rebuild
-- [ ] proper symlinks to `~/.config` for better file management
-- [ ] better documentation for the rebuild command
-
-### Medium Priority
-- [ ] simpler update mechanism for common package updates
-- [ ] GPG key configuration for git commit signing
-- [ ] Better integrate home-manager with nix-darwin
-
-### Future Work
-- [ ] migrate to a graphical virtual Linux machine running on macOS host
-  - pro: macOS peripherals and ecosystem while using Linux for development
-  - configure the VM using the same declarative approach
-- [ ] consolidate duplicate configuration between dotfiles
+| Hostname | User | Purpose |
+|----------|------|---------|
+| atlas | manuel | Primary development machine |
+| cosmos | manuel | Secondary machine |

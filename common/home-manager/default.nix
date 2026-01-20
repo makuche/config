@@ -52,7 +52,6 @@ in {
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
-    vimPlugins.nvim-treesitter-parsers.llvm
     
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
@@ -90,7 +89,7 @@ in {
     # ===== Text Processing =====
     jq # JSON processor
     yq # yaml processor
-    neovim # Modern Vim fork (with plugins)
+    # neovim # Modern Vim fork (with plugins)
 
     # ===== Security =====
     # clamav # Additional utilities
@@ -117,6 +116,22 @@ in {
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
+  home.file.".config/nvim" = {
+    source = ../../nvim;
+    recursive = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    plugins = with pkgs.vimPlugins; [
+      (nvim-treesitter.withPlugins (p: [
+        p.c p.lua p.vim p.vimdoc p.query p.markdown p.markdown_inline
+        p.nix p.bash p.json p.yaml p.toml p.python p.go p.rust p.javascript p.typescript
+      ]))
+      nvim-treesitter-textobjects
+    ];
+  };
 
   # common program configurations
   programs.direnv = {
@@ -127,7 +142,15 @@ in {
 
   programs.git = {
     enable = true;
+    signing = {
+      key = "D5E39A037F4AAE1C";
+      signByDefault = true;
+    };
     settings = {
+      user = {
+        name = "Manuel Kuchelmeister";
+        email = "makuche-github@pm.me";
+      };
       column = {
         ui = "auto";
       };
@@ -216,13 +239,6 @@ in {
         tree = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         files = "diff --name-only";
         stat = "diff --stat";
-      };
-      include = {
-        path = "~/.config/git-secrets/gitconfig.default";
-      };
-      # If the folder git/dap exists, git config in every subfolder under dap/ will get overwritten with gitconfig.dap
-      "includeIf \"gitdir:~/git/dap/\"" = {
-        path = "~/.config/git-secrets/gitconfig.dap";
       };
     };
   };
@@ -439,11 +455,6 @@ in {
     autocd = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initExtraBeforeCompInit = ''
-      # Skip the security check for compinit
-      ZSH_DISABLE_COMPFIX=true
-    '';
-
     # Common shell history settings
     history = {
       size = 50000;
@@ -458,12 +469,18 @@ in {
     };
 
     # Common initialization
-    #TODO: merge the initContent and shellAliases
-    initContent = ''
+    initContent = lib.mkMerge [
+      # Must run before compinit (order 550)
+      (lib.mkOrder 550 ''
+        ZSH_DISABLE_COMPFIX=true
+      '')
+      # Regular init content (runs after compinit)
+      ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
       export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
       export PATH="${config.home.homeDirectory}/.claude/local:$PATH"
+      export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM
@@ -492,7 +509,8 @@ in {
       if [[ -z "$TMUX" ]]; then
         tmux attach -t main 2>/dev/null || tmux new -s main
       fi
-    '';
+    ''
+    ];
 
     shellAliases = {
       ls = "eza";

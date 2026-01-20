@@ -1,11 +1,5 @@
 {pkgs, ...}: {
-  # common system config
-  environment.systemPackages = with pkgs; [
-    # TODO: install via xcode-select
-    # check:
-    # https://github.com/dustinlyons/nixos-config?tab=readme-ov-file#for-macos-november-2025
-    git # for bootstrapping the system
-  ];
+  # common system config (git provided by xcode-select --install)
 
   homebrew = {
     enable = true;
@@ -22,12 +16,7 @@
   };
 
   nix.settings.experimental-features = "nix-command flakes";
-  nix.enable = true;
-  nix.gc = {
-    automatic = true;
-    interval = { Weekday = 0; Hour = 0; Minute = 0; };
-    options = "--delete-older-than 7d";
-  };
+  nix.enable = false;
 
 
   system.stateVersion = 5;
@@ -49,8 +38,6 @@
     dock = {
       "launchanim" = false;
     };
-    # disable animation system-wide
-    universalaccess.reduceMotion = true;
   };
 
   fonts.packages = with pkgs; [

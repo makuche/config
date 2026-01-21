@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  defaultBrowser = "com.brave.Browser";
+in {
   # common system config (git provided by xcode-select --install)
 
   homebrew = {
@@ -18,7 +20,6 @@
   nix.settings.experimental-features = "nix-command flakes";
   nix.enable = false;
 
-
   system.stateVersion = 5;
 
   # common platform configuration
@@ -34,6 +35,37 @@
       "InitialKeyRepeat" = 10;
       "KeyRepeat" = 1;
       "NSAutomaticWindowAnimationsEnabled" = false; # disable animations
+    };
+    CustomUserPreferences = {
+      "com.apple.launchservices.secure" = {
+        LSHandlers = [
+          {
+            LSHandlerURLScheme = "http";
+            LSHandlerRoleAll = defaultBrowser;
+          }
+          {
+            LSHandlerURLScheme = "https";
+            LSHandlerRoleAll = defaultBrowser;
+          }
+          {
+            LSHandlerContentType = "public.html";
+            LSHandlerRoleAll = defaultBrowser;
+          }
+        ];
+      };
+      "com.apple.symbolichotkeys" = {
+        AppleSymbolicHotKeys = {
+          # setting the 'input source' via shortcuts to false,
+          # as I donät use it and the default settings
+          # interfer with the tmux shortcut setup
+          "60" = {
+            enabled = false;
+          };
+          "61" = {
+            enabled = false;
+          };
+        };
+      };
     };
     dock = {
       "launchanim" = false;

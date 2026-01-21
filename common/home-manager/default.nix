@@ -124,13 +124,6 @@ in {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    plugins = with pkgs.vimPlugins; [
-      (nvim-treesitter.withPlugins (p: [
-        p.c p.lua p.vim p.vimdoc p.query p.markdown p.markdown_inline
-        p.nix p.bash p.json p.yaml p.toml p.python p.go p.rust p.javascript p.typescript
-      ]))
-      nvim-treesitter-textobjects
-    ];
   };
 
   # common program configurations

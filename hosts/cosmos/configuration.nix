@@ -13,21 +13,23 @@
 
   # cosmos-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap"];
+    taps = ["nikitabobko/tap" "digitecgalaxus/dg"];
     brews = [
         "dotnet"
         "helm"
-      # TODO: Add cosmos-specific brews here
+        "dg-cli"
     ];
 
     casks = [
       "brave-browser"
-      "claude"
-      "raycast"
+      "claude-code"
+      "ghostty"
+      "microsoft-teams"
       "nikitabobko/tap/aerospace"
       "obsidian"
-      "ghostty"
-      # TODO: Add cosmos-specific casks here
+      "pritunl" # vpn
+      "raycast"
+      "spotify"
     ];
   };
 

@@ -6,6 +6,8 @@
   # Import common configuration
   imports = [../../common/home-manager];
 
+  programs.git.signing.key = "AA7B304D0375E65B";
+
   # cosmos-specific packages
   home.packages = with pkgs; [
     # Add cosmos-specific packages here

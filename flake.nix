@@ -41,6 +41,10 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
+    digitecgalaxus-tap = {
+      url = "github:digitecgalaxus/homebrew-dg";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -50,6 +54,7 @@
     homebrew-core,
     homebrew-cask,
     nikitabobko-tap,
+    digitecgalaxus-tap,
     ...
   }: {
     # atlas - primary macOS machine
@@ -109,6 +114,7 @@
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
               "nikitabobko/homebrew-tap" = nikitabobko-tap;
+              "digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;
             };
             mutableTaps = false;
           };

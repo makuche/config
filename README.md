@@ -62,7 +62,8 @@ darwinConfigurations."atlas" = nix-darwin.lib.darwinSystem {
 1. Create `hosts/{new-machine}/configuration.nix` and `home.nix`
 2. Import `../../common/home-manager` in the new `home.nix`
 3. Add a new `darwinConfigurations."{hostname}"` block in `flake.nix`
-4. Rebuild: `darwin-rebuild switch --flake . --impure`
+4. Rebuild: `darwin-rebuild switch --flake .` (set `switch --flake .#MACHINE-NAME`, 
+if host name is not equal to the name in the nix flake).
 
 ## Key Files
 
@@ -94,7 +95,7 @@ curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 ```
 
 ### 3. Configure Shell (optional)
-The Determinate installer handles this automatically. If using the official installer, append to `.zshrc`:
+The Determinate Systems installer handles this automatically. If using the official installer, append to `.zshrc`:
 ```bash
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
@@ -115,20 +116,22 @@ git clone <repo-url> ~/git/config
 cd ~/git/config
 
 # First build (uses hostname for auto-detection, or specify .#<machine>)
-nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake .
+nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake .#MACHINE-NAME
 ```
+
+where the machine name is set to one of the available machines (see [#Machines])
 
 ## Usage
 
 ### Rebuild System
 ```bash
-darwin-rebuild switch --flake . --impure
+darwin-rebuild switch --flake .#MACHINE-NAME
 ```
 
 ### Update Packages
 ```bash
 nix flake update
-darwin-rebuild switch --flake . --impure
+darwin-rebuild switch --flake .#MACHINE-NAME
 ```
 
 ### Development Shell

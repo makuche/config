@@ -52,6 +52,7 @@ in {
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
+    yarn
     
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
@@ -116,10 +117,7 @@ in {
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
-  home.file.".config/nvim" = {
-    source = ../../nvim;
-    recursive = true;
-  };
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/nvim";
 
   programs.neovim = {
     enable = true;
@@ -136,7 +134,6 @@ in {
   programs.git = {
     enable = true;
     signing = {
-      key = "D5E39A037F4AAE1C";
       signByDefault = true;
     };
     settings = {
@@ -471,9 +468,8 @@ in {
       ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
-      export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
-      export PATH="${config.home.homeDirectory}/.claude/local:$PATH"
-      export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
+      export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
+      export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM
@@ -519,8 +515,8 @@ in {
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
-      stand="nix run ~/git/ikea-desk#stand";
-      sit="nix run ~/git/ikea-desk#sit";
+      stand="nix run ~/git/idasen-desk#stand";
+      sit="nix run ~/git/idasen-desk#sit";
     };
   };
 

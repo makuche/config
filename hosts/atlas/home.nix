@@ -6,6 +6,8 @@
   # Import common configuration
   imports = [../../common/home-manager];
 
+  programs.git.signing.key = "D5E39A037F4AAE1C";
+
   # MacBook-specific packages
   home.packages = with pkgs; [
     # GitHub CLI

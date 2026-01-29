@@ -17,6 +17,22 @@
         "type": "github"
       }
     },
+    "digitecgalaxus-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768830412,
+        "narHash": "sha256-UZTynKiGRvoxKmYY6hXzLE7b7bo4rm3Lu8oE1ZZs1I8=",
+        "owner": "digitecgalaxus",
+        "repo": "homebrew-dg",
+        "rev": "8ae592d46a0c671cdf835631204a6ed2f67cd86d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "digitecgalaxus",
+        "repo": "homebrew-dg",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -173,6 +189,7 @@
     },
     "root": {
       "inputs": {
+        "digitecgalaxus-tap": "digitecgalaxus-tap",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",

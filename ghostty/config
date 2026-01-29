@@ -1,2 +1,4 @@
-theme = Kanagawa Wave
+theme = Flexoki Dark
+font-size = 14
 window-decoration = false
+background-opacity = 0.9

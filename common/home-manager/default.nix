@@ -52,7 +52,7 @@ in {
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
-    vimPlugins.nvim-treesitter-parsers.llvm
+    yarn
     
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
@@ -90,7 +90,7 @@ in {
     # ===== Text Processing =====
     jq # JSON processor
     yq # yaml processor
-    neovim # Modern Vim fork (with plugins)
+    # neovim # Modern Vim fork (with plugins)
 
     # ===== Security =====
     # clamav # Additional utilities
@@ -117,6 +117,13 @@ in {
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
+  home.file.".config/ghostty/config".source = ../../ghostty/config;
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/nvim";
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
   # common program configurations
   programs.direnv = {
@@ -127,7 +134,14 @@ in {
 
   programs.git = {
     enable = true;
+    signing = {
+      signByDefault = true;
+    };
     settings = {
+      user = {
+        name = "Manuel Kuchelmeister";
+        email = "makuche-github@pm.me";
+      };
       column = {
         ui = "auto";
       };
@@ -216,13 +230,6 @@ in {
         tree = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         files = "diff --name-only";
         stat = "diff --stat";
-      };
-      include = {
-        path = "~/.config/git-secrets/gitconfig.default";
-      };
-      # If the folder git/dap exists, git config in every subfolder under dap/ will get overwritten with gitconfig.dap
-      "includeIf \"gitdir:~/git/dap/\"" = {
-        path = "~/.config/git-secrets/gitconfig.dap";
       };
     };
   };
@@ -439,11 +446,6 @@ in {
     autocd = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initExtraBeforeCompInit = ''
-      # Skip the security check for compinit
-      ZSH_DISABLE_COMPFIX=true
-    '';
-
     # Common shell history settings
     history = {
       size = 50000;
@@ -458,12 +460,17 @@ in {
     };
 
     # Common initialization
-    #TODO: merge the initContent and shellAliases
-    initContent = ''
+    initContent = lib.mkMerge [
+      # Must run before compinit (order 550)
+      (lib.mkOrder 550 ''
+        ZSH_DISABLE_COMPFIX=true
+      '')
+      # Regular init content (runs after compinit)
+      ''
       eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
-      export PATH="${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS:$PATH"
-      export PATH="${config.home.homeDirectory}/.claude/local:$PATH"
+      export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
+      export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM
@@ -492,7 +499,8 @@ in {
       if [[ -z "$TMUX" ]]; then
         tmux attach -t main 2>/dev/null || tmux new -s main
       fi
-    '';
+    ''
+    ];
 
     shellAliases = {
       ls = "eza";
@@ -505,11 +513,12 @@ in {
       cd = "z";
       y = "yazi";
       claude = "/Users/manuel/.claude/local/claude";
+      ghostty = "/Applications/Ghostty.app/Contents/MacOS/ghostty";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
-      stand="nix run ~/git/ikea-desk#stand";
-      sit="nix run ~/git/ikea-desk#sit";
+      stand="nix run ~/git/idasen-desk#stand";
+      sit="nix run ~/git/idasen-desk#sit";
     };
   };
 

@@ -1,12 +1,7 @@
-{pkgs, ...}: {
-  # common system config
-  environment.systemPackages = with pkgs; [
-    # TODO: install via xcode-select
-    # check:
-    # https://github.com/dustinlyons/nixos-config?tab=readme-ov-file#for-macos-november-2025
-    git # for bootstrapping the system
-  ];
-
+{pkgs, ...}: let
+  defaultBrowser = "com.brave.Browser";
+in {
+  # common system config (git provided by xcode-select --install)
   homebrew = {
     enable = true;
     global.autoUpdate = true;
@@ -20,24 +15,14 @@
       require_sha = true;
     };
   };
-
   nix.settings.experimental-features = "nix-command flakes";
-  nix.enable = true;
-  nix.gc = {
-    automatic = true;
-    interval = { Weekday = 0; Hour = 0; Minute = 0; };
-    options = "--delete-older-than 7d";
-  };
-
-
+  nix.enable = false;
   system.stateVersion = 5;
-
   # common platform configuration
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true; # required for terraform installation
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
-
   # common system defaults
   system.defaults = {
     NSGlobalDomain = {
@@ -49,10 +34,8 @@
     dock = {
       "launchanim" = false;
     };
-    # disable animation system-wide
-    universalaccess.reduceMotion = true;
   };
-
+  
   fonts.packages = with pkgs; [
     nerd-fonts.mononoki
   ];

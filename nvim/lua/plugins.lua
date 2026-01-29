@@ -22,49 +22,53 @@ vim.g.maplocalleader = "\\" -- TODO: check this
 
 -- Setup lazy.nvim
 require("lazy").setup({
+	spec = {
 	{
-		"rebelot/kanagawa.nvim",
+		"kepano/flexoki-neovim",
+		name = "flexoki",
 		config = function()
-			vim.cmd.colorscheme("kanagawa")
+			vim.cmd.colorscheme("flexoki-dark")
+			-- transparent background
+			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+			vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
 		end,
 	},
 	{
+		"rebelot/kanagawa.nvim",
+	},
+	{
 		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		build = ":TSUpdate",
 		lazy = false,
 		config = function()
-			require("nvim-treesitter.configs").setup({
-                modules = {},
-                ignore_install = { "" },
+			require("nvim-treesitter").setup({
 				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-				sync_install = false,
-				auto_install = true, -- installs the parser for languages that are not defined in "ensure_installed"
-				highlight = {
-					enable = true,
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<Leader>ss",
-						node_incremental = "<Leader>si",
-						scope_incremental = "<Leader>sc",
-						node_decremental = "<Leader>sd",
-					},
-				},
-				textobjects = {
-					select = {
-						enable = true,
-						lookahead = true, -- moves cursor to the closest match, i.e. no need to be on the underlying object
-						keymaps = {
-							["af"] = "@function.outer", -- example: "daf" to delete function
-							["if"] = "@function.inner", -- example: "dif" to delete only the body of the function
-						},
-					},
-				},
+				sync_install = true,
+				auto_install = true,
+			})
+			-- Enable treesitter-based highlighting
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					pcall(vim.treesitter.start)
+				end,
 			})
 		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			-- Textobjects keymaps
+			vim.keymap.set({ "x", "o" }, "af", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "if", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+			end)
+		end,
 	},
     {
         "williamboman/mason.nvim",
@@ -182,8 +186,9 @@ require("lazy").setup({
             disable_filetype = { "TelescopePrompt" , "vim" },
         }
     },
-
-
+	},
+	-- Use writable location for lockfile (nvim config is read-only via Nix)
+	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
 local colors = vim.fn.getcompletion('', 'color')
 local idx = 0

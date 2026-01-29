@@ -41,6 +41,10 @@
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
     };
+    digitecgalaxus-tap = {
+      url = "github:digitecgalaxus/homebrew-dg";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -50,51 +54,21 @@
     homebrew-core,
     homebrew-cask,
     nikitabobko-tap,
+    digitecgalaxus-tap,
     ...
   }: {
-    # macOS VM
-    darwinConfigurations."MKs-Virtual-Machine" = nix-darwin.lib.darwinSystem {
+    # atlas - primary macOS machine
+    darwinConfigurations."atlas" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./common/darwin/default.nix
-        ./hosts/vm/configuration.nix
+        ./hosts/atlas/configuration.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.smc = import ./hosts/vm/home.nix;
-        }
-
-        # Homebrew integration
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "smc";
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-            };
-            mutableTaps = false;
-          };
-        }
-      ];
-    };
-
-    # macOS host machine
-    darwinConfigurations."Manuels-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        ./common/darwin/default.nix
-        ./hosts/macbook/configuration.nix
-
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.manuel = import ./hosts/macbook/home.nix;
+          home-manager.users.manuel = import ./hosts/atlas/home.nix;
         }
 
         # Homebrew integration
@@ -115,10 +89,43 @@
       ];
     };
 
+    # cosmos - secondary macOS machine
+    darwinConfigurations."cosmos" = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      modules = [
+        ./common/darwin/default.nix
+        ./hosts/cosmos/configuration.nix
+
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.manuel = import ./hosts/cosmos/home.nix;
+        }
+
+        # Homebrew integration
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+          nix-homebrew = {
+            enable = true;
+            enableRosetta = true;
+            user = "manuel";
+            taps = {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+              "nikitabobko/homebrew-tap" = nikitabobko-tap;
+              "digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;
+            };
+            mutableTaps = false;
+          };
+        }
+      ];
+    };
+
     # Expose the package set, including overlays, for convenience.
     darwinPackages = {
-      "MKs-Virtual-Machine" = self.darwinConfigurations."MKs-Virtual-Machine".pkgs;
-      "Manuels-MacBook-Pro" = self.darwinConfigurations."Manuels-MacBook-Pro".pkgs;
+      "atlas" = self.darwinConfigurations."atlas".pkgs;
+      "cosmos" = self.darwinConfigurations."cosmos".pkgs;
     };
   };
 }

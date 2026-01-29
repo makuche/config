@@ -24,10 +24,18 @@ vim.g.maplocalleader = "\\" -- TODO: check this
 require("lazy").setup({
 	spec = {
 	{
-		"rebelot/kanagawa.nvim",
+		"kepano/flexoki-neovim",
+		name = "flexoki",
 		config = function()
-			vim.cmd.colorscheme("kanagawa")
+			vim.cmd.colorscheme("flexoki-dark")
+			-- transparent background
+			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+			vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
 		end,
+	},
+	{
+		"rebelot/kanagawa.nvim",
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",

@@ -117,6 +117,7 @@ in {
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
+  home.file.".config/ghostty/config".source = ../../ghostty/config;
   home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/nvim";
 
   programs.neovim = {
@@ -512,6 +513,7 @@ in {
       cd = "z";
       y = "yazi";
       claude = "/Users/manuel/.claude/local/claude";
+      ghostty = "/Applications/Ghostty.app/Contents/MacOS/ghostty";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";

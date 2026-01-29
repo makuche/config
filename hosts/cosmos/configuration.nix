@@ -23,12 +23,15 @@
     casks = [
       "brave-browser"
       "claude-code"
+      "discord"
+      "dotnet-sdk" # required for roslyn LSP to work
       "ghostty"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
       "obsidian"
       "pritunl" # vpn
       "raycast"
+      "stats"
       "spotify"
     ];
   };

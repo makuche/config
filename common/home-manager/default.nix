@@ -29,6 +29,14 @@ in {
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
+
+    # .NET SDK - multiple versions for different projects
+    (with dotnetCorePackages; combinePackages [
+      sdk_10_0  # .NET 10.0.102
+      sdk_9_0   # .NET 9.0.310
+      sdk_8_0   # .NET 8.0.417
+    ])
+
     lua
     luarocks
     httpie # CLI http client
@@ -184,6 +192,7 @@ in {
       };
       core = {
         excludesfile = "~/.gitignore"; #TODO: Add this to the config repo
+        longpaths = true;
       };
       rebase = {
         autoSquash = true;

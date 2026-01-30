@@ -15,7 +15,6 @@
   homebrew = {
     taps = ["nikitabobko/tap" "digitecgalaxus/dg"];
     brews = [
-        "dotnet"
         "helm"
         "dg-cli"
     ];
@@ -24,7 +23,6 @@
       "brave-browser"
       "claude-code"
       "discord"
-      "dotnet-sdk" # required for roslyn LSP to work
       "ghostty"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
@@ -33,6 +31,7 @@
       "raycast"
       "stats"
       "spotify"
+      "visual-studio-code"
     ];
   };
 

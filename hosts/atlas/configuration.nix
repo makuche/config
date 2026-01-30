@@ -16,7 +16,6 @@
     taps = ["nikitabobko/tap"];
     brews = [
       # "duckdb"
-      "dotnet"
       "exiftool"
       "helm"
       "geeqie"

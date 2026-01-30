@@ -72,7 +72,12 @@ require("lazy").setup({
 	},
     {
         "williamboman/mason.nvim",
-        opts = {}
+        opts = {
+            registries = {
+                "github:mason-org/mason-registry",
+                "github:Crashdummyy/mason-registry",
+            },
+        }
     },
     {
         "mason-org/mason-lspconfig.nvim",
@@ -109,8 +114,15 @@ require("lazy").setup({
                 },
             }
             vim.lsp.enable('nixd')
+            vim.lsp.enable('roslyn')
         end
 	},
+    {
+        "seblyng/roslyn.nvim",
+        opts = {
+            filewatching = "auto",
+        },
+    },
     {
         "saghen/blink.cmp",
         dependencies = { "rafamadriz/friendly-snippets" },

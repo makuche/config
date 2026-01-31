@@ -30,12 +30,27 @@ in {
     cargo # Rust package manager
     go # Go programming language
 
+    # LaTeX - Document preparation system
+    (texlive.combine {
+      inherit
+        (texlive)
+        scheme-basic
+        latexmk
+        collection-latex
+        collection-latexextra
+        collection-fontsrecommended
+        titlesec
+        fontawesome5
+        ;
+    })
+
     # .NET SDK - multiple versions for different projects
-    (with dotnetCorePackages; combinePackages [
-      sdk_10_0  # .NET 10.0.102
-      sdk_9_0   # .NET 9.0.310
-      sdk_8_0   # .NET 8.0.417
-    ])
+    (with dotnetCorePackages;
+      combinePackages [
+        sdk_10_0 # .NET 10.0.102
+        sdk_9_0 # .NET 9.0.310
+        sdk_8_0 # .NET 8.0.417
+      ])
 
     lua
     luarocks
@@ -61,7 +76,7 @@ in {
     uv # Python package manager
     virtualenv # Python environment isolation
     yarn
-    
+
     # ===== CLI Tools =====
     bat # Modern cat with syntax highlighting
     delta # nicer diff tool
@@ -114,7 +129,6 @@ in {
 
     # Custom Scripts
     tmux-sessionizer
-
   ];
 
   home.file.".local/share/gh/extensions/gh-dash/gh-dash" = {
@@ -476,39 +490,39 @@ in {
       '')
       # Regular init content (runs after compinit)
       ''
-      eval "$(zoxide init zsh)"
-      eval "$(mcfly init zsh)"
-      export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
-      export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
-      export MCFLY_FUZZY=true
-      export MCFLY_RESULTS=50
-      export MCFLY_INTERFACE_VIEW=BOTTOM
-      export MCFLY_DISABLE_WELCOME=true
-      bindkey '^R' mcfly-history-widget
-      export MCFLY_KEY_SCHEME=vim
-      setopt EXTENDED_HISTORY
-      setopt HIST_EXPIRE_DUPS_FIRST
-      setopt HIST_FIND_NO_DUPS
-      setopt HIST_REDUCE_BLANKS
-      setopt HIST_VERIFY
-      setopt APPEND_HISTORY
-      setopt complete_aliases # enable completion for aliases
-      ll() { eza -lahF "$@" }
-      y() {
-      local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-      yazi "$@" --cwd-file="$tmp"
-      IFS= read -r -d $'\0' cwd < "$tmp"
-      [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-      rm -f -- "$tmp"
-      }
-      setopt INC_APPEND_HISTORY
-      export EDITOR=nvim
+        eval "$(zoxide init zsh)"
+        eval "$(mcfly init zsh)"
+        export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
+        export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+        export MCFLY_FUZZY=true
+        export MCFLY_RESULTS=50
+        export MCFLY_INTERFACE_VIEW=BOTTOM
+        export MCFLY_DISABLE_WELCOME=true
+        bindkey '^R' mcfly-history-widget
+        export MCFLY_KEY_SCHEME=vim
+        setopt EXTENDED_HISTORY
+        setopt HIST_EXPIRE_DUPS_FIRST
+        setopt HIST_FIND_NO_DUPS
+        setopt HIST_REDUCE_BLANKS
+        setopt HIST_VERIFY
+        setopt APPEND_HISTORY
+        setopt complete_aliases # enable completion for aliases
+        ll() { eza -lahF "$@" }
+        y() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d $'\0' cwd < "$tmp"
+        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+        rm -f -- "$tmp"
+        }
+        setopt INC_APPEND_HISTORY
+        export EDITOR=nvim
 
-      # re-attach or start tmux session on new shell
-      if [[ -z "$TMUX" ]]; then
-        tmux attach -t main 2>/dev/null || tmux new -s main
-      fi
-    ''
+        # re-attach or start tmux session on new shell
+        if [[ -z "$TMUX" ]]; then
+          tmux attach -t main 2>/dev/null || tmux new -s main
+        fi
+      ''
     ];
 
     shellAliases = {
@@ -526,13 +540,13 @@ in {
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
-      stand="nix run ~/git/idasen-desk#stand";
-      sit="nix run ~/git/idasen-desk#sit";
+      stand = "nix run ~/git/idasen-desk#stand";
+      sit = "nix run ~/git/idasen-desk#sit";
     };
   };
 
   programs.k9s = {
-  enable = true;
+    enable = true;
     settings = {
       k9s = {
         ui = {
@@ -565,6 +579,7 @@ in {
             warn = 75;
           };
         };
+        body.bgColor = "default";
       };
     };
   };

@@ -10,25 +10,8 @@
 
   # MacBook-specific packages
   home.packages = with pkgs; [
-    # GitHub CLI
-    gh
-
     # Additional utilities
     clamav
-
-    # Documentation & Publishing
-    (texlive.combine {
-      inherit
-        (texlive)
-        scheme-basic
-        latexmk
-        collection-latex
-        collection-latexextra
-        collection-fontsrecommended
-        titlesec
-        fontawesome5
-        ;
-    })
   ];
 
   # ClamAV configuration

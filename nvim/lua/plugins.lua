@@ -262,6 +262,8 @@ require("lazy").setup({
 					"stylua",
 					"latexindent",
 					"black",
+					"netcoredbg",
+					"debugpy",
 				})
 				require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -542,6 +544,55 @@ require("lazy").setup({
 			"folke/todo-comments.nvim",
 			dependencies = { "nvim-lua/plenary.nvim" },
 			opts = {},
+		},
+		{
+			"mfussenegger/nvim-dap",
+			dependencies = {
+				"rcarriga/nvim-dap-ui",
+				"nvim-neotest/nvim-nio",
+				"nicholasmata/nvim-dap-cs",
+				"mfussenegger/nvim-dap-python",
+			},
+			config = function()
+				local dap = require("dap")
+				local dapui = require("dapui")
+
+				-- Setup dap-cs (auto-configures netcoredbg adapter)
+				require("dap-cs").setup()
+
+				-- Setup dap-python (use Mason's debugpy)
+				require("dap-python").setup(vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python")
+
+				-- Setup dap-ui
+				dapui.setup()
+
+				-- Auto open/close UI
+				dap.listeners.before.attach.dapui_config = function()
+					dapui.open()
+				end
+				dap.listeners.before.launch.dapui_config = function()
+					dapui.open()
+				end
+				dap.listeners.before.event_terminated.dapui_config = function()
+					dapui.close()
+				end
+				dap.listeners.before.event_exited.dapui_config = function()
+					dapui.close()
+				end
+
+				-- Keybindings
+				vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "[D]ebug [B]reakpoint" })
+				vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "[D]ebug [C]ontinue" })
+				vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "[D]ebug Step [O]ver" })
+				vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "[D]ebug Step [I]nto" })
+				vim.keymap.set("n", "<leader>du", dap.step_out, { desc = "[D]ebug Step O[u]t" })
+				vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "[D]ebug [R]EPL" })
+				vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "[D]ebug [T]oggle UI" })
+				vim.keymap.set("n", "<leader>dq", function()
+					dap.terminate()
+					dapui.close()
+				end, { desc = "[D]ebug [Q]uit" })
+			end,
 		},
 	},
 	-- Use writable location for lockfile (nvim config is read-only via Nix)

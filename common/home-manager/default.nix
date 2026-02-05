@@ -259,191 +259,26 @@ in {
   programs.lazygit = {
     enable = true;
     settings = {
+      git = {
+        pagers = [
+          {
+            cmd = "delta --color-only --dark --paging=never";
+            type = "diff";
+          }
+        ];
+        pull = {
+          mode = "merge";
+        };
+        autoFetch = true;
+        fetchAll = true;
+      };
       customCommands = [
         {
-          key = "<c-v>";
-          context = "files";
-          description = "Commit using convention";
-          prompts = [
-            {
-              type = "menu";
-              key = "Type";
-              title = "Type of change";
-              options = [
-                {
-                  name = "[Core] feat";
-                  description = "A new feature for the user";
-                  value = "feat";
-                }
-                {
-                  name = "[Core] fix";
-                  description = "A bug fix";
-                  value = "fix";
-                }
-                {
-                  name = "[Core] docs";
-                  description = "Documentation changes";
-                  value = "docs";
-                }
-                {
-                  name = "[Core] style";
-                  description = "Changes that don't affect code meaning (formatting, whitespace)";
-                  value = "style";
-                }
-                {
-                  name = "[Core] refactor";
-                  description = "Code changes that neither fix a bug nor add a feature";
-                  value = "refactor";
-                }
-                {
-                  name = "[Core] perf";
-                  description = "Performance improvements";
-                  value = "perf";
-                }
-                {
-                  name = "[Core] test";
-                  description = "Adding or correcting tests";
-                  value = "test";
-                }
-                {
-                  name = "[Core] build";
-                  description = "Changes affecting build system or dependencies";
-                  value = "build";
-                }
-                {
-                  name = "[Core] chore";
-                  description = "Routine maintenance tasks, dependency updates, configs";
-                  value = "chore";
-                }
-                # Content
-                {
-                  name = "[Content] content";
-                  description = "Changes to website or app content, copy, or text";
-                  value = "content";
-                }
-                # Knowledge Management
-                {
-                  name = "[Doc] note";
-                  description = "Personal notes or documentation";
-                  value = "note";
-                }
-                {
-                  name = "[Doc] wiki";
-                  description = "Wiki page or knowledge base changes";
-                  value = "wiki";
-                }
-                # Data & Schema
-                {
-                  name = "[Data] data";
-                  description = "Dataset or data asset updates";
-                  value = "data";
-                }
-                {
-                  name = "[Data] schema";
-                  description = "Data structure or schema changes";
-                  value = "schema";
-                }
-                # Design & UI
-                {
-                  name = "[UI] design";
-                  description = "Design or UX changes";
-                  value = "design";
-                }
-                {
-                  name = "[UI] ui";
-                  description = "User interface component changes";
-                  value = "ui";
-                }
-                # Infrastructure & Configuration
-                {
-                  name = "[Infra] config";
-                  description = "Configuration file changes";
-                  value = "config";
-                }
-                {
-                  name = "[Infra] env";
-                  description = "Environment settings and variables";
-                  value = "env";
-                }
-                {
-                  name = "[Infra] deploy";
-                  description = "Deployment scripts or configurations";
-                  value = "deploy";
-                }
-                {
-                  name = "[Infra] infra";
-                  description = "Infrastructure changes";
-                  value = "infra";
-                }
-                {
-                  name = "[Infra] script";
-                  description = "Utility or automation scripts";
-                  value = "script";
-                }
-                {
-                  name = "[Infra] ci";
-                  description = "Changes to CI configuration files and scripts";
-                  value = "ci";
-                }
-                # Version Control & Releases
-                {
-                  name = "[Version Control] sync";
-                  description = "Synchronization with upstream or branches";
-                  value = "sync";
-                }
-                {
-                  name = "[Version Control] patch";
-                  description = "Small updates to existing features";
-                  value = "patch";
-                }
-                {
-                  name = "[Version Control] release";
-                  description = "Release preparation";
-                  value = "release";
-                }
-                {
-                  name = "[Version Control] revert";
-                  description = "Reverts a previous commit";
-                  value = "revert";
-                }
-              ];
-            }
-            {
-              type = "input";
-              title = "Scope";
-              key = "Scope";
-              initialValue = "";
-            }
-            {
-              type = "menu";
-              key = "Breaking";
-              title = "Breaking change";
-              options = [
-                {
-                  name = "no";
-                  value = "";
-                }
-                {
-                  name = "yes";
-                  value = "!";
-                }
-              ];
-            }
-            {
-              type = "input";
-              title = "message";
-              key = "Message";
-              initialValue = "";
-            }
-            {
-              type = "confirm";
-              key = "Confirm";
-              title = "Commit";
-              body = "Are you sure you want to commit?";
-            }
-          ];
-          command = "git commit --message '{{.Form.Type}}{{ if .Form.Scope }}({{ .Form.Scope }}){{ end }}{{.Form.Breaking}}: {{.Form.Message}}'";
-          loadingText = "Creating conventional commit...";
+          key = "t";
+          context = "global";
+          description = "Force fetch all tags";
+          command = "git fetch --tags --force";
+          loadingText = "Fetching tags...";
         }
       ];
     };

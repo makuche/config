@@ -319,6 +319,9 @@ require("lazy").setup({
 						SymbolKind.Interface,
 						SymbolKind.Class,
 						SymbolKind.Struct,
+						SymbolKind.Enum,
+						SymbolKind.Property,
+						SymbolKind.Field,
 					},
 					wrapper_symbol_kinds = { SymbolKind.Class, SymbolKind.Struct },
 				})
@@ -546,6 +549,23 @@ require("lazy").setup({
 			opts = {},
 		},
 		{
+			"iamcco/markdown-preview.nvim",
+			cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+			ft = { "markdown" },
+			build = ":call mkdp#util#install()",
+			init = function()
+				vim.g.mkdp_browserfunc = "MkdpOpenInApp"
+				vim.cmd([[
+					function! MkdpOpenInApp(url)
+						silent execute '!open -na "Brave Browser" --args --app=' . shellescape(a:url)
+					endfunction
+				]])
+			end,
+			keys = {
+				{ "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", desc = "[M]arkdown [P]review" },
+			},
+		},
+		{
 			"mfussenegger/nvim-dap",
 			dependencies = {
 				"rcarriga/nvim-dap-ui",
@@ -593,6 +613,25 @@ require("lazy").setup({
 					dapui.close()
 				end, { desc = "[D]ebug [Q]uit" })
 			end,
+		},
+		{
+			"coder/claudecode.nvim",
+			dependencies = { "folke/snacks.nvim" },
+			opts = {
+				terminal_cmd = "/opt/homebrew/bin/claude",
+			},
+			cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeDiffAccept", "ClaudeCodeDiffDeny" },
+			keys = {
+				{ "<leader>a", nil, desc = "AI/Claude Code" },
+				{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+				{ "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+				{ "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
+				{ "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+				{ "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "Add current buffer" },
+				{ "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+				{ "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+				{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+			},
 		},
 	},
 	-- Use writable location for lockfile (nvim config is read-only via Nix)

@@ -17,7 +17,7 @@ vim.opt.termguicolors = true
 vim.diagnostic.config({
 	virtual_text = false, -- Hide inline diagnostic messages
 	signs = true,
-	underline = true,
+	underline = false,
 	update_in_insert = false,
 })
 vim.keymap.set("n", "<leader>td", function()

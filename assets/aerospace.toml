@@ -190,15 +190,22 @@ automatically-unhide-macos-hidden-apps = true
     up = 'volume up'
     shift-down = ['volume set 0', 'mode main']
 
+#NOTE: existing Chromium/Aerospace issue: when detaching a tab from the browser, the detached tab is not properly attached to the workspace tree -> layout tiling might help detect detached windows. If bug persists, try to use 'OPT+SHIFT+SEMICOLON' and then 'r' to reset the layout
 [[on-window-detected]]
     if.app-id = 'com.brave.Browser'
-    run = 'move-node-to-workspace 1'
+    run = ['layout tiling', 'move-node-to-workspace 1']
 [[on-window-detected]]
     if.app-id = 'md.obsidian'
     run = 'move-node-to-workspace 2'
 [[on-window-detected]]
     if.app-id = 'com.mitchellh.ghostty'
     run = 'move-node-to-workspace 3'
+[[on-window-detected]]
+    if.app-id = 'com.microsoft.teams2'
+    run = 'move-node-to-workspace 5'
+[[on-window-detected]]
+    if.app-id = 'com.hnc.Discord'
+    run = 'move-node-to-workspace 5'
 [[on-window-detected]]
     if.app-id = 'com.spotify.client'
     run = 'move-node-to-workspace 5'

@@ -20,11 +20,11 @@
     "digitecgalaxus-tap": {
       "flake": false,
       "locked": {
-        "lastModified": 1769606465,
-        "narHash": "sha256-3sder+XPo0YuIMEFadO/VlaqJX/W+wMVBJfOAxAIDsc=",
+        "lastModified": 1771601408,
+        "narHash": "sha256-dqVMKrnfOCc/OdmDwTOnwVKeJG1rZ9GDRzo+lRPS6A4=",
         "owner": "digitecgalaxus",
         "repo": "homebrew-dg",
-        "rev": "76a801cc4283bca66554804b9403f38b2f446f87",
+        "rev": "1fca81262cccad70b387b395e4adfeb55ccc4c81",
         "type": "github"
       },
       "original": {
@@ -40,11 +40,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770318660,
-        "narHash": "sha256-yFVde8QZK7Dc0Xa8eQDsmxLX4NJNfL1NKfctSyiQgMY=",
+        "lastModified": 1771411804,
+        "narHash": "sha256-bWHN38fKAbuyrIm6MzTVMOU93rCxFUOKumlWvtwUzLs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "471e6a065f9efed51488d7c51a9abbd387df91b8",
+        "rev": "77c47a454236cede268990eb3e457f062014f414",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1770386152,
-        "narHash": "sha256-d8nClZKTIJHsQ2zF2ooSGZ4fEQcxRhwofLQ9yOX9uSo=",
+        "lastModified": 1771414339,
+        "narHash": "sha256-+vq0qaUm6b8P6NV38S8ww6cFC/yBuVnlR51uFfm2qk0=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "91e29e5da17b5d2ff361306517b9607b12c6e15c",
+        "rev": "06c0dda03ef3b4cfc910c5f2b54566d0e13df1bd",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1770388134,
-        "narHash": "sha256-W+J+59/rhaOkrukSnfBz1fSKQ7yZJ9bwYMwO3tQMHSc=",
+        "lastModified": 1771415197,
+        "narHash": "sha256-DSKP3J2s5iAiKQt3cdxzkhb8TAuR8iFNO2X58qFDEDw=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "af0cb8e4de12f12c8abdd8b9a20689afd248485a",
+        "rev": "ec3cda9ab2e2439d76e2b9f0909c0de57805b091",
         "type": "github"
       },
       "original": {
@@ -124,11 +124,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770184146,
-        "narHash": "sha256-DsqnN6LvXmohTRaal7tVZO/AKBuZ02kPBiZKSU4qa/k=",
+        "lastModified": 1771371916,
+        "narHash": "sha256-G14VTfmzzRYxAhtEBNanQgCNA++Cv0/9iV4h/lkqX9U=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "0d7874ef7e3ba02d58bebb871e6e29da36fa1b37",
+        "rev": "aff4c008cec17d6a6760949df641ca0ea9179cac",
         "type": "github"
       },
       "original": {
@@ -157,17 +157,33 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1770169770,
-        "narHash": "sha256-awR8qIwJxJJiOmcEGgP2KUqYmHG4v/z8XpL9z8FnT1A=",
+        "lastModified": 1771177547,
+        "narHash": "sha256-trTtk3WTOHz7hSw89xIIvahkgoFJYQ0G43IlqprFoMA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "aa290c9891fa4ebe88f8889e59633d20cc06a5f2",
+        "rev": "ac055f38c798b0d87695240c7b761b82fc7e5bc2",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-terraform": {
+      "locked": {
+        "lastModified": 1771177547,
+        "narHash": "sha256-trTtk3WTOHz7hSw89xIIvahkgoFJYQ0G43IlqprFoMA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ac055f38c798b0d87695240c7b761b82fc7e5bc2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ac055f38c798b0d87695240c7b761b82fc7e5bc2",
         "type": "github"
       }
     },
@@ -181,7 +197,8 @@
         "nikitabobko-tap": "nikitabobko-tap",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-terraform": "nixpkgs-terraform"
       }
     }
   },

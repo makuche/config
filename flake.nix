@@ -8,6 +8,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    # Pinned nixpkgs for slow-to-build unfree packages (terraform).
+    # Bump explicitly with: nix flake update nixpkgs-terraform
+    nixpkgs-terraform.url = "github:NixOS/nixpkgs/ac055f38c798b0d87695240c7b761b82fc7e5bc2";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -52,6 +56,7 @@
     homebrew-cask,
     nikitabobko-tap,
     digitecgalaxus-tap,
+    nixpkgs-terraform,
     ...
   }: {
     # atlas - primary macOS machine
@@ -65,6 +70,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform;};
           home-manager.users.manuel = import ./hosts/atlas/home.nix;
         }
 
@@ -97,6 +103,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform;};
           home-manager.users.manuel = import ./hosts/cosmos/home.nix;
         }
 

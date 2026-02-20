@@ -23,19 +23,38 @@ vim.g.maplocalleader = "\\" -- TODO: check this
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
+		-- {
+		-- 	"kepano/flexoki-neovim",
+		-- 	name = "flexoki",
+		-- 	config = function()
+		-- 		vim.cmd.colorscheme("flexoki-dark")
+		-- 		-- transparent background
+		-- 		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+		-- 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+		-- 		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+		-- 	end,
+		-- },
 		{
-			"kepano/flexoki-neovim",
-			name = "flexoki",
+			"sainnhe/gruvbox-material",
+			lazy = false,
+			priority = 1000,
 			config = function()
-				vim.cmd.colorscheme("flexoki-dark")
-				-- transparent background
-				vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-				vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-				vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+				vim.cmd.colorscheme("gruvbox-material")
+				force_transparency()
+				vim.g.gruvbox_material_background = "hard"
+				vim.g.gruvbox_material_transparent_background = 1
+				vim.g.gruvbox_material_enable_italic = 1
+				vim.g.gruvbox_material_diagnostic_text_highlight = 1
 			end,
 		},
 		{
 			"rebelot/kanagawa.nvim",
+			lazy = true,
+			-- priority = 1000,
+			config = function()
+				vim.cmd.colorscheme("kanagawa")
+				force_transparency()
+			end,
 		},
 		{
 			"nvim-treesitter/nvim-treesitter",
@@ -56,6 +75,7 @@ require("lazy").setup({
 						"python",
 						"vim",
 						"vimdoc",
+						"yapf",
 					},
 					sync_install = true,
 					auto_install = true,
@@ -248,6 +268,11 @@ require("lazy").setup({
 					},
 					yamlls = {
 						filetypes = { "yaml", "yml" },
+						settings = {
+							yaml = {
+								format = { enable = false },
+							},
+						},
 					},
 					ts_ls = {
 						filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
@@ -261,7 +286,7 @@ require("lazy").setup({
 				vim.list_extend(ensure_installed, {
 					"stylua",
 					"latexindent",
-					"black",
+					"yapf",
 					"netcoredbg",
 					"debugpy",
 				})
@@ -382,7 +407,7 @@ require("lazy").setup({
 			opts = {
 				notify_on_error = false,
 				format_on_save = function(bufnr)
-					local disable_filetypes = { c = true, cpp = true }
+					local disable_filetypes = { c = true, cpp = true, python = true }
 					return {
 						timeout_ms = 500,
 						lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -390,10 +415,11 @@ require("lazy").setup({
 				end,
 				formatters_by_ft = {
 					lua = { "stylua" },
-					python = { "black" },
+					python = { "yapf" },
 					nix = { "alejandra" },
 					tex = { "latexindent" },
 					latex = { "latexindent" },
+					yaml = { "prettier" },
 				},
 			},
 		},
@@ -620,7 +646,14 @@ require("lazy").setup({
 			opts = {
 				terminal_cmd = "/opt/homebrew/bin/claude",
 			},
-			cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeDiffAccept", "ClaudeCodeDiffDeny" },
+			cmd = {
+				"ClaudeCode",
+				"ClaudeCodeFocus",
+				"ClaudeCodeAdd",
+				"ClaudeCodeSend",
+				"ClaudeCodeDiffAccept",
+				"ClaudeCodeDiffDeny",
+			},
 			keys = {
 				{ "<leader>a", nil, desc = "AI/Claude Code" },
 				{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
@@ -633,17 +666,17 @@ require("lazy").setup({
 				{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 			},
 		},
+		{
+			"folke/trouble.nvim",
+			opts = {},
+			keys = {
+				{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+				{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },
+				{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+				{ "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+			},
+		},
 	},
 	-- Use writable location for lockfile (nvim config is read-only via Nix)
 	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
-local colors = vim.fn.getcompletion("", "color")
-local idx = 0
-
-local function cycle_colorscheme()
-	idx = idx % #colors + 1
-	vim.cmd("colorscheme " .. colors[idx])
-	print(colors[idx])
-end
-
-vim.keymap.set("n", "<C-k>", cycle_colorscheme)

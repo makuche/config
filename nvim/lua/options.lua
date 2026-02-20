@@ -12,6 +12,7 @@ vim.opt.virtualedit = "block" -- nicer experience when using visual block mode
 vim.opt.inccommand = "split" -- shows all changes of substitute command
 vim.opt.ignorecase = true -- autocomplete of builtin commands
 vim.opt.termguicolors = true
+vim.opt.updatetime = 100 -- used for highlights (default: 4000ms)
 
 -- diagnostics
 vim.diagnostic.config({

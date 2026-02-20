@@ -15,20 +15,27 @@
   homebrew = {
     taps = ["nikitabobko/tap" "digitecgalaxus/dg"];
     brews = [
-        "helm"
-        "dg-cli"
+      "azure-cli"
+      "dg-cli"
+      "helm"
+      "sqlite" # required for qmd
     ];
 
     casks = [
       "brave-browser"
       "claude-code"
+      "dbeaver-community"
       "discord"
+      "drawio"
       "ghostty"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
+      "lulu"
       "obsidian"
+      "orbstack"
       "pritunl" # vpn
       "raycast"
+      "rider"
       "stats"
       "spotify"
       "visual-studio-code"

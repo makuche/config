@@ -30,7 +30,6 @@
       "calibre"
       "claude"
       "dbeaver-community"
-      "docker-desktop"
       "flameshot"
       # "gimp"
       "ghostty"

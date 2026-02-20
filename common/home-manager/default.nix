@@ -2,8 +2,10 @@
   config,
   pkgs,
   lib,
+  nixpkgs-terraform,
   ...
 }: let
+  pkgs-terraform = import nixpkgs-terraform {system = pkgs.stdenv.hostPlatform.system; config.allowUnfree = true;};
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   gh-dash = pkgs.buildGoModule rec {
     pname = "gh-dash";
@@ -59,7 +61,8 @@ in {
     imhex # hex viewer
     jdk17 # Java Development Kit
     gh # GitHub CLI
-    k9s # Cluster dashboard
+    gh-dash # TODO: not sure if this adds any value... GH PR in browser works better
+    kubectl
     lua-language-server
     kompose # translate docker-compose to manifests
     maven # Java project management
@@ -71,7 +74,7 @@ in {
     python312Packages.ipython # Better interpreter
     sqlite # Embedded database
     tracy # profiler
-    terraform # infrastructure
+    pkgs-terraform.terraform # infrastructure (pinned: nix flake update nixpkgs-terraform)
     tree-sitter # Parser generator toolkit
     uv # Python package manager
     virtualenv # Python environment isolation
@@ -82,24 +85,20 @@ in {
     delta # nicer diff tool
     dua # Interactive disk usage analyzer, use via `dua i` for interactive use
     dust
-    direnv # Manage envs automatically
     diff-so-fancy
     eza # Modern ls replacement
     fd # find alternative
     fzf # Fuzzy finder
-    lazygit # Terminal UI for git
     # lazydocker
     mcfly # Intelligent command history
     mpv
     ripgrep # Ultra-fast grep
     ripgrep-all # ripgrep for pdfs etc.
-    starship # Customizable shell prompt
     tmux # Terminal multiplexer
     tokei # Code statistics
     tree # Directory structure viewer
     xh # http tool
     wiki-tui # wikipedia in text interface
-    yazi # like ranger but with image rendering
     zoxide # Smart directory navigation
 
     # ===== File Management =====
@@ -117,7 +116,6 @@ in {
 
     # ===== Security =====
     # clamav # Additional utilities
-    keychain # Enables long-running ssh-agent
     gnupg # Encryption toolkit
     git-crypt # Encrypt files in git repo
     trufflehog # Detect token leakage
@@ -328,6 +326,7 @@ in {
         eval "$(zoxide init zsh)"
         eval "$(mcfly init zsh)"
         export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
+        export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
         export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
         export MCFLY_FUZZY=true
         export MCFLY_RESULTS=50
@@ -375,6 +374,8 @@ in {
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";
       draw = "open -na 'Brave Browser' --args --app='https://app.diagrams.net'";
+      cpall = "f(){ o=$(find \"\${1:-.}\" -type f | sort | while read l; do echo \"=== $l ===\"; cat \"$l\"; echo; done); echo \"$o\"|pbcopy; w=$(echo \"$o\"|wc -w|tr -d \" \"); c=$(echo \"$o\"|wc -c|tr -d \" \"); t=$((c/4)); [ $t -ge 1000000 ] && tk=\"$((t/1000))K\" || { [ $t -ge 1000 ] && tk=\"\${t%???}K\" || tk=\"$t\"; }; echo \"Copied. \${w} words, ~\${tk} tokens\"; }; f";
+      rain = "open -na 'Brave Browser' --args --app='https://www.meteoswiss.admin.ch/services-and-publications/applications/precipitation.html'";
       stand = "nix run ~/git/idasen-desk#stand";
       sit = "nix run ~/git/idasen-desk#sit";
     };
@@ -415,6 +416,23 @@ in {
           };
         };
         body.bgColor = "default";
+      };
+    };
+  };
+
+  programs.yazi = {
+    enable = true;
+    plugins = {
+      git = pkgs.yaziPlugins.git;
+    };
+    initLua = ''
+      require("git"):setup()
+    '';
+    settings = {
+      mgr = {
+        ratio = [ 1 2 5 ];
+        sort_by = "natural";
+        linemode = "size";
       };
     };
   };

@@ -31,6 +31,12 @@ end, { desc = "[S]earch [N]eovim files" })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
+-- fyi: native vim split keybinds:
+--   <C-w>s  horizontal split
+--   <C-w>v  vertical split
+--   <C-w>q  close split
+-- navigation across splits (and tmux panes) is handled by smart-splits.nvim via C-h/j/k/l
+
 -- Diagnostics
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })

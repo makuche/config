@@ -20,6 +20,33 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\" -- TODO: check this
 -- vim.keymap.set("n", "<Space>", "<Nop>") -- TODO: check this
 
+local colorscheme_themes = {
+	{ cmd = "gruvbox-material", label = "Gruvbox Material" },
+	{ cmd = "kanagawa", label = "Kanagawa" },
+	{ cmd = "everforest", label = "Everforest" },
+	{ cmd = "tokyonight-night", label = "Tokyonight Night" },
+	{ cmd = "melange", label = "Melange" },
+}
+local colorscheme_index = 0 -- starts on kanagawa
+
+local function force_transparency()
+	vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+	vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+	vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+end
+
+vim.keymap.set("n", "<leader>k", function()
+	colorscheme_index = (colorscheme_index % #colorscheme_themes) + 1
+	local theme = colorscheme_themes[colorscheme_index]
+	vim.cmd.colorscheme(theme.cmd)
+	force_transparency()
+	vim.notify(
+		"Theme: " .. theme.label .. " [" .. colorscheme_index .. "/" .. #colorscheme_themes .. "]",
+		vim.log.levels.INFO
+	)
+end, { desc = "Cycle colorschemes" })
+
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
@@ -32,6 +59,63 @@ require("lazy").setup({
 		-- 		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 		-- 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 		-- 		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+		-- 	end,
+		-- },
+		-- {
+		-- 	"sainnhe/gruvbox-material",
+		-- 	lazy = false,
+		-- 	priority = 1000,
+		-- 	config = function()
+		-- 		vim.g.gruvbox_material_background = "hard"
+		-- 		vim.g.gruvbox_material_transparent_background = 1
+		-- 		vim.g.gruvbox_material_enable_italic = 1
+		-- 		vim.g.gruvbox_material_diagnostic_text_highlight = 1
+		-- 		vim.cmd.colorscheme("gruvbox-material")
+		-- 		local colors = {
+		-- 			brown = "#c4a277",
+		-- 			yellow = "#ffc32d",
+		-- 			red = "#f67858",
+		-- 			green = "#84d160",
+		-- 			purple = "#b384d3",
+		-- 			blue = "#72C7F9",
+		-- 		}
+		--
+		-- 		local set = vim.api.nvim_set_hl
+		--
+		-- 		local groups = {
+		-- 			Red = colors.red,
+		-- 			Green = colors.green,
+		-- 			Yellow = colors.yellow,
+		-- 			Purple = colors.purple,
+		-- 			Orange = colors.brown,
+		-- 			Blue = colors.blue, -- member access, etc.
+		-- 			Aqua = colors.blue, -- strings — try: colors.green, colors.yellow, or leave commented to keep gruvbox default
+		-- 		}
+		--
+		-- 		for name, color in pairs(groups) do
+		-- 			for _, style in ipairs({ "", "Bold", "Italic" }) do
+		-- 				set(0, name .. style, {
+		-- 					fg = color,
+		-- 					bold = style == "Bold",
+		-- 					italic = style == "Italic",
+		-- 				})
+		-- 			end
+		-- 			-- Sign and diagnostic column variants gruvbox-material also defines
+		-- 			set(0, name .. "Sign", { fg = color })
+		-- 		end
+		--
+		-- 		-- Diagnostics (these don't chain through the base groups)
+		-- 		set(0, "DiagnosticError", { fg = colors.red })
+		-- 		set(0, "DiagnosticWarn", { fg = colors.yellow })
+		-- 		set(0, "DiagnosticInfo", { fg = colors.blue })
+		-- 		set(0, "DiagnosticHint", { fg = colors.purple })
+		--
+		-- 		-- Git signs
+		-- 		set(0, "GitSignsAdd", { fg = colors.green })
+		-- 		set(0, "GitSignsChange", { fg = colors.yellow })
+		-- 		set(0, "GitSignsDelete", { fg = colors.red })
+		--
+		-- 		force_transparency()
 		-- 	end,
 		-- },
 		{
@@ -55,6 +139,35 @@ require("lazy").setup({
 				vim.cmd.colorscheme("kanagawa")
 				force_transparency()
 			end,
+		},
+		-- Colorschemes for cycling (lazy-loaded, loaded on first use by :colorscheme)
+		{
+			"sainnhe/everforest",
+			lazy = true,
+			config = function()
+				vim.g.everforest_background = "hard"
+				vim.g.everforest_transparent_background = 1
+				vim.g.everforest_enable_italic = 1
+				vim.g.everforest_diagnostic_text_highlight = 1
+			end,
+		},
+		{
+			"folke/tokyonight.nvim",
+			lazy = true,
+			opts = {
+				style = "night",
+				transparent = true,
+				styles = {
+					comments = { italic = true },
+					keywords = { italic = true },
+					functions = {},
+					variables = {},
+				},
+			},
+		},
+		{
+			"savq/melange-nvim",
+			lazy = true,
 		},
 		{
 			"nvim-treesitter/nvim-treesitter",
@@ -641,6 +754,41 @@ require("lazy").setup({
 			end,
 		},
 		{
+			"mrjones2014/smart-splits.nvim",
+			lazy = false,
+			opts = {},
+			keys = {
+				{
+					"<C-h>",
+					function()
+						require("smart-splits").move_cursor_left()
+					end,
+					mode = { "n", "t" },
+				},
+				{
+					"<C-j>",
+					function()
+						require("smart-splits").move_cursor_down()
+					end,
+					mode = { "n", "t" },
+				},
+				{
+					"<C-k>",
+					function()
+						require("smart-splits").move_cursor_up()
+					end,
+					mode = { "n", "t" },
+				},
+				{
+					"<C-l>",
+					function()
+						require("smart-splits").move_cursor_right()
+					end,
+					mode = { "n", "t" },
+				},
+			},
+		},
+		{
 			"coder/claudecode.nvim",
 			dependencies = { "folke/snacks.nvim" },
 			opts = {
@@ -667,8 +815,25 @@ require("lazy").setup({
 			},
 		},
 		{
+			-- Replaces the builtin quickfix list with a prettier UI.
+			-- Use <C-q> in Telescope to send results to the quickfix list, which opens in Trouble.
 			"folke/trouble.nvim",
+			cmd = "Trouble",
 			opts = {},
+			init = function()
+				-- Redirect native quickfix to Trouble (official example, no better API exists)
+				-- https://github.com/folke/trouble.nvim/blob/main/docs/examples.md
+				vim.api.nvim_create_autocmd("BufRead", {
+					callback = function(ev)
+						if vim.bo[ev.buf].buftype == "quickfix" then
+							vim.schedule(function()
+								vim.cmd([[cclose]])
+								vim.cmd([[Trouble qflist toggle]])
+							end)
+						end
+					end,
+				})
+			end,
 			keys = {
 				{ "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
 				{ "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics" },

@@ -1,0 +1,91 @@
+" === Core settings (mirrors your options.lua) ===
+set number
+set relativenumber
+set scrolloff=999
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set clipboard=unnamedplus
+
+" IdeaVim-specific
+set ideajoin          " smart line joining (respects language semantics)
+set idearefactormode=keep
+
+let mapleader = " "
+
+" === Plugins (built into IdeaVim, not external) ===
+set surround          " mini.surround equivalent (cs, ds, ys)
+set commentary        " Comment.nvim equivalent (gc, gcc)
+set NERDTree          " file tree (not oil, but closest built-in)
+set which-key         " shows leader key popup, like your which-key.nvim
+set notimeout         " which-key needs this to not time out on leader
+
+" === Telescope equivalents (mapped to Rider's built-in actions) ===
+" This is the core of your workflow. Rider's "Search Everywhere" and
+" the various Go To popups are your Telescope replacement.
+
+nmap <leader>sf <Action>(GotoFile)
+nmap <leader>sg <Action>(FindInPath)
+nmap <leader>sw <Action>(FindWordAtCaret)
+nmap <leader>sk <Action>(GotoAction)
+nmap <leader>sd <Action>(ActivateProblemsViewToolWindow)
+nmap <leader>ds <Action>(FileStructurePopup)
+nmap <leader>ws <Action>(GotoSymbol)
+nmap <leader>sr <Action>(RecentFiles)
+nmap <leader>s. <Action>(RecentFiles)
+nmap <leader>sh <Action>(HelpTopics)
+nmap <leader>/ <Action>(Find)
+
+" === LSP equivalents (maps directly to your lspconfig keybinds) ===
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap gr <Action>(FindUsages)
+nmap gI <Action>(GotoImplementation)
+nmap K <Action>(QuickJavaDoc)
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>ca <Action>(ShowIntentionActions)
+nmap <leader>D <Action>(GotoTypeDeclaration)
+
+" === Diagnostics (mirrors your [d / ]d) ===
+nmap [d <Action>(GotoPreviousError)
+nmap ]d <Action>(GotoNextError)
+nmap <leader>e <Action>(ShowErrorDescription)
+nmap <leader>q <Action>(ActivateProblemsViewToolWindow)
+
+" === Debugging (mirrors your nvim-dap keybinds) ===
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+nmap <leader>dc <Action>(Resume)
+nmap <leader>do <Action>(StepOver)
+nmap <leader>di <Action>(StepInto)
+nmap <leader>du <Action>(StepOut)
+nmap <leader>dt <Action>(ActivateDebugToolWindow)
+nmap <leader>dq <Action>(Stop)
+nmap <leader>dr <Action>(EvaluateExpression)
+
+" === Git (mirrors your gitsigns keybinds) ===
+nmap ]c <Action>(VcsShowNextChangeMarker)
+nmap [c <Action>(VcsShowPrevChangeMarker)
+nmap <leader>hp <Action>(VcsShowCurrentChangeMarker)
+nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>hb <Action>(Annotate)
+nmap <leader>hd <Action>(Compare.SameVersion)
+
+" === Formatting (mirrors your conform.nvim <leader>f) ===
+nmap <leader>f <Action>(ReformatCode)
+
+" === File explorer (closest to your oil.nvim `-` binding) ===
+nmap - <Action>(SelectInProjectView)
+
+" === Splits (mirrors your smart-splits C-hjkl) ===
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+" === Trouble-like diagnostics ===
+nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
+
+" === Extras worth having ===
+nmap <leader>th <Action>(ToggleInlayHintsGloballyAction)
+nmap <leader>tb <Action>(Annotate)

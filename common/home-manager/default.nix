@@ -5,7 +5,10 @@
   nixpkgs-terraform,
   ...
 }: let
-  pkgs-terraform = import nixpkgs-terraform {system = pkgs.stdenv.hostPlatform.system; config.allowUnfree = true;};
+  pkgs-terraform = import nixpkgs-terraform {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   gh-dash = pkgs.buildGoModule rec {
     pname = "gh-dash";
@@ -89,6 +92,7 @@ in {
     eza # Modern ls replacement
     fd # find alternative
     fzf # Fuzzy finder
+    # python3Packages.grip # markdown preview, use via `grip README.md`
     # lazydocker
     mcfly # Intelligent command history
     mpv
@@ -134,6 +138,7 @@ in {
     executable = true;
   };
 
+  home.file.".ideavimrc".source = ../../assets/.ideavimrc;
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
@@ -430,7 +435,7 @@ in {
     '';
     settings = {
       mgr = {
-        ratio = [ 1 2 5 ];
+        ratio = [1 2 5];
         sort_by = "natural";
         linemode = "size";
       };

@@ -315,6 +315,14 @@ require("lazy").setup({
 					end,
 				})
 
+				-- apply codelens once Roslyn finishes project initialization
+				vim.api.nvim_create_autocmd("User", {
+					pattern = "RoslynInitialized",
+					callback = function()
+						vim.lsp.codelens.refresh()
+					end,
+				})
+
 				-- Get capabilities from blink.cmp
 				local capabilities = require("blink.cmp").get_lsp_capabilities()
 
@@ -436,6 +444,18 @@ require("lazy").setup({
 			"seblyng/roslyn.nvim",
 			opts = {
 				filewatching = "auto",
+				config = {
+					settings = {
+						["csharp|code_lens"] = {
+							dotnet_enable_references_code_lens = true,
+							dotnet_enable_tests_code_lens = true,
+						},
+						["csharp|background_analysis"] = {
+							dotnet_analyzer_diagnostics_scope = "fullSolution",
+							dotnet_compiler_diagnostics_scope = "fullSolution",
+						},
+					},
+				},
 			},
 		},
 		{
@@ -522,7 +542,7 @@ require("lazy").setup({
 				format_on_save = function(bufnr)
 					local disable_filetypes = { c = true, cpp = true, python = true }
 					return {
-						timeout_ms = 500,
+						timeout_ms = 2000,
 						lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
 					}
 				end,
@@ -792,7 +812,7 @@ require("lazy").setup({
 			"coder/claudecode.nvim",
 			dependencies = { "folke/snacks.nvim" },
 			opts = {
-				terminal_cmd = "/opt/homebrew/bin/claude",
+				terminal_cmd = "/opt/homebrew/bin/claude", --TODO: should also work when its installed under /users, i think this is when you just do it manually?
 			},
 			cmd = {
 				"ClaudeCode",

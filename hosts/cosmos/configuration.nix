@@ -18,6 +18,7 @@
       "azure-cli"
       "dg-cli"
       "helm"
+      "sqlcmd"
       "sqlite" # required for qmd
     ];
 

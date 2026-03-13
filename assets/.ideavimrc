@@ -1,4 +1,5 @@
-" === Core settings (mirrors your options.lua) ===
+" todo: check again claude --resume 1ecbe564-ba67-4662-882a-9d5ade658eb1
+" === Core settings (mirrors options.lua) ===
 set number
 set relativenumber
 set scrolloff=999
@@ -9,22 +10,44 @@ set hlsearch
 set clipboard=unnamedplus
 
 " IdeaVim-specific
-set ideajoin          " smart line joining (respects language semantics)
+set ideajoin
 set idearefactormode=keep
 
 let mapleader = " "
 
-" === Plugins (built into IdeaVim, not external) ===
+" === Plugins (built into IdeaVim) ===
 set surround          " mini.surround equivalent (cs, ds, ys)
 set commentary        " Comment.nvim equivalent (gc, gcc)
-set NERDTree          " file tree (not oil, but closest built-in)
-set which-key         " shows leader key popup, like your which-key.nvim
-set notimeout         " which-key needs this to not time out on leader
+set NERDTree          " file tree
+set which-key         " leader key popup
+set notimeout         " which-key needs this
+set highlightedyank   " mirrors TextYankPost highlight autocmd
+set exchange          " cx operator for swapping
+set textobj-entire    " ae/ie text objects for entire file
+set argtextobj        " aa/ia for function arguments (like mini.ai)
+set matchit           " extended % matching
 
-" === Telescope equivalents (mapped to Rider's built-in actions) ===
-" This is the core of your workflow. Rider's "Search Everywhere" and
-" the various Go To popups are your Telescope replacement.
+" === General keymaps (mirrors keymaps.lua) ===
+nmap <Esc> :nohlsearch<CR>
 
+" Center after half-page scroll
+nmap <C-d> <C-d>zz
+nmap <C-u> <C-u>zz
+
+" Move visual blocks up/down
+vmap J <Action>(MoveLineDown)
+vmap K <Action>(MoveLineUp)
+
+" Paste over selection without yanking
+xmap <leader>p "_dP
+
+" Substitute word under cursor
+nmap <leader>ss :%s/\<<c-r><c-w>\>/<c-r><c-w>/gi<left><left><left>
+
+" Exit terminal mode
+tmap <Esc><Esc> <C-\><C-n>
+
+" === Search (Telescope equivalents) ===
 nmap <leader>sf <Action>(GotoFile)
 nmap <leader>sg <Action>(FindInPath)
 nmap <leader>sw <Action>(FindWordAtCaret)
@@ -35,11 +58,13 @@ nmap <leader>ws <Action>(GotoSymbol)
 nmap <leader>sr <Action>(RecentFiles)
 nmap <leader>s. <Action>(RecentFiles)
 nmap <leader>sh <Action>(HelpTopics)
+nmap <leader>st <Action>(ActivateTODOToolWindow)
 nmap <leader>/ <Action>(Find)
+nmap <leader>s/ <Action>(FindInPath)
 
-" === LSP equivalents (maps directly to your lspconfig keybinds) ===
+" === LSP (mirrors nvim-lspconfig keybinds) ===
 nmap gd <Action>(GotoDeclaration)
-nmap gD <Action>(GotoTypeDeclaration)
+nmap gD <Action>(GotoSuperMethod)
 nmap gr <Action>(FindUsages)
 nmap gI <Action>(GotoImplementation)
 nmap K <Action>(QuickJavaDoc)
@@ -47,13 +72,14 @@ nmap <leader>rn <Action>(RenameElement)
 nmap <leader>ca <Action>(ShowIntentionActions)
 nmap <leader>D <Action>(GotoTypeDeclaration)
 
-" === Diagnostics (mirrors your [d / ]d) ===
+" === Diagnostics (mirrors [d / ]d from keymaps.lua) ===
 nmap [d <Action>(GotoPreviousError)
 nmap ]d <Action>(GotoNextError)
 nmap <leader>e <Action>(ShowErrorDescription)
 nmap <leader>q <Action>(ActivateProblemsViewToolWindow)
+nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
 
-" === Debugging (mirrors your nvim-dap keybinds) ===
+" === Debugging (mirrors nvim-dap: both leader and F-key styles) ===
 nmap <leader>db <Action>(ToggleLineBreakpoint)
 nmap <leader>dc <Action>(Resume)
 nmap <leader>do <Action>(StepOver)
@@ -62,30 +88,39 @@ nmap <leader>du <Action>(StepOut)
 nmap <leader>dt <Action>(ActivateDebugToolWindow)
 nmap <leader>dq <Action>(Stop)
 nmap <leader>dr <Action>(EvaluateExpression)
+nmap <space>b <Action>(ToggleLineBreakpoint)
+nmap <space>gb <Action>(RunToCursor)
+nmap <space>? <Action>(EvaluateExpression)
+nmap <F1> <Action>(Resume)
+nmap <F2> <Action>(StepInto)
+nmap <F3> <Action>(StepOver)
+nmap <F4> <Action>(StepOut)
 
-" === Git (mirrors your gitsigns keybinds) ===
+" === Git (mirrors gitsigns keybinds) ===
 nmap ]c <Action>(VcsShowNextChangeMarker)
 nmap [c <Action>(VcsShowPrevChangeMarker)
 nmap <leader>hp <Action>(VcsShowCurrentChangeMarker)
+nmap <leader>hs <Action>(Vcs.Stage)
 nmap <leader>hr <Action>(Vcs.RollbackChangedLines)
+nmap <leader>hS <Action>(Git.Add)
+nmap <leader>hR <Action>(ChangesView.Revert)
 nmap <leader>hb <Action>(Annotate)
 nmap <leader>hd <Action>(Compare.SameVersion)
+nmap <leader>hD <Action>(Diff.ShowDiff)
 
-" === Formatting (mirrors your conform.nvim <leader>f) ===
+" === Formatting (mirrors conform.nvim) ===
 nmap <leader>f <Action>(ReformatCode)
 
-" === File explorer (closest to your oil.nvim `-` binding) ===
+" === File explorer (closest to oil.nvim `-` binding) ===
 nmap - <Action>(SelectInProjectView)
 
-" === Splits (mirrors your smart-splits C-hjkl) ===
+" === Splits (mirrors C-hjkl navigation) ===
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
-" === Trouble-like diagnostics ===
-nmap <leader>xx <Action>(ActivateProblemsViewToolWindow)
-
-" === Extras worth having ===
+" === Toggles ===
 nmap <leader>th <Action>(ToggleInlayHintsGloballyAction)
 nmap <leader>tb <Action>(Annotate)
+nmap <leader>tD <Action>(Git.ToggleInlineChangesHighlight)

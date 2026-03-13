@@ -56,3 +56,17 @@ vim.keymap.set("n", "<leader>e", function()
 	end
 end, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+
+-- paste over highlighted text without changing register
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- delete without changing register
+vim.keymap.set({ "n", "x" }, "<leader>d", [["_d]])
+
+-- save stuff without formatting
+vim.keymap.set(
+	"n",
+	"<leader>w",
+	"<cmd>set eventignore=BufWritePre | w<CR>",
+	{ desc = "Save without auto formatting the current buffer (BufWritePre events)" }
+)

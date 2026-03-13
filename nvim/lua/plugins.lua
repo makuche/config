@@ -490,7 +490,7 @@ require("lazy").setup({
 			dependencies = { "rafamadriz/friendly-snippets" },
 			version = "1.*",
 			opts = {
-				keymap = { preset = "default" },
+				keymap = { preset = "super-tab" },
 				appearance = {
 					nerd_font_variant = "mono",
 				},

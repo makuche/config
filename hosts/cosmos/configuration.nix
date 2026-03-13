@@ -20,6 +20,7 @@
       "helm"
       "sqlcmd"
       "sqlite" # required for qmd
+      "viddy"
     ];
 
     casks = [

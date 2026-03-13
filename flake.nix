@@ -12,6 +12,10 @@
     # Bump explicitly with: nix flake update nixpkgs-terraform
     nixpkgs-terraform.url = "github:NixOS/nixpkgs/ac055f38c798b0d87695240c7b761b82fc7e5bc2";
 
+    # Pinned nixpkgs for dotnet SDKs (builds from source on unstable).
+    # Bump explicitly with: nix flake update nixpkgs-dotnet
+    nixpkgs-dotnet.url = "github:NixOS/nixpkgs/aa290c9891fa4ebe88f8889e59633d20cc06a5f2";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -57,6 +61,7 @@
     nikitabobko-tap,
     digitecgalaxus-tap,
     nixpkgs-terraform,
+    nixpkgs-dotnet,
     ...
   }: {
     # atlas - primary macOS machine
@@ -70,7 +75,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform;};
+          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
           home-manager.users.manuel = import ./hosts/atlas/home.nix;
         }
 
@@ -103,7 +108,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform;};
+          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
           home-manager.users.manuel = import ./hosts/cosmos/home.nix;
         }
 

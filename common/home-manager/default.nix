@@ -3,11 +3,15 @@
   pkgs,
   lib,
   nixpkgs-terraform,
+  nixpkgs-dotnet,
   ...
 }: let
   pkgs-terraform = import nixpkgs-terraform {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
+  };
+  pkgs-dotnet = import nixpkgs-dotnet {
+    system = pkgs.stdenv.hostPlatform.system;
   };
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   gh-dash = pkgs.buildGoModule rec {
@@ -31,6 +35,7 @@ in {
     # ===== Development =====
     alejandra # Nix formatter
     btop # Resource manager
+    bottom # htop alternative
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
@@ -49,12 +54,13 @@ in {
         ;
     })
 
-    # .NET SDK - multiple versions for different projects
-    (with dotnetCorePackages;
-      combinePackages [
-        sdk_10_0 # .NET 10.0.102
-        sdk_9_0 # .NET 9.0.310
-        sdk_8_0 # .NET 8.0.417
+    # .NET SDK - pinned to avoid building from source on unstable
+    # Bump with: nix flake update nixpkgs-dotnet
+    (with pkgs-dotnet.dotnetCorePackages;
+      pkgs-dotnet.dotnetCorePackages.combinePackages [
+        sdk_10_0
+        sdk_9_0
+        sdk_8_0
       ])
 
     lua
@@ -210,6 +216,7 @@ in {
       core = {
         excludesfile = "~/.gitignore"; #TODO: Add this to the config repo
         longpaths = true;
+        autocrlf = "input";
       };
       rebase = {
         autoSquash = true;
@@ -307,6 +314,15 @@ in {
     autocd = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    # use cached compinit (-C skips compaudit security check, regenerate dump once daily)
+    completionInit = ''
+      autoload -Uz compinit
+      if [[ -f "$HOME/.zcompdump" && $(date +'%j') == $(stat -f '%Sm' -t '%j' "$HOME/.zcompdump") ]]; then
+        compinit -C
+      else
+        compinit
+      fi
+    '';
     # Common shell history settings
     history = {
       size = 50000;
@@ -321,48 +337,42 @@ in {
     };
 
     # Common initialization
-    initContent = lib.mkMerge [
-      # Must run before compinit (order 550)
-      (lib.mkOrder 550 ''
-        ZSH_DISABLE_COMPFIX=true
-      '')
-      # Regular init content (runs after compinit)
-      ''
-        eval "$(zoxide init zsh)"
-        eval "$(mcfly init zsh)"
-        export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
-        export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
-        export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
-        export MCFLY_FUZZY=true
-        export MCFLY_RESULTS=50
-        export MCFLY_INTERFACE_VIEW=BOTTOM
-        export MCFLY_DISABLE_WELCOME=true
-        bindkey '^R' mcfly-history-widget
-        export MCFLY_KEY_SCHEME=vim
-        setopt EXTENDED_HISTORY
-        setopt HIST_EXPIRE_DUPS_FIRST
-        setopt HIST_FIND_NO_DUPS
-        setopt HIST_REDUCE_BLANKS
-        setopt HIST_VERIFY
-        setopt APPEND_HISTORY
-        setopt complete_aliases # enable completion for aliases
-        ll() { eza -lahF "$@" }
-        y() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-        yazi "$@" --cwd-file="$tmp"
-        IFS= read -r -d $'\0' cwd < "$tmp"
-        [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-        rm -f -- "$tmp"
-        }
-        setopt INC_APPEND_HISTORY
-        export EDITOR=nvim
+    initContent = ''
+      ulimit -n 10240 # raise open file limit — without this, `nix flake update` fails with "Too many open files"
+      eval "$(zoxide init zsh)"
+      eval "$(mcfly init zsh)"
+      export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
+      export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
+      export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+      export MCFLY_FUZZY=true
+      export MCFLY_RESULTS=50
+      export MCFLY_INTERFACE_VIEW=BOTTOM
+      export MCFLY_DISABLE_WELCOME=true
+      bindkey '^R' mcfly-history-widget
+      export MCFLY_KEY_SCHEME=vim
+      setopt EXTENDED_HISTORY
+      setopt HIST_EXPIRE_DUPS_FIRST
+      setopt HIST_FIND_NO_DUPS
+      setopt HIST_REDUCE_BLANKS
+      setopt HIST_VERIFY
+      setopt APPEND_HISTORY
+      setopt complete_aliases # enable completion for aliases
+      ll() { eza -lahF "$@" }
+      y() {
+      local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+      yazi "$@" --cwd-file="$tmp"
+      IFS= read -r -d $'\0' cwd < "$tmp"
+      [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+      rm -f -- "$tmp"
+      }
+      setopt INC_APPEND_HISTORY
+      export EDITOR=nvim
 
-        # re-attach or start tmux session on new shell
-        if [[ -z "$TMUX" ]]; then
-          tmux attach -t main 2>/dev/null || tmux new -s main
-        fi
-      ''
-    ];
+      # re-attach or start tmux session on new shell
+      if [[ -z "$TMUX" ]]; then
+        tmux attach -t main 2>/dev/null || tmux new -s main
+      fi
+    '';
 
     shellAliases = {
       ls = "eza";
@@ -427,6 +437,7 @@ in {
 
   programs.yazi = {
     enable = true;
+    shellWrapperName = "yy";
     plugins = {
       git = pkgs.yaziPlugins.git;
     };

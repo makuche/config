@@ -365,6 +365,13 @@ in {
       [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
       rm -f -- "$tmp"
       }
+      obsedit() {
+        local file="$1"
+        local scratch=$(mktemp -d)
+        ln -s "$(realpath "$file")" "$scratch/"
+        (cd "$scratch" && /opt/homebrew/bin/claude)
+        rm -rf "$scratch"
+      }
       setopt INC_APPEND_HISTORY
       export EDITOR=nvim
 

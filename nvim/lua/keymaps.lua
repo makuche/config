@@ -63,6 +63,10 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- delete without changing register
 vim.keymap.set({ "n", "x" }, "<leader>d", [["_d]])
 
+-- User commands (discoverable via :command or tab-complete after ":")
+vim.api.nvim_create_user_command("W", "w !sudo tee % > /dev/null", { desc = "Write buffer as sudo" })
+vim.api.nvim_create_user_command("Wn", "noautocmd w", { desc = "Write buffer without triggering autocommands (e.g. skips format-on-save)" })
+
 -- save stuff without formatting
 vim.keymap.set(
 	"n",

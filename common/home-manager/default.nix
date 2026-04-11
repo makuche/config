@@ -343,7 +343,9 @@ in {
       eval "$(mcfly init zsh)"
       export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
       export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
-      export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+      export PATH="/Users/manuel/.local/bin:$PATH"
+      export DOTNET_ROOT="$HOME/.dotnet"
+      export PATH="$HOME/.dotnet:$PATH"
       export MCFLY_FUZZY=true
       export MCFLY_RESULTS=50
       export MCFLY_INTERFACE_VIEW=BOTTOM

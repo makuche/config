@@ -34,8 +34,44 @@ in {
     dock = {
       "launchanim" = false;
     };
+    CustomUserPreferences."com.apple.symbolichotkeys" = {
+      AppleSymbolicHotKeys = {
+        # 60 = Select previous input source (Ctrl+Space) disabled for tmux
+        "60" = {
+          enabled = false;
+          value = {
+            parameters = [32 49 262144];
+            type = "standard";
+          };
+        };
+        # 61 = Select next input source (Ctrl+Option+Space) disabled for tmux
+        "61" = {
+          enabled = false;
+          value = {
+            parameters = [32 49 786432];
+            type = "standard";
+          };
+        };
+        # 64 = Spotlight Search (Cmd+Space) disabled for Raycast
+        "64" = {
+          enabled = false;
+          value = {
+            parameters = [32 49 1048576];
+            type = "standard";
+          };
+        };
+        # 65 = Spotlight Window (Cmd+Option+Space) disabled for Raycast
+        "65" = {
+          enabled = false;
+          value = {
+            parameters = [32 49 1572864];
+            type = "standard";
+          };
+        };
+      };
+    };
   };
-  
+
   fonts.packages = with pkgs; [
     nerd-fonts.mononoki
   ];

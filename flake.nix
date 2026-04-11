@@ -50,6 +50,10 @@
       url = "github:digitecgalaxus/homebrew-dg";
       flake = false;
     };
+    felixkratz-tap = {
+      url = "github:FelixKratz/homebrew-formulae";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -60,6 +64,7 @@
     homebrew-cask,
     nikitabobko-tap,
     digitecgalaxus-tap,
+    felixkratz-tap,
     nixpkgs-terraform,
     nixpkgs-dotnet,
     ...
@@ -90,6 +95,7 @@
               "homebrew/homebrew-core" = homebrew-core;
               "homebrew/homebrew-cask" = homebrew-cask;
               "nikitabobko/homebrew-tap" = nikitabobko-tap;
+              "FelixKratz/homebrew-formulae" = felixkratz-tap;
             };
             mutableTaps = false;
           };
@@ -124,6 +130,7 @@
               "homebrew/homebrew-cask" = homebrew-cask;
               "nikitabobko/homebrew-tap" = nikitabobko-tap;
               "digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;
+              "FelixKratz/homebrew-formulae" = felixkratz-tap;
             };
             mutableTaps = false;
           };

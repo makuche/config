@@ -13,9 +13,10 @@
 
   # cosmos-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap" "digitecgalaxus/dg"];
+    taps = ["nikitabobko/tap" "digitecgalaxus/dg" "FelixKratz/formulae"];
     brews = [
       "azure-cli"
+      "FelixKratz/formulae/borders"
       "dg-cli"
       "helm"
       "sqlcmd"
@@ -33,6 +34,7 @@
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
       "lulu"
+      "little-snitch"
       "obsidian"
       "orbstack"
       "pritunl" # vpn

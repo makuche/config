@@ -13,10 +13,11 @@
 
   # MacBook-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap"];
+    taps = ["nikitabobko/tap" "FelixKratz/formulae"];
     brews = [
       # "duckdb"
       "exiftool"
+      "FelixKratz/formulae/borders"
       "helm"
       "geeqie"
       "git-crypt"

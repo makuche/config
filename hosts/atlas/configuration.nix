@@ -25,26 +25,26 @@
     ];
 
     casks = [
-      "raycast"
-      "rawtherapee"
       "brave-browser"
       "calibre"
       "claude"
       "dbeaver-community"
       "flameshot"
-      # "gimp"
       "ghostty"
-      # TODO: use the nix-darwin settings: 
-      # https://nix-darwin.github.io/nix-darwin/manual/#opt-services.aerospace.enable
       "nikitabobko/tap/aerospace"
       "obsidian"
       "parallels"
-      "protonvpn"
       "proton-pass"
+      "protonvpn"
+      "rawtherapee"
+      "raycast"
       "stats"
       "tailscale-app"
       "visual-studio-code"
       "vlc"
+      # "gimp"
+      # TODO: use the nix-darwin settings:
+      # https://nix-darwin.github.io/nix-darwin/manual/#opt-services.aerospace.enable
     ];
 
     masApps = {
@@ -58,6 +58,7 @@
   system.defaults = {
     NSGlobalDomain = {
       "_HIHideMenuBar" = false;
+      "ApplePressAndHoldEnabled" = true;
     };
     dock = {
       "autohide" = true;

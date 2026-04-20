@@ -30,6 +30,7 @@ in {
       "InitialKeyRepeat" = 10;
       "KeyRepeat" = 1;
       "NSAutomaticWindowAnimationsEnabled" = false; # disable animations
+      "ApplePressAndHoldEnabled" = false; # disable accent menu, enable key repeat
     };
     dock = {
       "launchanim" = false;

@@ -15,8 +15,8 @@
   homebrew = {
     taps = ["nikitabobko/tap" "digitecgalaxus/dg" "FelixKratz/formulae"];
     brews = [
-      "azure-cli"
       "FelixKratz/formulae/borders"
+      "azure-cli"
       "dg-cli"
       "helm"
       "sqlcmd"
@@ -26,10 +26,10 @@
 
     casks = [
       "brave-browser"
-      "claude-code"
       "dbeaver-community"
       "discord"
       "drawio"
+      "flameshot"
       "ghostty"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
@@ -38,11 +38,13 @@
       "obsidian"
       "orbstack"
       "pritunl" # vpn
+      "pycharm"
       "raycast"
       "rider"
       "stats"
       "spotify"
       "visual-studio-code"
+      "webstorm"
     ];
   };
 
@@ -50,6 +52,7 @@
   system.defaults = {
     NSGlobalDomain = {
       "_HIHideMenuBar" = false;
+      "ApplePressAndHoldEnabled" = true;
     };
     dock = {
       "autohide" = true;

@@ -79,14 +79,12 @@ in {
     nixd # Nix Language Server
     nushell # nice for formatted outputs
     python312 # Python interpreter
-    python312Packages.pip # Python package manager
     python312Packages.ipython # Better interpreter
     sqlite # Embedded database
     tracy # profiler
     pkgs-terraform.terraform # infrastructure (pinned: nix flake update nixpkgs-terraform)
     tree-sitter # Parser generator toolkit
     uv # Python package manager
-    virtualenv # Python environment isolation
     yarn
 
     # ===== CLI Tools =====
@@ -358,7 +356,6 @@ in {
       setopt HIST_REDUCE_BLANKS
       setopt HIST_VERIFY
       setopt APPEND_HISTORY
-      setopt complete_aliases # enable completion for aliases
       ll() { eza -lahF "$@" }
       y() {
       local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

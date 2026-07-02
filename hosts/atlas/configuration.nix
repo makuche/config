@@ -58,7 +58,6 @@
   system.defaults = {
     NSGlobalDomain = {
       "_HIHideMenuBar" = false;
-      "ApplePressAndHoldEnabled" = true;
     };
     dock = {
       "autohide" = true;

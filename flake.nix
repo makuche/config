@@ -38,10 +38,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
     nikitabobko-tap = {
       url = "github:nikitabobko/homebrew-tap";
       flake = false;
@@ -138,10 +134,5 @@
       ];
     };
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = {
-      "atlas" = self.darwinConfigurations."atlas".pkgs;
-      "cosmos" = self.darwinConfigurations."cosmos".pkgs;
-    };
   };
 }

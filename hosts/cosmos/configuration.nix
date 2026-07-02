@@ -27,6 +27,7 @@
     casks = [
       "brave-browser"
       "dbeaver-community"
+      "datagrip"
       "discord"
       "drawio"
       "flameshot"
@@ -43,6 +44,7 @@
       "rider"
       "stats"
       "spotify"
+      "utm"
       "visual-studio-code"
       "webstorm"
     ];
@@ -52,7 +54,6 @@
   system.defaults = {
     NSGlobalDomain = {
       "_HIHideMenuBar" = false;
-      "ApplePressAndHoldEnabled" = true;
     };
     dock = {
       "autohide" = true;

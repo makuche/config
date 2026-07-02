@@ -202,13 +202,17 @@ automatically-unhide-macos-hidden-apps = true
     run = 'move-node-to-workspace 3'
 [[on-window-detected]]
     if.app-id = 'com.microsoft.teams2'
-    run = 'move-node-to-workspace 5'
+    run = 'move-node-to-workspace 9'
 [[on-window-detected]]
     if.app-id = 'com.hnc.Discord'
-    run = 'move-node-to-workspace 5'
+    run = 'move-node-to-workspace 9'
 [[on-window-detected]]
     if.app-id = 'com.spotify.client'
-    run = 'move-node-to-workspace 5'
+    run = 'move-node-to-workspace 9'
 [[on-window-detected]]
     if.app-id = 'com.apple.iCal' # calendar
     run = 'move-node-to-workspace 2'
+
+# Pin workspace 11 (Spotify, Teams, Discord) to the rotated home Dell.
+[workspace-to-monitor-force-assignment]
+    11 = 'DELL P2720DC'

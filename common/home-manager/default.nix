@@ -14,19 +14,6 @@
     system = pkgs.stdenv.hostPlatform.system;
   };
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
-  gh-dash = pkgs.buildGoModule rec {
-    pname = "gh-dash";
-    version = "4.7.3";
-
-    src = pkgs.fetchFromGitHub {
-      owner = "dlvhdr";
-      repo = "gh-dash";
-      rev = "v${version}";
-      hash = "sha256-QDqGsVgY3Je1VgQVobDhNkVjrCyvMNEdghXc0ny+yyo=";
-    };
-
-    vendorHash = "sha256-lqmz+6Cr9U5IBoJ5OeSN6HKY/nKSAmszfvifzbxG7NE=";
-  };
 in {
   home.stateVersion = "24.05";
 
@@ -35,7 +22,6 @@ in {
     # ===== Development =====
     alejandra # Nix formatter
     btop # Resource manager
-    bottom # htop alternative
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
@@ -70,7 +56,6 @@ in {
     imhex # hex viewer
     jdk17 # Java Development Kit
     gh # GitHub CLI
-    gh-dash # TODO: not sure if this adds any value... GH PR in browser works better
     kubectl
     lua-language-server
     kompose # translate docker-compose to manifests
@@ -123,7 +108,6 @@ in {
     # neovim # Modern Vim fork (with plugins)
 
     # ===== Security =====
-    # clamav # Additional utilities
     gnupg # Encryption toolkit
     git-crypt # Encrypt files in git repo
     trufflehog # Detect token leakage
@@ -137,11 +121,6 @@ in {
     tmux-sessionizer
   ];
 
-  home.file.".local/share/gh/extensions/gh-dash/gh-dash" = {
-    source = "${gh-dash}/bin/gh-dash";
-    executable = true;
-  };
-
   home.file.".ideavimrc".source = ../../assets/.ideavimrc;
   home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
@@ -152,6 +131,14 @@ in {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    # Adopt the new (26.05) defaults: no python3/ruby provider in the wrapper.
+    # Nothing in nvim/ uses remote plugins (dap-python uses Mason's debugpy venv).
+    withPython3 = false;
+    withRuby = false;
+    # Don't write ~/.config/nvim/init.lua; that path is an out-of-store symlink
+    # to the repo (see home.file.".config/nvim" above). Load the generated
+    # provider config via wrapper args instead.
+    sideloadInitLua = true;
   };
 
   # common program configurations
@@ -227,8 +214,6 @@ in {
       log = {
         date = "iso";
       };
-      pull = {
-      };
       pager = {
         diff = "delta";
         log = "delta";
@@ -248,11 +233,7 @@ in {
         # Delta diffs
         d = "diff";
         ds = "diff --staged";
-        dc = "diff --cached";
         dh = "diff HEAD";
-
-        # Branch/commit comparisons
-        compare = "diff";
 
         # File history with diffs
         file-history = "log --follow -p --";
@@ -337,7 +318,6 @@ in {
     # Common initialization
     initContent = ''
       ulimit -n 10240 # raise open file limit — without this, `nix flake update` fails with "Too many open files"
-      eval "$(zoxide init zsh)"
       eval "$(mcfly init zsh)"
       export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
       export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
@@ -350,20 +330,11 @@ in {
       export MCFLY_DISABLE_WELCOME=true
       bindkey '^R' mcfly-history-widget
       export MCFLY_KEY_SCHEME=vim
-      setopt EXTENDED_HISTORY
-      setopt HIST_EXPIRE_DUPS_FIRST
+      # EXTENDED_HISTORY etc. come from the history = {...} block above
       setopt HIST_FIND_NO_DUPS
       setopt HIST_REDUCE_BLANKS
       setopt HIST_VERIFY
-      setopt APPEND_HISTORY
       ll() { eza -lahF "$@" }
-      y() {
-      local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-      yazi "$@" --cwd-file="$tmp"
-      IFS= read -r -d $'\0' cwd < "$tmp"
-      [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-      rm -f -- "$tmp"
-      }
       obsedit() {
         local file="$1"
         local scratch=$(mktemp -d)
@@ -371,13 +342,23 @@ in {
         (cd "$scratch" && /opt/homebrew/bin/claude)
         rm -rf "$scratch"
       }
-      setopt INC_APPEND_HISTORY
+      jwt() {
+        local part b64 parts=("''${(@s:.:)1}")
+        for part in $parts[1,2]; do
+          b64=''${''${part//-/+}//_//}
+          while (( ''${#b64} % 4 )); do b64+='='; done
+          base64 -D <<< "$b64" | jq .
+        done
+      }
       export EDITOR=nvim
 
       # re-attach or start tmux session on new shell
       if [[ -z "$TMUX" ]]; then
         tmux attach -t main 2>/dev/null || tmux new -s main
       fi
+
+      # zoxide must be initialized last so its `cd` hook isn't shadowed
+      eval "$(zoxide init zsh)"
     '';
 
     shellAliases = {
@@ -388,8 +369,6 @@ in {
       lg = "lazygit";
       htop = "btop";
       ports = "lsof -iTCP -sTCP:LISTEN -n -P";
-      cd = "z";
-      y = "yazi";
       claude = "/Users/manuel/.claude/local/claude";
       ghostty = "/Applications/Ghostty.app/Contents/MacOS/ghostty";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
@@ -411,13 +390,9 @@ in {
           enableMouse = false;
           headless = true;
           logoless = true;
-          noIcons = false;
         };
         maxConnRetry = 5;
         noExitOnCtrlC = true;
-        readOnly = false;
-        refreshRate = 2; # default 2sec
-        skipLatestRevCheck = false;
         logger = {
           buffer = 5000;
           fullScreenLogs = false;
@@ -443,7 +418,8 @@ in {
 
   programs.yazi = {
     enable = true;
-    shellWrapperName = "yy";
+    # generates the cd-on-exit wrapper function (replaces a hand-rolled y())
+    shellWrapperName = "y";
     plugins = {
       git = pkgs.yaziPlugins.git;
     };

@@ -50,74 +50,6 @@ end, { desc = "Cycle colorschemes" })
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-		-- {
-		-- 	"kepano/flexoki-neovim",
-		-- 	name = "flexoki",
-		-- 	config = function()
-		-- 		vim.cmd.colorscheme("flexoki-dark")
-		-- 		-- transparent background
-		-- 		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-		-- 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-		-- 		vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-		-- 	end,
-		-- },
-		-- {
-		-- 	"sainnhe/gruvbox-material",
-		-- 	lazy = false,
-		-- 	priority = 1000,
-		-- 	config = function()
-		-- 		vim.g.gruvbox_material_background = "hard"
-		-- 		vim.g.gruvbox_material_transparent_background = 1
-		-- 		vim.g.gruvbox_material_enable_italic = 1
-		-- 		vim.g.gruvbox_material_diagnostic_text_highlight = 1
-		-- 		vim.cmd.colorscheme("gruvbox-material")
-		-- 		local colors = {
-		-- 			brown = "#c4a277",
-		-- 			yellow = "#ffc32d",
-		-- 			red = "#f67858",
-		-- 			green = "#84d160",
-		-- 			purple = "#b384d3",
-		-- 			blue = "#72C7F9",
-		-- 		}
-		--
-		-- 		local set = vim.api.nvim_set_hl
-		--
-		-- 		local groups = {
-		-- 			Red = colors.red,
-		-- 			Green = colors.green,
-		-- 			Yellow = colors.yellow,
-		-- 			Purple = colors.purple,
-		-- 			Orange = colors.brown,
-		-- 			Blue = colors.blue, -- member access, etc.
-		-- 			Aqua = colors.blue, -- strings — try: colors.green, colors.yellow, or leave commented to keep gruvbox default
-		-- 		}
-		--
-		-- 		for name, color in pairs(groups) do
-		-- 			for _, style in ipairs({ "", "Bold", "Italic" }) do
-		-- 				set(0, name .. style, {
-		-- 					fg = color,
-		-- 					bold = style == "Bold",
-		-- 					italic = style == "Italic",
-		-- 				})
-		-- 			end
-		-- 			-- Sign and diagnostic column variants gruvbox-material also defines
-		-- 			set(0, name .. "Sign", { fg = color })
-		-- 		end
-		--
-		-- 		-- Diagnostics (these don't chain through the base groups)
-		-- 		set(0, "DiagnosticError", { fg = colors.red })
-		-- 		set(0, "DiagnosticWarn", { fg = colors.yellow })
-		-- 		set(0, "DiagnosticInfo", { fg = colors.blue })
-		-- 		set(0, "DiagnosticHint", { fg = colors.purple })
-		--
-		-- 		-- Git signs
-		-- 		set(0, "GitSignsAdd", { fg = colors.green })
-		-- 		set(0, "GitSignsChange", { fg = colors.yellow })
-		-- 		set(0, "GitSignsDelete", { fg = colors.red })
-		--
-		-- 		force_transparency()
-		-- 	end,
-		-- },
 		{
 			"sainnhe/gruvbox-material",
 			lazy = false,
@@ -179,15 +111,28 @@ require("lazy").setup({
 					ensure_installed = {
 						"bash",
 						"c",
+						"css",
 						"diff",
+						"dockerfile",
+						"graphql",
 						"html",
+						"javascript",
+						"jsdoc",
+						"json",
+						"jsonc",
 						"lua",
 						"luadoc",
 						"markdown",
 						"markdown_inline",
 						"python",
+						"regex",
+						"scss",
+						"toml",
+						"tsx",
+						"typescript",
 						"vim",
 						"vimdoc",
+						"yaml",
 						"yapf",
 					},
 					sync_install = true,
@@ -219,7 +164,7 @@ require("lazy").setup({
 			end,
 		},
 		{
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 			opts = {
 				registries = {
 					"github:mason-org/mason-registry",
@@ -228,21 +173,16 @@ require("lazy").setup({
 			},
 		},
 		{
-			"mason-org/mason-lspconfig.nvim",
-			opts = {},
-			dependencies = {
-				{ "mason-org/mason.nvim", opts = {} },
-				"neovim/nvim-lspconfig",
-			},
-		},
-		{
 			"neovim/nvim-lspconfig",
 			dependencies = {
 				"saghen/blink.cmp",
-				{ "williamboman/mason.nvim", config = true },
-				"williamboman/mason-lspconfig.nvim",
+				"mason-org/mason.nvim",
+				"mason-org/mason-lspconfig.nvim",
 				"WhoIsSethDaniel/mason-tool-installer.nvim",
 				{ "j-hui/fidget.nvim", opts = {} },
+				-- Auto schemas for package.json, tsconfig.json, .eslintrc, k8s, GitHub Actions,
+				-- Backstage catalog-info.yaml, Backstage app-config.yaml, etc.
+				{ "b0o/SchemaStore.nvim", lazy = true, version = false },
 			},
 			config = function()
 				vim.api.nvim_create_autocmd("LspAttach", {
@@ -337,6 +277,27 @@ require("lazy").setup({
 					dockerls = {
 						filetypes = { "dockerfile" },
 					},
+					eslint = {
+						filetypes = {
+							"javascript",
+							"javascriptreact",
+							"javascript.jsx",
+							"typescript",
+							"typescriptreact",
+							"typescript.tsx",
+							"vue",
+							"svelte",
+						},
+						settings = {
+							-- Lint as you type; diagnostics only.
+							-- Auto-fixing on save is owned by conform.nvim (eslint_d → prettierd)
+							-- so we don't double-format.
+							run = "onType",
+							experimental = { useFlatConfig = false },
+							packageManager = "yarn",
+							workingDirectories = { mode = "auto" },
+						},
+					},
 					gopls = {
 						filetypes = { "go", "gomod" },
 					},
@@ -345,6 +306,14 @@ require("lazy").setup({
 					},
 					jsonls = {
 						filetypes = { "json", "jsonc" },
+						settings = {
+							json = {
+								-- Pulls from SchemaStore.nvim: covers package.json, tsconfig.json,
+								-- .eslintrc, .prettierrc, GitHub workflows, etc.
+								schemas = require("schemastore").json.schemas(),
+								validate = { enable = true },
+							},
+						},
 					},
 					texlab = {
 						filetypes = { "tex", "latex" },
@@ -363,12 +332,8 @@ require("lazy").setup({
 								},
 								diagnosticsDelay = 300,
 								formatterLineLength = 80,
-								forwardSearch = {
-									args = {},
-								},
 								latexFormatter = "latexindent",
 								latexindent = {
-									["local"] = nil,
 									modifyLineBreaks = false,
 								},
 							},
@@ -391,18 +356,98 @@ require("lazy").setup({
 						filetypes = { "yaml", "yml" },
 						settings = {
 							yaml = {
+								-- Let prettier handle yaml formatting
 								format = { enable = false },
+								-- Disable built-in schemaStore; SchemaStore.nvim supplies the
+								-- full catalog (k8s, GitHub Actions, docker-compose, etc.)
+								schemaStore = {
+									enable = false,
+									url = "",
+								},
+								schemas = require("schemastore").yaml.schemas(),
+								validate = true,
+								completion = true,
+								hover = true,
 							},
 						},
 					},
-					ts_ls = {
-						filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+					vtsls = {
+						filetypes = {
+							"javascript",
+							"javascriptreact",
+							"javascript.jsx",
+							"typescript",
+							"typescriptreact",
+							"typescript.tsx",
+						},
+						settings = {
+							-- vtsls-specific options
+							vtsls = {
+								autoUseWorkspaceTsdk = true,
+								experimental = {
+									-- Let the server fuzzy-match before sending candidates.
+									-- Drastically reduces over-the-wire payload on large projects.
+									completion = {
+										enableServerSideFuzzyMatch = true,
+										entriesLimit = 20,
+									},
+									-- Cap inlay hint length so long generic types don't wrap lines
+									maxInlayHintLength = 30,
+								},
+								-- Bump memory — Backstage can easily blow past the 3 GB default
+								tsserver = {
+									maxTsServerMemory = 8192,
+									globalPlugins = {},
+								},
+							},
+							typescript = {
+								-- Treat JS imports like TS where possible
+								updateImportsOnFileMove = { enabled = "always" },
+								suggest = {
+									completeFunctionCalls = true,
+									-- Include auto-imports from all deps in node_modules
+									includeAutomaticOptionalChainCompletions = true,
+									includeCompletionsForModuleExports = true,
+								},
+								inlayHints = {
+									parameterNames = { enabled = "literals" },
+									parameterTypes = { enabled = true },
+									variableTypes = { enabled = false },
+									propertyDeclarationTypes = { enabled = true },
+									functionLikeReturnTypes = { enabled = true },
+									enumMemberValues = { enabled = true },
+								},
+								preferences = {
+									-- "shortest" = relative within package, absolute across packages.
+									-- Better for Backstage than "non-relative" (which forces @scope/pkg
+									-- even for sibling files inside the same plugin).
+									importModuleSpecifier = "shortest",
+									preferTypeOnlyAutoImports = true,
+								},
+								-- Don't auto-download @types/* — Backstage declares them explicitly
+								disableAutomaticTypeAcquisition = true,
+							},
+							javascript = {
+								updateImportsOnFileMove = { enabled = "always" },
+								suggest = {
+									completeFunctionCalls = true,
+									includeAutomaticOptionalChainCompletions = true,
+									includeCompletionsForModuleExports = true,
+								},
+								inlayHints = {
+									parameterNames = { enabled = "literals" },
+									parameterTypes = { enabled = true },
+									variableTypes = { enabled = false },
+									propertyDeclarationTypes = { enabled = true },
+									functionLikeReturnTypes = { enabled = true },
+									enumMemberValues = { enabled = true },
+								},
+							},
+						},
 					},
 				}
 
 				-- Ensure servers and tools are installed
-				require("mason").setup()
-
 				local ensure_installed = vim.tbl_keys(servers or {})
 				vim.list_extend(ensure_installed, {
 					"stylua",
@@ -410,6 +455,8 @@ require("lazy").setup({
 					"yapf",
 					"netcoredbg",
 					"debugpy",
+					"prettierd",
+					"eslint_d",
 				})
 				require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -495,21 +542,79 @@ require("lazy").setup({
 					nerd_font_variant = "mono",
 				},
 
-				completion = { documentation = { auto_show = true } },
-				signature = { enabled = true, trigger = { enabled = true } },
-
-				-- Default list of enabled providers defined so that you can extend it
-				-- elsewhere in your config, without redefining it, due to `opts_extend`
-				sources = {
-					default = { "lsp", "path", "snippets", "buffer" },
+				completion = {
+					-- Pop the menu the instant a keyword character is typed, and
+					-- prefetch completions when entering insert mode so the first
+					-- request is already in flight before the user types.
+					trigger = {
+						show_on_keyword = true,
+						show_on_trigger_character = true,
+						show_on_insert_on_trigger_character = true,
+						show_on_accept_on_trigger_character = true,
+						prefetch_on_insert = true,
+					},
+					menu = {
+						auto_show = true,
+						max_height = 20,
+						-- Render partial results immediately while slower sources
+						-- (LSP) are still resolving. VSCode-like feel.
+						draw = { treesitter = { "lsp" } },
+					},
+					-- Pre-select first item; Tab accepts, Esc dismisses
+					list = { selection = { preselect = true, auto_insert = false } },
+					-- Auto-insert () after completing a function
+					accept = { auto_brackets = { enabled = true } },
+					-- Inline dim preview of the currently-selected item
+					ghost_text = { enabled = true },
+					-- Docs pane — short delay keeps the main menu snappy
+					documentation = { auto_show = true, auto_show_delay_ms = 150 },
 				},
 
-				-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-				-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-				-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-				--
-				-- See the fuzzy documentation for more information
-				fuzzy = { implementation = "prefer_rust_with_warning" },
+				signature = { enabled = true, trigger = { enabled = true } },
+
+				sources = {
+					default = { "lsp", "path", "snippets", "buffer" },
+					-- For TS/JS: drop the snippets source. The LSP already provides
+					-- all keyword + common-pattern completions, and friendly-snippets
+					-- adds noise (copyright, ctor, etc.) that outranks real results.
+					per_filetype = {
+						javascript = { "lsp", "path", "buffer" },
+						javascriptreact = { "lsp", "path", "buffer" },
+						typescript = { "lsp", "path", "buffer" },
+						typescriptreact = { "lsp", "path", "buffer" },
+					},
+					providers = {
+						lsp = {
+							score_offset = 3,
+							-- Let LSP finish before blink gives up and shows
+							-- buffer-only results (the "string-match feel").
+							async = true,
+							timeout_ms = 2000,
+						},
+						snippets = {
+							score_offset = -3,
+							min_keyword_length = 2,
+						},
+						path = {
+							score_offset = 0,
+						},
+						buffer = {
+							score_offset = -5,
+							-- Trigger at 2 chars so there's always *something* on
+							-- screen while LSP is still working.
+							min_keyword_length = 2,
+							max_items = 10,
+						},
+					},
+				},
+
+				fuzzy = {
+					implementation = "prefer_rust_with_warning",
+					-- Sort order: exact prefix matches first, then fuzzy score,
+					-- then LSP-provided sort_text as final tiebreaker.
+					-- This is what makes `cons` → `const` instead of `function`.
+					sorts = { "exact", "score", "sort_text" },
+				},
 			},
 			opts_extend = { "sources.default" },
 		},
@@ -552,11 +657,30 @@ require("lazy").setup({
 					nix = { "alejandra" },
 					tex = { "latexindent" },
 					latex = { "latexindent" },
-					yaml = { "prettier" },
+					-- Web/Backstage stack: eslint_d first (semantic fixes: unused imports,
+					-- import order, Backstage architecture rules), then prettierd (layout).
+					-- Inner list = try in order (prettierd preferred, prettier fallback).
+					-- Outer list = run sequentially.
+					javascript = { "eslint_d", { "prettierd", "prettier" } },
+					javascriptreact = { "eslint_d", { "prettierd", "prettier" } },
+					typescript = { "eslint_d", { "prettierd", "prettier" } },
+					typescriptreact = { "eslint_d", { "prettierd", "prettier" } },
+					-- Non-JS filetypes: prettier only (eslint doesn't apply)
+					json = { "prettierd", "prettier", stop_after_first = true },
+					jsonc = { "prettierd", "prettier", stop_after_first = true },
+					yaml = { "prettierd", "prettier", stop_after_first = true },
+					markdown = { "prettierd", "prettier", stop_after_first = true },
+					css = { "prettierd", "prettier", stop_after_first = true },
+					scss = { "prettierd", "prettier", stop_after_first = true },
+					html = { "prettierd", "prettier", stop_after_first = true },
+					graphql = { "prettierd", "prettier", stop_after_first = true },
 				},
 			},
 		},
 		{ "qvalentin/helm-ls.nvim", ft = "helm" }, -- required to get helm file detection working properly
+		{
+			"justinmk/guh.nvim",
+		},
 		{
 			"lewis6991/gitsigns.nvim",
 			opts = {
@@ -615,7 +739,6 @@ require("lazy").setup({
 				end,
 			},
 		},
-		{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
 		{
 			"folke/which-key.nvim",
 			event = "VeryLazy",
@@ -670,18 +793,14 @@ require("lazy").setup({
 			dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 		},
 		{
-			"windwp/nvim-autopairs",
-			opts = {
-				disable_filetype = { "TelescopePrompt", "vim" },
-			},
-		},
-		{
 			"echasnovski/mini.nvim",
 			config = function()
 				-- Better Around/Inside textobjects
 				require("mini.ai").setup({ n_lines = 500 })
 				-- Add/delete/replace surroundings (brackets, quotes, etc.)
 				require("mini.surround").setup()
+				-- Auto-close brackets/quotes (replaces nvim-autopairs)
+				require("mini.pairs").setup()
 				-- Simple statusline
 				local statusline = require("mini.statusline")
 				statusline.setup({ use_icons = vim.g.have_nerd_font })
@@ -689,10 +808,6 @@ require("lazy").setup({
 					return "%2l:%-2v"
 				end
 			end,
-		},
-		{
-			"numToStr/Comment.nvim",
-			opts = {},
 		},
 		{
 			"NvChad/nvim-colorizer.lua",
@@ -834,6 +949,7 @@ require("lazy").setup({
 				{ "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
 			},
 		},
+		{ "github/copilot.vim" },
 		{
 			-- Replaces the builtin quickfix list with a prettier UI.
 			-- Use <C-q> in Telescope to send results to the quickfix list, which opens in Trouble.

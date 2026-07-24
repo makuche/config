@@ -13,11 +13,15 @@
 
   # cosmos-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap" "digitecgalaxus/dg" "FelixKratz/formulae"];
+    taps = ["nikitabobko/tap" "digitecgalaxus/dg" "FelixKratz/formulae" "anomalyco/homebrew-tap" "clawkwork/tap"];
     brews = [
       "FelixKratz/formulae/borders"
+      "anomalyco/homebrew-tap/opencode"
+      "clawkwork/tap/clawk"
       "azure-cli"
+      "aiven-client"
       "dg-cli"
+      "go-task"
       "helm"
       "sqlcmd"
       "sqlite" # required for qmd
@@ -31,7 +35,9 @@
       "discord"
       "drawio"
       "flameshot"
+      "finicky"
       "ghostty"
+      "goland"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
       "lulu"

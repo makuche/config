@@ -22,6 +22,7 @@ in {
     # ===== Development =====
     alejandra # Nix formatter
     btop # Resource manager
+    htop # Resource manager
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
@@ -55,8 +56,10 @@ in {
     hyperfine # benchmarking tool, use via hyperfine "COMMAND"
     imhex # hex viewer
     jdk17 # Java Development Kit
+    kcat # Kafka command line tool
     gh # GitHub CLI
     kubectl
+    kubectx # kubectx + kubens: fast context/namespace switching (fzf picker)
     lua-language-server
     kompose # translate docker-compose to manifests
     maven # Java project management
@@ -279,10 +282,32 @@ in {
       add_newline = true;
       command_timeout = 1300;
       scan_timeout = 50;
-      format = "$all$nix_shell$nodejs$lua$golang$rust$php$git_branch$git_commit$git_state$git_status\n$username$hostname$directory";
+      # explicit module list (no $all): line 1 = context info, line 2 = prompt
+      format = "$nix_shell$nodejs$lua$golang$rust$php$python$dotnet$java$kubernetes$git_branch$git_commit$git_state$line_break$username$hostname$directory$status$character";
+      # right-aligned on the input line
+      right_format = "$cmd_duration";
       character = {
-        success_symbol = "[](bold green) ";
-        error_symbol = "[✗](bold red) ";
+        success_symbol = "[❯](bold green)";
+        error_symbol = "[❯](bold red)";
+      };
+      # show duration of commands slower than 300ms
+      cmd_duration = {
+        min_time = 300;
+        format = "[$duration](yellow)";
+        show_milliseconds = true; # otherwise <1s renders as "0s"
+      };
+      # show the numeric exit code of failed commands
+      status = {
+        disabled = false;
+        format = "[$status]($style) ";
+      };
+      # drop the default "on " prefix
+      git_branch.format = "[$symbol$branch(:$remote_branch)]($style) ";
+      # disabled by default upstream; shows current context (and namespace) always
+      kubernetes = {
+        disabled = false;
+        # drop the default trailing " in " (meant to precede $directory)
+        format = "[$symbol$context( \\($namespace\\))]($style) ";
       };
     };
   };
@@ -365,10 +390,12 @@ in {
       ls = "eza";
       l = "eza -lahF";
       vim = "nvim";
-      nvim-dev = "'NVIM_APPNAME=nvim-dev nvim'";
+      nvim-dev = "NVIM_APPNAME=nvim-dev nvim";
       lg = "lazygit";
-      htop = "btop";
       ports = "lsof -iTCP -sTCP:LISTEN -n -P";
+      k = "kubectl";
+      kx = "kubectx"; # no args = fzf picker, `kx -` = previous context
+      kns = "kubens"; # same, for namespaces
       claude = "/Users/manuel/.claude/local/claude";
       ghostty = "/Applications/Ghostty.app/Contents/MacOS/ghostty";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";

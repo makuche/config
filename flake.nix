@@ -50,6 +50,14 @@
       url = "github:FelixKratz/homebrew-formulae";
       flake = false;
     };
+    opencode-tap = {
+      url = "github:anomalyco/homebrew-tap";
+      flake = false;
+    };
+    clawkwork-tap = {
+      url = "github:clawkwork/homebrew-tap";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -61,6 +69,8 @@
     nikitabobko-tap,
     digitecgalaxus-tap,
     felixkratz-tap,
+    opencode-tap,
+    clawkwork-tap,
     nixpkgs-terraform,
     nixpkgs-dotnet,
     ...
@@ -127,12 +137,13 @@
               "nikitabobko/homebrew-tap" = nikitabobko-tap;
               "digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;
               "FelixKratz/homebrew-formulae" = felixkratz-tap;
+              "anomalyco/homebrew-tap" = opencode-tap;
+              "clawkwork/homebrew-tap" = clawkwork-tap;
             };
             mutableTaps = false;
           };
         }
       ];
     };
-
   };
 }

@@ -13,9 +13,11 @@
 
   # MacBook-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap" "FelixKratz/formulae"];
+    taps = ["nikitabobko/tap" "FelixKratz/formulae" "clawkwork/tap" "anomalyco/tap"];
     brews = [
       # "duckdb"
+      "anomalyco/tap/opencode"
+      "clawkwork/tap/clawk"
       "exiftool"
       "FelixKratz/formulae/borders"
       "helm"
@@ -25,26 +27,35 @@
     ];
 
     casks = [
+      "background-music"
       "brave-browser"
       "calibre"
       "claude"
+      "darktable"
       "dbeaver-community"
       "flameshot"
       "ghostty"
       "nikitabobko/tap/aerospace"
       "obsidian"
+      "orbstack"
       "parallels"
       "proton-pass"
       "protonvpn"
       "rawtherapee"
       "raycast"
+      "rider"
       "stats"
+      "signal"
+      {
+        # spotify's cask ships sha256 :no_check, exempt it from global require_sha
+        name = "spotify";
+        args.require_sha = false;
+      }
       "tailscale-app"
       "visual-studio-code"
       "vlc"
-      # "gimp"
-      # TODO: use the nix-darwin settings:
       # https://nix-darwin.github.io/nix-darwin/manual/#opt-services.aerospace.enable
+      # TODO: use the nix-darwin settings:
     ];
 
     masApps = {

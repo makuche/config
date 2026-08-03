@@ -59,7 +59,7 @@
   # cosmos-specific system defaults
   system.defaults = {
     NSGlobalDomain = {
-      "_HIHideMenuBar" = false;
+      "_HIHideMenuBar" = true;
     };
     dock = {
       "autohide" = true;

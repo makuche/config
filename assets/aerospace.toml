@@ -1,4 +1,5 @@
-after-startup-command = ['exec-and-forget borders active_color=0xff1a6b1a inactive_color=0xff494d64 width=5.0 style=round']
+# Border colors: Catppuccin Macchiato (lavender / surface1)
+after-startup-command = ['exec-and-forget borders active_color=0xffb7bdf8 inactive_color=0xff494d64 width=5.0 style=round']
 start-at-login = true
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -35,12 +36,13 @@ automatically-unhide-macos-hidden-apps = true
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 #TODO: Set this in dependence of 1) main external monitor, 2) macbook screen, or 3) glasses
 [gaps]
-    inner.horizontal = 10
-    inner.vertical =   10
-    outer.left =       [{ monitor.'built-in' = 24 }, 10] #TODO: check this with the AR glasses
-    outer.bottom =     [{ monitor.'built-in' = 24 }, 10]
-    outer.top =        [{ monitor.'built-in' = 24 }, 10]
-    outer.right =      [{ monitor.'built-in' = 24 }, 10]
+    inner.horizontal = 16
+    inner.vertical =   16
+    outer.left =       [{ monitor.'built-in' = 24 }, 16] #TODO: check this with the AR glasses
+    outer.bottom =     [{ monitor.'built-in' = 24 }, 16]
+    # extra breathing room at the top (native menu bar is hidden)
+    outer.top =        [{ monitor.'built-in' = 52 }, 48]
+    outer.right =      [{ monitor.'built-in' = 24 }, 16]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

@@ -36,11 +36,11 @@
     "digitecgalaxus-tap": {
       "flake": false,
       "locked": {
-        "lastModified": 1783200772,
-        "narHash": "sha256-e2GZ+93YOoOY5tDsSV9iNv2R+IYwei29/cHxKA5a13w=",
+        "lastModified": 1784203674,
+        "narHash": "sha256-CJC0rGn2+KVDTRNry5gPKwi7Xdn1GD406ZelCikzJoM=",
         "owner": "digitecgalaxus",
         "repo": "homebrew-dg",
-        "rev": "a4eef8c7ebcb271d9cbf51f0324bacb55669d75c",
+        "rev": "2ac88099bfe14390365571726b4b7509f807423e",
         "type": "github"
       },
       "original": {

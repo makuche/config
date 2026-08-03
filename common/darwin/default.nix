@@ -13,6 +13,7 @@ in {
     };
     caskArgs = {
       require_sha = true;
+      no_quarantine = true; # unsigned apps (e.g. flameshot)
     };
   };
   nix.settings.experimental-features = "nix-command flakes";

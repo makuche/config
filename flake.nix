@@ -102,6 +102,8 @@
               "homebrew/homebrew-cask" = homebrew-cask;
               "nikitabobko/homebrew-tap" = nikitabobko-tap;
               "FelixKratz/homebrew-formulae" = felixkratz-tap;
+              "anomalyco/homebrew-tap" = opencode-tap;
+              "clawkwork/homebrew-tap" = clawkwork-tap;
             };
             mutableTaps = false;
           };

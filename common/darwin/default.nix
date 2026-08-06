@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  defaultBrowser = "com.brave.Browser";
-in {
+{pkgs, ...}: {
   # common system config (git provided by xcode-select --install)
   homebrew = {
     enable = true;

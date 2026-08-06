@@ -1,7 +1,7 @@
-theme = Flexoki Dark
+theme = Cobalt Next Dark
 font-size = 14
 window-decoration = false
-background-opacity = 0.9
+background-opacity = 0.85
 
 # Required for tmux Alt/Meta key bindings (M-j, M-k, M-h, M-l)
 macos-option-as-alt = true

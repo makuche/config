@@ -74,78 +74,44 @@
     nixpkgs-terraform,
     nixpkgs-dotnet,
     ...
-  }: {
-    # atlas - primary macOS machine
-    darwinConfigurations."atlas" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        ./common/darwin/default.nix
-        ./hosts/atlas/configuration.nix
+  }: let
+    mkHost = name: extraTaps:
+      nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          ./common/darwin/default.nix
+          ./hosts/${name}/configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
+            home-manager.users.manuel = import ./hosts/${name}/home.nix;
+          }
 
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
-          home-manager.users.manuel = import ./hosts/atlas/home.nix;
-        }
-
-        # Homebrew integration
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "manuel";
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "nikitabobko/homebrew-tap" = nikitabobko-tap;
-              "FelixKratz/homebrew-formulae" = felixkratz-tap;
-              "anomalyco/homebrew-tap" = opencode-tap;
-              "clawkwork/homebrew-tap" = clawkwork-tap;
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              enableRosetta = true;
+              user = "manuel";
+              taps =
+                {
+                  "homebrew/homebrew-core" = homebrew-core;
+                  "homebrew/homebrew-cask" = homebrew-cask;
+                  "nikitabobko/homebrew-tap" = nikitabobko-tap;
+                  "FelixKratz/homebrew-formulae" = felixkratz-tap;
+                  "anomalyco/homebrew-tap" = opencode-tap;
+                  "clawkwork/homebrew-tap" = clawkwork-tap;
+                }
+                // extraTaps;
+              mutableTaps = false;
             };
-            mutableTaps = false;
-          };
-        }
-      ];
-    };
-
-    # cosmos - secondary macOS machine
-    darwinConfigurations."cosmos" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        ./common/darwin/default.nix
-        ./hosts/cosmos/configuration.nix
-
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
-          home-manager.users.manuel = import ./hosts/cosmos/home.nix;
-        }
-
-        # Homebrew integration
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            enable = true;
-            enableRosetta = true;
-            user = "manuel";
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-              "nikitabobko/homebrew-tap" = nikitabobko-tap;
-              "digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;
-              "FelixKratz/homebrew-formulae" = felixkratz-tap;
-              "anomalyco/homebrew-tap" = opencode-tap;
-              "clawkwork/homebrew-tap" = clawkwork-tap;
-            };
-            mutableTaps = false;
-          };
-        }
-      ];
-    };
+          }
+        ];
+      };
+  in {
+    darwinConfigurations."atlas" = mkHost "atlas" {};
+    darwinConfigurations."cosmos" = mkHost "cosmos" {"digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;};
   };
 }

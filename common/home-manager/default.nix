@@ -26,6 +26,7 @@ in {
     bun # For JavaScript projects
     cargo # Rust package manager
     go # Go programming language
+    nh
 
     # LaTeX - Document preparation system
     (texlive.combine {

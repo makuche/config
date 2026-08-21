@@ -17,6 +17,11 @@
 in {
   home.stateVersion = "24.05";
 
+  home.sessionVariables = {
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+  };
+
   # common packages across all hosts
   home.packages = with pkgs; [
     # ===== Development =====
@@ -57,7 +62,7 @@ in {
     hyperfine # benchmarking tool, use via hyperfine "COMMAND"
     imhex # hex viewer
     jdk17 # Java Development Kit
-    kcat # Kafka command line tool
+    # kcat # Kafka command line tool — temporarily disabled: libserdes 8.1.0 fails to build against avro-c++ 1.12.0 (fmt::format) after the flake bump
     gh # GitHub CLI
     kubectl
     kubectx # kubectx + kubens: fast context/namespace switching (fzf picker)
@@ -254,10 +259,10 @@ in {
     enable = true;
     settings = {
       git = {
-        pagers = [
+        diffRenderers = [
           {
-            cmd = "delta --color-only --dark --paging=never";
-            type = "diff";
+            command = "delta --color-only --dark --paging=never";
+            type = "stdinFilter";
           }
         ];
         pull = {

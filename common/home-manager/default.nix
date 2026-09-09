@@ -32,20 +32,18 @@ in {
     cargo # Rust package manager
     go # Go programming language
     nh
+    flameshot # Screenshot tool (brew cask disabled 2026-09-01, fails Gatekeeper)
 
     # LaTeX - Document preparation system
-    (texlive.combine {
-      inherit
-        (texlive)
-        scheme-basic
+    (texliveBasic.withPackages (ps:
+      with ps; [
         latexmk
         collection-latex
         collection-latexextra
         collection-fontsrecommended
         titlesec
         fontawesome5
-        ;
-    })
+      ]))
 
     # .NET SDK - pinned to avoid building from source on unstable
     # Bump with: nix flake update nixpkgs-dotnet
@@ -322,6 +320,10 @@ in {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    # OrbStack appends this to ~/.zprofile on install -> let home-manager manage the file
+    profileExtra = ''
+      source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+    '';
     autocd = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;

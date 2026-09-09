@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   # common system config (git provided by xcode-select --install)
   homebrew = {
+    taps = ["homebrew/cask"];
     enable = true;
     global.autoUpdate = true;
     global.brewfile = true;
@@ -11,7 +12,6 @@
     };
     caskArgs = {
       require_sha = true;
-      no_quarantine = true; # unsigned apps (e.g. flameshot)
     };
   };
   nix.settings.experimental-features = "nix-command flakes";

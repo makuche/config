@@ -14,6 +14,7 @@
     system = pkgs.stdenv.hostPlatform.system;
   };
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
+  tmux-vpn-status = pkgs.writeShellScriptBin "tmux-vpn-status" (builtins.readFile ../../assets/tmux-vpn-status);
 in {
   home.stateVersion = "24.05";
 
@@ -126,6 +127,7 @@ in {
 
     # Custom Scripts
     tmux-sessionizer
+    tmux-vpn-status
   ];
 
   home.file.".ideavimrc".source = ../../assets/.ideavimrc;

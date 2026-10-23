@@ -452,6 +452,103 @@ in {
         body.bgColor = "default";
       };
     };
+    plugins = {
+      externalsecret-sync = {
+        shortCut = "Ctrl-O";
+        description = "Force Sync";
+        scopes = ["externalsecret"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          "kubectl annotate es $NAME -n $NAMESPACE force-sync=$(date +%s) --overwrite"
+        ];
+      };
+      scaledobject-scaleto-zero = {
+        shortCut = "Ctrl-O";
+        description = "Toggle Scale to Zero";
+        scopes = ["scaledobject"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            if [ -z "$(kubectl get scaledobjects.keda.sh $NAME -n $NAMESPACE -o jsonpath='{.metadata.annotations.autoscaling\.keda\.sh/paused-replicas}')" ];
+            then
+              kubectl annotate scaledobjects.keda.sh $NAME -n $NAMESPACE autoscaling.keda.sh/paused-replicas=0 --overwrite
+            else
+              kubectl annotate scaledobjects.keda.sh $NAME -n $NAMESPACE autoscaling.keda.sh/paused-replicas-
+            fi
+          ''
+        ];
+      };
+      scaledjob-scaleto-zero = {
+        shortCut = "Ctrl-O";
+        description = "Toggle Scale to Zero";
+        scopes = ["scaledjob"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            if [ -z "$(kubectl get scaledjob $NAME -n $NAMESPACE -o jsonpath='{.metadata.annotations.autoscaling\.keda\.sh/paused}')" ];
+            then
+              kubectl annotate scaledjob $NAME -n $NAMESPACE autoscaling.keda.sh/paused=true --overwrite
+            else
+              kubectl annotate scaledjob $NAME -n $NAMESPACE autoscaling.keda.sh/paused-
+            fi
+          ''
+        ];
+      };
+      disable-cronjob = {
+        shortCut = "Ctrl-N";
+        description = "never run (31 Feb)";
+        scopes = ["cj"];
+        command = "kubectl";
+        background = false;
+        confirm = true;
+        args = [
+          "patch"
+          "cronjob"
+          "$NAME"
+          "-n"
+          "$NAMESPACE"
+          "-p"
+          ''{"spec" : {"schedule" : "0 0 31 2 *"}}''
+        ];
+      };
+      goto-datadog-logs = {
+        shortCut = "Shift-L"; # Ctrl-L is grabbed by tmux pane navigation
+        description = "Goto Datadog Logs";
+        scopes = ["po"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''open "https://app.datadoghq.eu/logs?query=pod_name%3A$NAME"''
+        ];
+      };
+      goto-datadog-service-logs = {
+        shortCut = "Ctrl-O";
+        description = "Goto Datadog Service Logs";
+        scopes = ["po"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get po $NAME -n $NAMESPACE -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get po $NAME -n $NAMESPACE -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            open "https://app.datadoghq.eu/logs?query=service%3A$svc%20env%3A$env"
+          ''
+        ];
+      };
+    };
   };
 
   programs.yazi = {

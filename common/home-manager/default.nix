@@ -375,7 +375,7 @@ in {
         local file="$1"
         local scratch=$(mktemp -d)
         ln -s "$(realpath "$file")" "$scratch/"
-        (cd "$scratch" && /opt/homebrew/bin/claude)
+        (cd "$scratch" && claude)
         rm -rf "$scratch"
       }
       jwt() {
@@ -407,7 +407,6 @@ in {
       k = "kubectl";
       kx = "kubectx"; # no args = fzf picker, `kx -` = previous context
       kns = "kubens"; # same, for namespaces
-      claude = "/Users/manuel/.claude/local/claude";
       ghostty = "/Applications/Ghostty.app/Contents/MacOS/ghostty";
       chat = "open -na 'Brave Browser' --args --app='https://claude.ai'";
       mail = "open -na 'Brave Browser' --args --app='https://mail.proton.me'";

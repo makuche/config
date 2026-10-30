@@ -36,6 +36,22 @@
     };
     CustomUserPreferences."com.apple.symbolichotkeys" = {
       AppleSymbolicHotKeys = {
+        # disables app switcher (cmd+tab), use aerospace instead
+        "1" = {
+          enabled = false;
+          value = {
+            parameters = [65535 48 1048576];
+            type = "standard";
+          };
+        };
+        # disables app switcher backward (cmd+shift+tab)
+        "2" = {
+          enabled = false;
+          value = {
+            parameters = [65535 48 1179648];
+            type = "standard";
+          };
+        };
         # 60 = Select previous input source (Ctrl+Space) disabled for tmux
         "60" = {
           enabled = false;

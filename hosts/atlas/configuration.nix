@@ -30,7 +30,6 @@
       "background-music"
       "brave-browser"
       "calibre"
-      "claude"
       "darktable"
       "dbeaver-community"
       "flameshot"

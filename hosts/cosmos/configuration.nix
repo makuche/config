@@ -13,7 +13,16 @@
 
   # cosmos-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap" "digitecgalaxus/dg" "FelixKratz/formulae" "anomalyco/homebrew-tap" "clawkwork/tap"];
+    taps = [
+      "nikitabobko/tap"
+      {
+        name = "digitecgalaxus/dg";
+        trusted = true;
+      }
+      "FelixKratz/formulae"
+      "anomalyco/homebrew-tap"
+      "clawkwork/tap"
+    ];
     brews = [
       "FelixKratz/formulae/borders"
       "anomalyco/homebrew-tap/opencode"
@@ -40,7 +49,6 @@
       "goland"
       "microsoft-teams"
       "nikitabobko/tap/aerospace"
-      "lulu"
       "little-snitch"
       "obsidian"
       "orbstack"

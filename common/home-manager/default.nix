@@ -4,6 +4,7 @@
   lib,
   nixpkgs-terraform,
   nixpkgs-dotnet,
+  extras,
   ...
 }: let
   pkgs-terraform = import nixpkgs-terraform {
@@ -16,6 +17,8 @@
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   tmux-vpn-status = pkgs.writeShellScriptBin "tmux-vpn-status" (builtins.readFile ../../assets/tmux-vpn-status);
 in {
+  imports = ["${extras}/home.nix"];
+
   home.stateVersion = "24.05";
 
   home.sessionVariables = {

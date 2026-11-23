@@ -58,6 +58,12 @@
       url = "github:clawkwork/homebrew-tap";
       flake = false;
     };
+
+    # Extra user data. Bump with: nix flake update extras
+    extras = {
+      url = "git+ssh://git@github.com/makuche/_config";
+      flake = false;
+    };
   };
   outputs = inputs @ {
     self,
@@ -73,6 +79,7 @@
     clawkwork-tap,
     nixpkgs-terraform,
     nixpkgs-dotnet,
+    extras,
     ...
   }: let
     mkHost = name: extraTaps:
@@ -85,7 +92,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet;};
+            home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet extras;};
             home-manager.users.manuel = import ./hosts/${name}/home.nix;
           }
 

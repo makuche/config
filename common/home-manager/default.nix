@@ -550,6 +550,201 @@ in {
           ''
         ];
       };
+      goto-datadog-workload = {
+        shortCut = "Shift-D";
+        description = "Goto Datadog Workload Dashboard";
+        scopes = ["deploy"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            from=$(( ($(date +%s) - 86400) * 1000 ))
+            open "https://app.datadoghq.eu/dashboard/gmz-btf-98i?tpl_var_cluster%5B0%5D=''${ctx%-k8s001}&tpl_var_namespace%5B0%5D=$NAMESPACE&tpl_var_deployment%5B0%5D=$NAME&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-events = {
+        shortCut = "Shift-E";
+        description = "Goto Datadog K8s Events";
+        scopes = ["deploy"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            from=$(( ($(date +%s) - 86400) * 1000 ))
+            open "https://app.datadoghq.eu/event/explorer?query=source%3Akubernetes%20kube_cluster_name%3A''${ctx%-k8s001}%20kube_deployment%3A$NAME&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-apm = {
+        shortCut = "Shift-T";
+        description = "Goto Datadog APM Service";
+        scopes = ["po"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get po $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get po $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            open "https://app.datadoghq.eu/apm/entity/service%3A$svc?env=$env"
+          ''
+        ];
+      };
+      goto-datadog-network = {
+        shortCut = "Shift-W";
+        description = "Goto Datadog Network Traffic";
+        scopes = ["po"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get po $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get po $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            open "https://app.datadoghq.eu/network?srcQ=service%3A$svc%20env%3A$env&srcG=tag_source_service&destG=tag_dest_service"
+          ''
+        ];
+      };
+      goto-datadog-explorer = {
+        shortCut = "Shift-X";
+        description = "Goto Datadog K8s Explorer";
+        scopes = ["deploy"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            open "https://app.datadoghq.eu/orchestration/explorer/deployment?query=kube_cluster_name%3A''${ctx%-k8s001}%20kube_namespace%3A$NAMESPACE%20kube_deployment%3A$NAME"
+          ''
+        ];
+      };
+      goto-datadog-job-logs = {
+        shortCut = "Shift-L";
+        description = "Goto Datadog Logs";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            start=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.status.startTime}')
+            from=$(( ($(${pkgs.coreutils}/bin/date -d "$start" +%s) - 60) * 1000 ))
+            open "https://app.datadoghq.eu/logs?query=kube_cluster_name%3A''${ctx%-k8s001}%20kube_job%3A$NAME&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-job-service-logs = {
+        shortCut = "Ctrl-O";
+        description = "Goto Datadog Service Logs";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            start=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.status.startTime}')
+            from=$(( ($(${pkgs.coreutils}/bin/date -d "$start" +%s) - 60) * 1000 ))
+            open "https://app.datadoghq.eu/logs?query=service%3A$svc%20env%3A$env&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-job-workload = {
+        shortCut = "Shift-D";
+        description = "Goto Datadog Workload Dashboard";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            start=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.status.startTime}')
+            from=$(( ($(${pkgs.coreutils}/bin/date -d "$start" +%s) - 60) * 1000 ))
+            open "https://app.datadoghq.eu/dashboard/gmz-btf-98i?tpl_var_cluster%5B0%5D=''${ctx%-k8s001}&tpl_var_namespace%5B0%5D=$NAMESPACE&tpl_var_job%5B0%5D=$NAME&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-job-events = {
+        shortCut = "Shift-E";
+        description = "Goto Datadog K8s Events";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            start=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.status.startTime}')
+            from=$(( ($(${pkgs.coreutils}/bin/date -d "$start" +%s) - 60) * 1000 ))
+            open "https://app.datadoghq.eu/event/explorer?query=source%3Akubernetes%20kube_cluster_name%3A''${ctx%-k8s001}%20kube_job%3A$NAME&from_ts=$from&to_ts=$(date +%s)000&live=true"
+          ''
+        ];
+      };
+      goto-datadog-job-apm = {
+        shortCut = "Shift-T";
+        description = "Goto Datadog APM Service";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            open "https://app.datadoghq.eu/apm/entity/service%3A$svc?env=$env"
+          ''
+        ];
+      };
+      goto-datadog-job-network = {
+        shortCut = "Shift-W";
+        description = "Goto Datadog Network Traffic";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            svc=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/service}')
+            env=$(kubectl get job $NAME -n $NAMESPACE --context $CONTEXT -o jsonpath='{.metadata.labels.tags\.datadoghq\.com/env}')
+            open "https://app.datadoghq.eu/network?srcQ=service%3A$svc%20env%3A$env&srcG=tag_source_service&destG=tag_dest_service"
+          ''
+        ];
+      };
+      goto-datadog-job-explorer = {
+        shortCut = "Shift-X";
+        description = "Goto Datadog K8s Explorer";
+        scopes = ["job"];
+        command = "bash";
+        background = false;
+        confirm = true;
+        args = [
+          "-c"
+          ''
+            ctx=$CONTEXT
+            open "https://app.datadoghq.eu/orchestration/explorer/job?query=kube_cluster_name%3A''${ctx%-k8s001}%20kube_namespace%3A$NAMESPACE%20kube_job%3A$NAME"
+          ''
+        ];
+      };
     };
   };
 

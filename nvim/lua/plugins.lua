@@ -659,12 +659,10 @@ require("lazy").setup({
 					latex = { "latexindent" },
 					-- Web/Backstage stack: eslint_d first (semantic fixes: unused imports,
 					-- import order, Backstage architecture rules), then prettierd (layout).
-					-- Inner list = try in order (prettierd preferred, prettier fallback).
-					-- Outer list = run sequentially.
-					javascript = { "eslint_d", { "prettierd", "prettier" } },
-					javascriptreact = { "eslint_d", { "prettierd", "prettier" } },
-					typescript = { "eslint_d", { "prettierd", "prettier" } },
-					typescriptreact = { "eslint_d", { "prettierd", "prettier" } },
+					javascript = { "eslint_d", "prettierd" },
+					javascriptreact = { "eslint_d", "prettierd" },
+					typescript = { "eslint_d", "prettierd" },
+					typescriptreact = { "eslint_d", "prettierd" },
 					-- Non-JS filetypes: prettier only (eslint doesn't apply)
 					json = { "prettierd", "prettier", stop_after_first = true },
 					jsonc = { "prettierd", "prettier", stop_after_first = true },

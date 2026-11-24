@@ -55,6 +55,7 @@
       "pritunl" # vpn
       "pycharm"
       "raycast"
+      # "rex" # placeholder, no cask exists yet; currently installed directly from the dmg
       "rider"
       "stats"
       "spotify"

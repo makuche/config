@@ -140,6 +140,7 @@ in {
   # home.file.".config/ghostty/config".source = ../../ghostty/config;
   home.file.".config/ghostty/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/ghostty/config";
   home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/nvim";
+  home.file.".config/rex/init.lua".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/git/config/rex/init.lua";
 
   programs.neovim = {
     enable = true;
@@ -391,8 +392,8 @@ in {
       }
       export EDITOR=nvim
 
-      # re-attach or start tmux session on new shell
-      if [[ -z "$TMUX" ]]; then
+      # re-attach or start tmux session on new shell (not within Rex)
+      if [[ -z "$TMUX" && -z "$REX_SESSION" ]]; then
         tmux attach -t main 2>/dev/null || tmux new -s main
       fi
 

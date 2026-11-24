@@ -1,0 +1,7 @@
+rex.bind("ctrl+space>ctrl+space", "pane.send_key", { key = "ctrl+space" })
+rex.bind("ctrl+space>c", "client.tab.new")
+rex.bind("ctrl+space>-", "pane.split", { direction = "down" })
+rex.bind("ctrl+space>shift+\\", "pane.split", { direction = "right" })
+rex.bind("ctrl+space>ctrl+l", "pane.send_key", { key = "ctrl+l" })
+rex.bind("ctrl+space>j", "session.next")
+rex.bind("ctrl+space>k", "session.previous")

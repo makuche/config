@@ -117,8 +117,27 @@
           }
         ];
       };
+
+    mkNixos = name:
+      inputs.nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./common/nixos/default.nix
+          ./hosts/${name}/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit nixpkgs-terraform nixpkgs-dotnet extras;};
+            home-manager.users.manuel = import ./hosts/${name}/home.nix;
+          }
+        ];
+      };
   in {
     darwinConfigurations."atlas" = mkHost "atlas" {};
     darwinConfigurations."cosmos" = mkHost "cosmos" {"digitecgalaxus/homebrew-dg" = digitecgalaxus-tap;};
+
+    # Linux machine inside OrbStack on cosmos
+    nixosConfigurations."dev" = mkNixos "dev";
   };
 }

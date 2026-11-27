@@ -16,8 +16,32 @@
   };
   tmux-sessionizer = pkgs.writeShellScriptBin "tmux-sessionizer" (builtins.readFile ../../assets/tmux-sessionizer);
   tmux-vpn-status = pkgs.writeShellScriptBin "tmux-vpn-status" (builtins.readFile ../../assets/tmux-vpn-status);
+
+  # BSD (macOS) and GNU (Linux) userland spell these differently
+  isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+  mtimeDay =
+    if isDarwin
+    then "stat -f '%Sm' -t '%j'"
+    else "date +'%j' -r";
+  base64Decode =
+    if isDarwin
+    then "-D"
+    else "-d";
+
+  # Only macOS starts tmux on its own: a Linux shell is reached from a Mac terminal that
+  # already runs a multiplexer. Revisit when a Linux host gets its own terminal.
+  tmuxAutoAttach = lib.optionalString isDarwin ''
+    # re-attach or start tmux session on new shell (not within Rex)
+    if [[ -z "$TMUX" && -z "$REX_SESSION" ]]; then
+      tmux attach -t main 2>/dev/null || tmux new -s main
+    fi
+  '';
 in {
-  imports = ["${extras}/home.nix"];
+  imports = [
+    "${extras}/home.nix"
+    ./darwin.nix
+    ./linux.nix
+  ];
 
   home.stateVersion = "24.05";
 
@@ -134,7 +158,6 @@ in {
   ];
 
   home.file.".ideavimrc".source = ../../assets/.ideavimrc;
-  home.file.".aerospace.toml".source = ../../assets/aerospace.toml;
   home.file.".config/btop/btop.conf".source = ../../assets/btop.conf;
   home.file.".config/tmux/tmux.conf".source = ../../assets/tmux.conf;
   # home.file.".config/ghostty/config".source = ../../ghostty/config;
@@ -336,7 +359,7 @@ in {
     # use cached compinit (-C skips compaudit security check, regenerate dump once daily)
     completionInit = ''
       autoload -Uz compinit
-      if [[ -f "$HOME/.zcompdump" && $(date +'%j') == $(stat -f '%Sm' -t '%j' "$HOME/.zcompdump") ]]; then
+      if [[ -f "$HOME/.zcompdump" && $(date +'%j') == $(${mtimeDay} "$HOME/.zcompdump") ]]; then
         compinit -C
       else
         compinit
@@ -360,8 +383,8 @@ in {
       ulimit -n 10240 # raise open file limit — without this, `nix flake update` fails with "Too many open files"
       eval "$(mcfly init zsh)"
       export PATH="/run/current-system/sw/bin:$PATH" # required to use Nix Determinate System Installer
-      export PATH="/Users/manuel/.bun/bin:$PATH" # enable usage of bun installed packages
-      export PATH="/Users/manuel/.local/bin:$PATH"
+      export PATH="${config.home.homeDirectory}/.bun/bin:$PATH" # enable usage of bun installed packages
+      export PATH="${config.home.homeDirectory}/.local/bin:$PATH"
       export DOTNET_ROOT="$HOME/.dotnet"
       export PATH="$HOME/.dotnet:$PATH"
       export MCFLY_FUZZY=true
@@ -387,16 +410,12 @@ in {
         for part in $parts[1,2]; do
           b64=''${''${part//-/+}//_//}
           while (( ''${#b64} % 4 )); do b64+='='; done
-          base64 -D <<< "$b64" | jq .
+          base64 ${base64Decode} <<< "$b64" | jq .
         done
       }
       export EDITOR=nvim
 
-      # re-attach or start tmux session on new shell (not within Rex)
-      if [[ -z "$TMUX" && -z "$REX_SESSION" ]]; then
-        tmux attach -t main 2>/dev/null || tmux new -s main
-      fi
-
+      ${tmuxAutoAttach}
       # zoxide must be initialized last so its `cd` hook isn't shadowed
       eval "$(zoxide init zsh)"
     '';

@@ -1,6 +1,11 @@
-{...}: {
+{pkgs, ...}: {
   # Import common configuration
   imports = [../../common/home-manager];
+
+  home.packages = with pkgs; [
+    exiftool # read/write image metadata
+    trivy # vulnerability scanner
+  ];
 
   programs.git.signing.key = "D5E39A037F4AAE1C";
 

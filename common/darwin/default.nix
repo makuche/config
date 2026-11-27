@@ -8,7 +8,7 @@
     onActivation = {
       autoUpdate = true;
       cleanup = "zap";
-      upgrade = true;
+      upgrade = false; # upgrade via the `system-upgrade` alias instead
     };
     caskArgs = {
       require_sha = true;

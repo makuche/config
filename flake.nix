@@ -30,6 +30,12 @@
     nix-homebrew = {
       url = "github:zhaofengli-wip/nix-homebrew";
     };
+    # nix-homebrew lags behind and pins brew 7.0.11, which can't read current
+    # homebrew-core (manifest_sha256 needs >= 7.0.14). Keep version below in sync.
+    brew-src = {
+      url = "github:Homebrew/brew/7.0.16";
+      flake = false;
+    };
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -44,10 +50,6 @@
     };
     digitecgalaxus-tap = {
       url = "github:digitecgalaxus/homebrew-dg";
-      flake = false;
-    };
-    felixkratz-tap = {
-      url = "github:FelixKratz/homebrew-formulae";
       flake = false;
     };
     opencode-tap = {
@@ -70,11 +72,11 @@
     nix-darwin,
     home-manager,
     nix-homebrew,
+    brew-src,
     homebrew-core,
     homebrew-cask,
     nikitabobko-tap,
     digitecgalaxus-tap,
-    felixkratz-tap,
     opencode-tap,
     clawkwork-tap,
     nixpkgs-terraform,
@@ -102,12 +104,17 @@
               enable = true;
               enableRosetta = true;
               user = "manuel";
+              package =
+                brew-src
+                // {
+                  name = "brew-7.0.16";
+                  version = "7.0.16";
+                };
               taps =
                 {
                   "homebrew/homebrew-core" = homebrew-core;
                   "homebrew/homebrew-cask" = homebrew-cask;
                   "nikitabobko/homebrew-tap" = nikitabobko-tap;
-                  "FelixKratz/homebrew-formulae" = felixkratz-tap;
                   "anomalyco/homebrew-tap" = opencode-tap;
                   "clawkwork/homebrew-tap" = clawkwork-tap;
                 }

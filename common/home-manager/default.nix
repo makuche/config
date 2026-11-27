@@ -68,6 +68,7 @@ in {
     gh # GitHub CLI
     kubectl
     kubectx # kubectx + kubens: fast context/namespace switching (fzf picker)
+    kubernetes-helm # Kubernetes package manager (`helm`)
     lua-language-server
     kompose # translate docker-compose to manifests
     maven # Java project management

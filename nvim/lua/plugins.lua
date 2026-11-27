@@ -889,7 +889,16 @@ require("lazy").setup({
 		{
 			"mrjones2014/smart-splits.nvim",
 			lazy = false,
-			opts = {},
+			opts = {
+				at_edge = function(ctx)
+					if vim.env.REX_SESSION then
+						local rex = "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+						vim.system({ rex, "focus", "-s", vim.env.REX_SESSION, ctx.direction })
+					else
+						ctx.wrap()
+					end
+				end,
+			},
 			keys = {
 				{
 					"<C-h>",

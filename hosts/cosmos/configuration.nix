@@ -19,22 +19,16 @@
         name = "digitecgalaxus/dg";
         trusted = true;
       }
-      "FelixKratz/formulae"
       "anomalyco/homebrew-tap"
       "clawkwork/tap"
     ];
     brews = [
-      "FelixKratz/formulae/borders"
       "anomalyco/homebrew-tap/opencode"
       "clawkwork/tap/clawk"
-      "azure-cli"
       "aiven-client"
-      "dg-cli"
-      "go-task"
-      "helm"
-      "sqlcmd"
+      "dg-cli-preview"
       "sqlite" # required for qmd
-      "viddy"
+      "xcodegen"
     ];
 
     casks = [
@@ -43,7 +37,6 @@
       "datagrip"
       "discord"
       "drawio"
-      "flameshot"
       "finicky"
       "ghostty"
       "goland"
@@ -55,10 +48,11 @@
       "pritunl" # vpn
       "pycharm"
       "raycast"
-      # "rex" # placeholder, no cask exists yet; currently installed directly from the dmg
+      # "rex" # placeholder, no cask exists yet -> currently installed directly from the dmg
       "rider"
       "stats"
       "spotify"
+      "tailscale-app"
       "utm"
       "visual-studio-code"
       "webstorm"
@@ -73,7 +67,7 @@
     dock = {
       "autohide" = true;
       "persistent-apps" = map (app: "/Applications/${app}.app") [
-        "Ghostty"
+        "Rex"
         "Brave Browser"
       ];
     };

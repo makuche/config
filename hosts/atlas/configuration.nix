@@ -13,17 +13,12 @@
 
   # MacBook-specific Homebrew packages
   homebrew = {
-    taps = ["nikitabobko/tap" "FelixKratz/formulae" "clawkwork/tap" "anomalyco/tap"];
+    taps = ["nikitabobko/tap" "clawkwork/tap" "anomalyco/tap"];
     brews = [
       # "duckdb"
       "anomalyco/tap/opencode"
       "clawkwork/tap/clawk"
-      "exiftool"
-      "FelixKratz/formulae/borders"
-      "helm"
       "geeqie"
-      "git-crypt"
-      "trivy"
     ];
 
     casks = [
@@ -32,7 +27,6 @@
       "calibre"
       "darktable"
       "dbeaver-community"
-      "flameshot"
       "ghostty"
       "nikitabobko/tap/aerospace"
       "obsidian"
